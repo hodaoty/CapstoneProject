@@ -1,7 +1,8 @@
 '''Create, Read, Update, Delete'''
 from sqlalchemy.orm import Session
-from . import models, schemas
-from .security import get_password_hash
+from app.db import models
+from app.models import  user as schemas
+from app.core.security import get_password_hash
 
 def get_user(db: Session, user_id: int):
     """Lấy 1 user bằng ID"""
@@ -27,4 +28,25 @@ def create_user(db: Session, user: schemas.UserCreate):
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
+    return db_user
+
+def update_user(db: Session, user_id: int, user_in: schemas.UserUpdate):
+    db_user = get_user(db, user_id=user_id)
+    if not db_user:
+        return None
+    if user_in.email:
+        db_user.email = user_in.email
+    if user_in.password:
+        db_user.hashed_password = get_password_hash(user_in.password)
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
+def delete_user(db: Session, user_id: int):
+    db_user = get_user(db, user_id=user_id)
+    if not db_user:
+        return None
+    db.delete(db_user)
+    db.commit()
     return db_user
