@@ -1,0 +1,18 @@
+fastapi
+uvicorn[standard]
+pydantic[email]
+
+# Cho JWT (Tạo và xác thực token)
+python-jose[cryptography]
+
+# Cho Redis (database của auth-service)
+redis
+
+# Để 'auth-service' gọi 'user-service'
+httpx
+
+# Để 'auth-service' kiểm tra mật khẩu
+passlib
+bcrypt==3.2.2
+
+python-multipart

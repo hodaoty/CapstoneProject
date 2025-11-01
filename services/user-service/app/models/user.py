@@ -17,3 +17,10 @@ class UserRead(BaseModel):
 class UserUpdate(BaseModel):
     email: Optional[EmailStr] = None
     password: Optional[str] = None
+
+class UserReadWithPassword(UserRead):
+    """
+    Schema này kế thừa từ UserRead, nhưng thêm trường hashed_password.
+    Chỉ dùng cho giao tiếp nội bộ (service-to-service).
+    """
+    hashed_password: str

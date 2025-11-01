@@ -21,6 +21,16 @@ def read_users_endpoint(skip: int = 0, limit: int = 100, db: Session = Depends(g
     users = crud.get_users(db, skip=skip, limit=limit)
     return users
 
+@router.get("/users/by-email/{email}", response_model=schemas.UserReadWithPassword)
+def read_user_by_email_endpoint(email: str, db: Session = Depends(get_db)):
+    """
+    API nội bộ: Lấy thông tin user bằng email (bao gồm cả password đã băm).
+    """
+    db_user = crud.get_user_by_email(db, email=email)
+    if db_user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    return db_user
+
 @router.get("/users/{user_id}", response_model=schemas.UserRead)
 def read_user_endpoint(user_id: int, db: Session = Depends(get_db)):
     db_user = crud.get_user(db, user_id=user_id)
@@ -41,3 +51,4 @@ def delete_user_endpoint(user_id: int, db: Session = Depends(get_db)):
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
     return db_user
+

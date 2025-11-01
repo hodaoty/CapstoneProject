@@ -10,9 +10,8 @@ services:
     ports:
       - "80:80"
     depends_on:
-      
-      user-service:
-        condition: service_started 
+      - user-service
+      - auth-service
 
   # 2. User Service (FastAPI)
   user-service:
@@ -21,23 +20,21 @@ services:
     environment:
       - DATABASE_URL=postgresql://user:password@db/mydatabase
     depends_on:
-      db:
-        condition: service_healthy 
+      - db
     ports:
-      - "8000"
-    # Thêm healthcheck cho user-service
+      - "8000:8000"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/"]
       interval: 10s
       timeout: 5s
       retries: 5
 
-  # 3. Database (PostgreSQL) - (Thêm 'healthcheck')
+  # 3. Database (PostgreSQL)
   db:
     image: postgres:14-alpine
     container_name: postgres-db
     environment:
-      - POSTGES_USER=user
+      - POSTGRES_USER=user
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=mydatabase
     volumes:
@@ -50,6 +47,41 @@ services:
       timeout: 5s
       retries: 5
 
+  # 4. Auth Service (FastAPI)
+  auth-service:
+    container_name: auth-service
+    build: ./services/auth-service
+    environment:
+      - REDIS_URL=redis://redis-db:6379
+      - JWT_SECRET_KEY=tykhoihanhduyen
+      - JWT_ALGORITHM=HS256
+      - ACCESS_TOKEN_EXPIRE_MINUTES=30
+      - USER_SERVICE_URL=http://user-service:8000/api
+    depends_on:
+      - redis-db
+      - user-service
+    ports:
+      - "8001:8001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # 5. Redis Database
+  redis-db:
+    image: redis:6-alpine
+    container_name: redis-db
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s 
+      retries: 5
 
 volumes:
   postgres_data:
+  redis_data:
