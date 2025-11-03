@@ -1,14 +1,19 @@
-# Import BaseSettings từ Pydantic để quản lý cấu hình (settings)
-from pydantic_settings import BaseSettings
+import os
 
-# Lớp Settings chứa các biến môi trường cần thiết cho service
-class Settings(BaseSettings):
-    MYSQL_HOST: str
-    MYSQL_PORT: int
-    MYSQL_USER: str
-    MYSQL_PASSWORD: str
-    MYSQL_DB: str
+# Đọc cấu hình MySQL từ biến môi trường
+MYSQL_USER = os.environ.get("MYSQL_USER")
+MYSQL_PASSWORD = os.environ.get("MYSQL_PASSWORD")
+MYSQL_HOST = os.environ.get("MYSQL_HOST")
+MYSQL_PORT = os.environ.get("MYSQL_PORT")
+MYSQL_DB = os.environ.get("MYSQL_DB")
 
+# Tạo chuỗi kết nối (connection string)
+DATABASE_URL = (
+    f"mysql+pymysql://{MYSQL_USER}:{MYSQL_PASSWORD}@"
+    f"{MYSQL_HOST}:{MYSQL_PORT}/{MYSQL_DB}"
+)
 
-# Tạo một instance settings để import dùng ở nơi khác
+class Settings:
+    DATABASE_URL: str = DATABASE_URL
+
 settings = Settings()
