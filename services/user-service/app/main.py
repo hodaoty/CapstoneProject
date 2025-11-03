@@ -9,19 +9,6 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-origins = [
-    "http://localhost",
-    "http://localhost:5173",  # Cổng của React/Vite
-    "http://localhost:3000",
-]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 # Include router:
 # Tất cả các API trong 'users.router' sẽ được thêm vào app
 # Nó sẽ giữ nguyên các đường dẫn như /api/users/
