@@ -1,7 +1,7 @@
 version: "3.9"
 
 services:
-  # 1️⃣ API Gateway (Nginx)
+  # API Gateway (Nginx)
   api-gateway:
     image: nginx:1.21-alpine
     container_name: api-gateway
@@ -16,10 +16,12 @@ services:
         condition: service_started
       auth-service:
         condition: service_started
+      inventory-service:
+        condition: service_started
     networks:
       - ecommerce-net
 
-  # 2️⃣ User Service (FastAPI)
+  # User Service (FastAPI)
   user-service:
     build: ./services/user-service
     container_name: user-service
@@ -38,7 +40,7 @@ services:
     networks:
       - ecommerce-net
 
-  # 3️⃣ Auth Service (FastAPI)
+  # Auth Service (FastAPI)
   auth-service:
     build: ./services/auth-service
     container_name: auth-service
@@ -63,7 +65,7 @@ services:
     networks:
       - ecommerce-net
 
-  # 4️⃣ Product Service (FastAPI + MySQL)
+  # Product Service (FastAPI + MySQL)
   product-service:
     build: ./services/product-service
     container_name: product-service
@@ -85,8 +87,31 @@ services:
       retries: 5
     networks:
       - ecommerce-net
+  # Inventory Service:
+  inventory-service:
+    build: ./services/inventory-service
+    container_name: inventory-service
+    environment:
+      # Dùng chung CSDL MySQL với product-service
+      - MYSQL_HOST=mysql-db
+      - MYSQL_PORT=3306
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+      - MYSQL_DB=mydatabase
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    ports:
+      - "8003:8003"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:8003/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ecommerce-net
 
-  # 5️⃣ PostgreSQL Database
+  # PostgreSQL Database
   postgres-db:
     image: postgres:14-alpine
     container_name: postgres-db
@@ -106,7 +131,7 @@ services:
     networks:
       - ecommerce-net
 
-  # 6️⃣ MySQL Database
+  # MySQL Database
   mysql-db:
     image: mysql:8.0
     container_name: mysql-db
@@ -127,7 +152,7 @@ services:
     networks:
       - ecommerce-net
 
-  # 7️⃣ Redis Database
+  # Redis Database
   redis-db:
     image: redis:6-alpine
     container_name: redis-db
