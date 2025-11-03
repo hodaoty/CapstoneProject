@@ -14,7 +14,7 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Product Service")
 
 
-app.include_router(products.router, prefix="/api/v1", tags=["products"])
+app.include_router(products.router, prefix="/api", tags=["products"])
 
 @app.get("/")
 def read_root():
