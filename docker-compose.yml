@@ -1,7 +1,7 @@
 version: "3.9"
 
 services:
-  # API Gateway (Nginx)
+  # 1️⃣ API Gateway (Nginx)
   api-gateway:
     image: nginx:1.21-alpine
     container_name: api-gateway
@@ -25,7 +25,7 @@ services:
     networks:
       - ecommerce-net
 
-  # User Service (FastAPI)
+  # 2️⃣ User Service (FastAPI)
   user-service:
     build: ./services/user-service
     container_name: user-service
@@ -34,17 +34,17 @@ services:
     depends_on:
       postgres-db:
         condition: service_healthy
-    ports:
-      - "8000:8000"
+    expose: 
+      - "8000"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:8000/ || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
     networks:
       - ecommerce-net
 
-  # Auth Service (FastAPI)
+  # 3️⃣ Auth Service (FastAPI)
   auth-service:
     build: ./services/auth-service
     container_name: auth-service
@@ -59,17 +59,17 @@ services:
         condition: service_healthy
       user-service:
         condition: service_started
-    ports:
-      - "8001:8001"
+    expose: 
+      - "8001"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8001/"]
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:8001/ || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
     networks:
       - ecommerce-net
 
-  # Product Service (FastAPI + MySQL)
+  # 4️⃣ Product Service (FastAPI + MySQL)
   product-service:
     build: ./services/product-service
     container_name: product-service
@@ -82,21 +82,21 @@ services:
     depends_on:
       mysql-db:
         condition: service_healthy
-    ports:
-      - "8002:8002"
+    expose: 
+      - "8002"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8002/"]
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:8002/ || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
     networks:
       - ecommerce-net
-  # Inventory Service (MySQL):
+      
+  # 5️⃣ Inventory Service (MySQL)
   inventory-service:
     build: ./services/inventory-service
     container_name: inventory-service
     environment:
-      # Dùng chung CSDL MySQL với product-service
       - MYSQL_HOST=mysql-db
       - MYSQL_PORT=3306
       - MYSQL_USER=user
@@ -105,8 +105,8 @@ services:
     depends_on:
       mysql-db:
         condition: service_healthy
-    ports:
-      - "8003:8003"
+    expose: 
+      - "8003"
     healthcheck:
       test: ["CMD-SHELL", "wget -q --spider http://localhost:8003/ || exit 1"]
       interval: 10s
@@ -115,7 +115,7 @@ services:
     networks:
       - ecommerce-net
 
-  #Cart Service:
+  # 6️⃣ Cart Service
   cart-service:
     build: ./services/cart-service
     container_name: cart-service
@@ -124,8 +124,8 @@ services:
     depends_on:
       redis-db:
         condition: service_healthy
-    ports:
-      - "8004:8004"
+    expose: 
+      - "8004"
     healthcheck:
       test: ["CMD-SHELL", "wget -q --spider http://localhost:8004/ || exit 1"]
       interval: 10s
@@ -134,7 +134,7 @@ services:
     networks:
       - ecommerce-net
 
-  #Order service:
+  # 7️⃣ Order service
   order-service:
     container_name: order-service
     build: ./services/order-service
@@ -148,15 +148,15 @@ services:
       postgres-db:
         condition: service_healthy
       user-service:
-        condition: service_healthy
+        condition: service_started
       product-service:
-        condition: service_healthy
+        condition: service_started
       inventory-service:
-        condition: service_healthy
+        condition: service_started
       cart-service:
-        condition: service_healthy
-    ports:
-      - "8005:8005"
+        condition: service_started
+    expose: 
+      - "8005"
     healthcheck:
       test: ["CMD-SHELL", "wget -q --spider http://localhost:8005/ || exit 1"]
       interval: 10s
@@ -165,7 +165,7 @@ services:
     networks:
       - ecommerce-net
 
-  # PostgreSQL Database
+  # 8️⃣ PostgreSQL Database
   postgres-db:
     image: postgres:14-alpine
     container_name: postgres-db
@@ -176,7 +176,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "5432:5432" 
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U user -d mydatabase"]
       interval: 10s
@@ -185,7 +185,7 @@ services:
     networks:
       - ecommerce-net
 
-  # MySQL Database
+  # 9️⃣ MySQL Database
   mysql-db:
     image: mysql:8.0
     container_name: mysql-db
@@ -195,7 +195,7 @@ services:
       - MYSQL_USER=user
       - MYSQL_PASSWORD=password
     ports:
-      - "3307:3306"
+      - "3307:3306" 
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
@@ -206,12 +206,12 @@ services:
     networks:
       - ecommerce-net
 
-  # Redis Database
+  # 🔟 Redis Database
   redis-db:
     image: redis:6-alpine
     container_name: redis-db
     ports:
-      - "6379:6379"
+      - "6379:6379" 
     volumes:
       - redis_data:/data
     healthcheck:
@@ -230,3 +230,4 @@ volumes:
 networks:
   ecommerce-net:
     driver: bridge
+
