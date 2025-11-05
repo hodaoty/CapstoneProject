@@ -74,11 +74,11 @@ Tất cả 11 container (7 service, 3 DB, 1 Gateway) đều được kết nối
 
 ### **Các bước**
 
-Clone repository này:  
+1. Clone repository này:  
 git clone \[https://github.com/hodaoty/CapstoneProject.git\](https://github.com/hodaoty/CapstoneProject.git)  
 cd CapstoneProject
 
-1.   
+   
 2. Đảm bảo tất cả các file `__init__.py` (rỗng) đã được tạo trong các thư mục con của mỗi service (ví dụ: `services/user-service/app/core/`, `services/user-service/app/db/`...)
 
 Build và khởi chạy toàn bộ 11 container:  
