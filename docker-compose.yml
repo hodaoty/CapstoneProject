@@ -22,6 +22,8 @@ services:
         condition: service_started
       order-service:
         condition: service_started
+      payment-service:
+        condition: service_started
     networks:
       - ecommerce-net
 
@@ -144,6 +146,7 @@ services:
       - PRODUCT_SERVICE_URL=http://product-service:8002/api
       - INVENTORY_SERVICE_URL=http://inventory-service:8003/api
       - CART_SERVICE_URL=http://cart-service:8004/api 
+      - PAYMENT_SERVICE_URL=http://payment-service:8006/api
     depends_on:
       postgres-db:
         condition: service_healthy
@@ -155,6 +158,8 @@ services:
         condition: service_started
       cart-service:
         condition: service_started
+      payment-service:
+        condition: service_started
     expose: 
       - "8005"
     healthcheck:
@@ -164,7 +169,24 @@ services:
       retries: 5
     networks:
       - ecommerce-net
-
+  #11 Payment-service
+  payment-service:
+    container_name: payment-service
+    build: ./services/payment-service
+    environment:
+      - DATABASE_URL=postgresql://user:password@postgres-db:5432/mydatabase
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+    expose:
+      - "8006"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:8006/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ecommerce-net
   # 8️⃣ PostgreSQL Database
   postgres-db:
     image: postgres:14-alpine

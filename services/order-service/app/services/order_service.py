@@ -67,6 +67,20 @@ async def clear_cart(client: httpx.AsyncClient, user_id: str):
     url = f"{settings.CART_SERVICE_URL}/cart/{user_id}"
     await client.delete(url)
 
+async def call_payment_service(client: httpx.AsyncClient, order_id: int, amount: Decimal) -> dict:
+    """Gọi Payment Service để xử lý thanh toán"""
+    url = f"{settings.PAYMENT_SERVICE_URL}/payments/"
+    payload = {"order_id": order_id, "amount": float(amount)} # Chuyển Decimal thành float cho JSON
+    
+    try:
+        response = await client.post(url, json=payload)
+        response.raise_for_status() # Ném lỗi nếu (500, 402)
+        return response.json()
+    except httpx.HTTPStatusError as e:
+        # Nếu Payment Service trả về 402 (Payment Failed)
+        raise HTTPException(status_code=status.HTTP_402_PAYMENT_REQUIRED, detail=f"Thanh toán thất bại: {e.response.json().get('detail')}")
+
+
 # --- Hàm Logic chính ---
 
 async def create_new_order(db: Session, order_in: OrderCreate) -> models.Order:
@@ -83,16 +97,13 @@ async def create_new_order(db: Session, order_in: OrderCreate) -> models.Order:
         shipping_address = await fetch_user_address(client, order_in.user_id)
         
         total_price = Decimal(0)
-        validated_items = [] # Danh sách các item đã kiểm tra (giá + số lượng)
+        validated_items = []
         
-        # 3. Kiểm tra từng món hàng (Quan trọng)
+        # 3. Kiểm tra từng món hàng
         for item in cart_items:
             product_id = item["product_id"]
             quantity = item["quantity"]
-            
-            # Hàm này sẽ ném lỗi (HTTPException) nếu có vấn đề
             price = await validate_item(client, product_id, quantity)
-            
             total_price += (price * quantity)
             validated_items.append({
                 "product_id": product_id,
@@ -100,23 +111,33 @@ async def create_new_order(db: Session, order_in: OrderCreate) -> models.Order:
                 "price_at_purchase": price
             })
 
-        # 4. (Giả định) Thanh toán thành công
-        # (Sau này sẽ gọi Payment Service ở đây)
-        payment_ok = True 
-        
-        if not payment_ok:
-            raise HTTPException(status_code=402, detail="Thanh toán thất bại")
-
-        # 5. Lưu vào Database (Tạo Order và OrderItems)
+        # 4. Lưu Order (với trạng thái PENDING)
+        # Chúng ta phải lưu trước để lấy Order ID
         db_order = models.Order(
             user_id=order_in.user_id,
             total_price=total_price,
             shipping_address=shipping_address,
-            status="COMPLETED" # Giả định thanh toán xong
+            status="PENDING" # Trạng thái chờ thanh toán
         )
         db.add(db_order)
-        db.flush() # Lấy ID của order mới
+        db.commit() # Commit để lấy ID
+        db.refresh(db_order)
 
+        # 5. Gọi Payment Service (SỬA Ở ĐÂY)
+        try:
+            payment_result = await call_payment_service(client, order_id=db_order.id, amount=total_price)
+            # Nếu thanh toán thành công, payment_result sẽ chứa thông tin giao dịch
+            db_order.status = "COMPLETED" # Cập nhật trạng thái
+            db.add(db_order)
+        
+        except HTTPException as e:
+            # Nếu thanh toán thất bại (lỗi 402)
+            db_order.status = "PAYMENT_FAILED"
+            db.add(db_order)
+            db.commit()
+            raise e # Ném lỗi 402 về cho client
+
+        # 6. Lưu OrderItems (chỉ sau khi thanh toán gần như OK)
         for v_item in validated_items:
             db_item = models.OrderItem(
                 product_id=v_item["product_id"],
@@ -126,7 +147,7 @@ async def create_new_order(db: Session, order_in: OrderCreate) -> models.Order:
             )
             db.add(db_item)
 
-        # 6. Trừ kho và Xóa giỏ hàng (Sau khi đã chắc chắn)
+        # 7. Trừ kho và Xóa giỏ hàng (Sau khi đã chắc chắn)
         try:
             for v_item in validated_items:
                 await decrease_inventory(client, v_item["product_id"], v_item["quantity"])
@@ -134,14 +155,14 @@ async def create_new_order(db: Session, order_in: OrderCreate) -> models.Order:
             await clear_cart(client, order_in.user_id)
         
         except httpx.HTTPStatusError as e:
-            # Nếu trừ kho hoặc xóa giỏ hàng lỗi
-            db.rollback() # HỦY TOÀN BỘ GIAO DỊCH
-            raise HTTPException(status_code=500, detail=f"Lỗi khi cập nhật kho/giỏ hàng: {e}")
-        except Exception as e:
+            # Nếu trừ kho lỗi (rất nghiêm trọng)
             db.rollback()
-            raise HTTPException(status_code=500, detail=f"Lỗi hệ thống: {e}")
-
-        # 7. Hoàn tất
+            db_order.status = "INVENTORY_FAILED"
+            db.add(db_order)
+            db.commit()
+            raise HTTPException(status_code=500, detail=f"Thanh toán thành công nhưng lỗi trừ kho: {e}")
+        
+        # 8. Hoàn tất
         db.commit()
         db.refresh(db_order)
         return db_order
