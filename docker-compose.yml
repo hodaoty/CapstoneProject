@@ -55,7 +55,7 @@ services:
       - JWT_SECRET_KEY=tykhoihanhduyen
       - JWT_ALGORITHM=HS256
       - ACCESS_TOKEN_EXPIRE_MINUTES=30
-      - USER_SERVICE_URL=http://user-service:8000/api
+      - USER_SERVICE_URL=http://api-gateway/api
     depends_on:
       redis-db:
         condition: service_healthy
@@ -142,11 +142,11 @@ services:
     build: ./services/order-service
     environment:
       - DATABASE_URL=postgresql://user:password@postgres-db:5432/mydatabase
-      - USER_SERVICE_URL=http://user-service:8000/api
-      - PRODUCT_SERVICE_URL=http://product-service:8002/api
-      - INVENTORY_SERVICE_URL=http://inventory-service:8003/api
-      - CART_SERVICE_URL=http://cart-service:8004/api 
-      - PAYMENT_SERVICE_URL=http://payment-service:8006/api
+      - USER_SERVICE_URL=http://api-gateway/api
+      - PRODUCT_SERVICE_URL=http://api-gateway/api
+      - INVENTORY_SERVICE_URL=http://api-gateway/api
+      - CART_SERVICE_URL=http://api-gateway/api 
+      - PAYMENT_SERVICE_URL=http://api-gateway/api
     depends_on:
       postgres-db:
         condition: service_healthy
