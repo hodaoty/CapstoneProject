@@ -1,36 +1,194 @@
-version: '3.8'
+version: "3.9"
 
 services:
-  # 1. API Gateway (Nginx) 
+  # 1️⃣ API Gateway (Nginx)
   api-gateway:
     image: nginx:1.21-alpine
     container_name: api-gateway
-    volumes:
-      - ./infra/api-gateway/nginx.conf:/etc/nginx/nginx.conf
     ports:
       - "80:80"
+    volumes:
+      - ./infra/api-gateway/nginx.conf:/etc/nginx/nginx.conf
     depends_on:
-      - user-service
-      - auth-service
+      user-service:
+        condition: service_started
+      product-service:
+        condition: service_started
+      auth-service:
+        condition: service_started
+      inventory-service:
+        condition: service_started
+      cart-service:
+        condition: service_started
+      order-service:
+        condition: service_started
+      payment-service:
+        condition: service_started
+    networks:
+      - ecommerce-net
 
-  # 2. User Service (FastAPI)
+  # 2️⃣ User Service (FastAPI)
   user-service:
-    container_name: user-service
     build: ./services/user-service
+    container_name: user-service
     environment:
-      - DATABASE_URL=postgresql://user:password@db/mydatabase
+      - DATABASE_URL=postgresql://user:password@postgres-db:5432/mydatabase
     depends_on:
-      - db
-    ports:
-      - "8000:8000"
+      postgres-db:
+        condition: service_healthy
+    expose: 
+      - "8000"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:8000/ || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - ecommerce-net
 
-  # 3. Database (PostgreSQL)
-  db:
+  # 3️⃣ Auth Service (FastAPI)
+  auth-service:
+    build: ./services/auth-service
+    container_name: auth-service
+    environment:
+      - REDIS_URL=redis://redis-db:6379
+      - JWT_SECRET_KEY=tykhoihanhduyen
+      - JWT_ALGORITHM=HS256
+      - ACCESS_TOKEN_EXPIRE_MINUTES=30
+      - USER_SERVICE_URL=http://api-gateway/api
+    depends_on:
+      redis-db:
+        condition: service_healthy
+      user-service:
+        condition: service_started
+    expose: 
+      - "8001"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:8001/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ecommerce-net
+
+  # 4️⃣ Product Service (FastAPI + MySQL)
+  product-service:
+    build: ./services/product-service
+    container_name: product-service
+    environment:
+      - MYSQL_HOST=mysql-db
+      - MYSQL_PORT=3306
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+      - MYSQL_DB=mydatabase
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    expose: 
+      - "8002"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:8002/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ecommerce-net
+      
+  # 5️⃣ Inventory Service (MySQL)
+  inventory-service:
+    build: ./services/inventory-service
+    container_name: inventory-service
+    environment:
+      - MYSQL_HOST=mysql-db
+      - MYSQL_PORT=3306
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+      - MYSQL_DB=mydatabase
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    expose: 
+      - "8003"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:8003/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ecommerce-net
+
+  # 6️⃣ Cart Service
+  cart-service:
+    build: ./services/cart-service
+    container_name: cart-service
+    environment:
+      - REDIS_URL=redis://redis-db:6379
+    depends_on:
+      redis-db:
+        condition: service_healthy
+    expose: 
+      - "8004"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:8004/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ecommerce-net
+
+  # 7️⃣ Order service
+  order-service:
+    container_name: order-service
+    build: ./services/order-service
+    environment:
+      - DATABASE_URL=postgresql://user:password@postgres-db:5432/mydatabase
+      - USER_SERVICE_URL=http://api-gateway/api
+      - PRODUCT_SERVICE_URL=http://api-gateway/api
+      - INVENTORY_SERVICE_URL=http://api-gateway/api
+      - CART_SERVICE_URL=http://api-gateway/api 
+      - PAYMENT_SERVICE_URL=http://api-gateway/api
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+      user-service:
+        condition: service_started
+      product-service:
+        condition: service_started
+      inventory-service:
+        condition: service_started
+      cart-service:
+        condition: service_started
+      payment-service:
+        condition: service_started
+    expose: 
+      - "8005"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:8005/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ecommerce-net
+  #11 Payment-service
+  payment-service:
+    container_name: payment-service
+    build: ./services/payment-service
+    environment:
+      - DATABASE_URL=postgresql://user:password@postgres-db:5432/mydatabase
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+    expose:
+      - "8006"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:8006/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ecommerce-net
+  # 8️⃣ PostgreSQL Database
+  postgres-db:
     image: postgres:14-alpine
     container_name: postgres-db
     environment:
@@ -38,50 +196,60 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=mydatabase
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - postgres_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "5432:5432" 
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U user -d mydatabase"]
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - ecommerce-net
 
-  # 4. Auth Service (FastAPI)
-  auth-service:
-    container_name: auth-service
-    build: ./services/auth-service
+  # 9️⃣ MySQL Database
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-db
     environment:
-      - REDIS_URL=redis://redis-db:6379
-      - JWT_SECRET_KEY=tykhoihanhduyen
-      - JWT_ALGORITHM=HS256
-      - ACCESS_TOKEN_EXPIRE_MINUTES=30
-      - USER_SERVICE_URL=http://user-service:8000/api
-    depends_on:
-      - redis-db
-      - user-service
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=mydatabase
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
     ports:
-      - "8001:8001"
+      - "3307:3306" 
+    volumes:
+      - mysql_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8001/"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - ecommerce-net
 
-  # 5. Redis Database
+  # 🔟 Redis Database
   redis-db:
     image: redis:6-alpine
     container_name: redis-db
     ports:
-      - "6379:6379"
+      - "6379:6379" 
     volumes:
       - redis_data:/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
-      timeout: 5s 
+      timeout: 5s
       retries: 5
+    networks:
+      - ecommerce-net
 
 volumes:
   postgres_data:
+  mysql_data:
   redis_data:
+
+networks:
+  ecommerce-net:
+    driver: bridge
+

@@ -1,9 +1,9 @@
-# File: app/main.py (NỘI DUNG MỚI)
+
 from fastapi import FastAPI
 from app.api.v1 import users  # <-- Import router users
 from app.db import models
 from app.db.database import engine
-
+from fastapi.middleware.cors import CORSMiddleware
 # Tạo bảng CSDL (vẫn như cũ)
 models.Base.metadata.create_all(bind=engine)
 

@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+# Driver cho PostgreSQL
+psycopg2-binary
+# Pydantic (cho schemas)
+pydantic[email]
+# Thư viện gọi API (để gọi các service khác)
+httpx
