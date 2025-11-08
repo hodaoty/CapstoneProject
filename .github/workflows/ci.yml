@@ -56,7 +56,7 @@ jobs:
         run: |
           echo "Linting ./services/${{ matrix.service }}/app"
           # Lệnh 'flake8' sẽ báo lỗi nếu code bạn (vd: trong 'app/') vi phạm chuẩn
-          flake8 ./services/${{ matrix.service }}/app
+          flake8 ./services/${{ matrix.service }}/app --max-line-length=88
 
       # 5. Cài đặt Docker Buildx (cần thiết cho build)
       - name: 🐳 Set up Docker Buildx
