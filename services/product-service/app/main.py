@@ -1,7 +1,6 @@
 from app.api.v1 import products
 from app.db.database import Base, engine
 from fastapi import FastAPI
-import os 
 Base.metadata.create_all(bind=engine)
 
 
