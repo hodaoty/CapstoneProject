@@ -1,12 +1,10 @@
-import redis 
+import redis
 from app.core.config import settings
 
 # Khởi tạo một "connection pool" tới Redis
 # decode_responses=True giúp chúng ta nhận về string (thay vì bytes)
-redis_client = redis.Redis.from_url(
-    settings.REDIS_URL,
-    decode_responses=True
-)
+redis_client = redis.Redis.from_url(settings.REDIS_URL, decode_responses=True)
+
 
 def get_redis_db():
     try:
