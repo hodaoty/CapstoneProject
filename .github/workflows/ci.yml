@@ -1,0 +1,72 @@
+name: 🕵️ CI - Build & Lint Services
+
+# Kích hoạt workflow khi push hoặc PR vào 'main' hoặc 'develop'
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  # Tên job chính
+  build-and-lint:
+    runs-on: ubuntu-latest
+
+    # --- Ma trận (Matrix) ---
+    # Đây là phần "chi tiết"
+    strategy:
+      fail-fast: false # 💡 Nếu 1 service lỗi, các service khác vẫn tiếp tục chạy
+      matrix:
+        # Liệt kê tất cả các service của bạn ở đây
+        service:
+          - user-service
+          - auth-service
+          - product-service
+          - inventory-service
+          - cart-service
+          - order-service
+          - payment-service
+          # (Tôi đoán bạn đã xóa/thay thế frontend-service, nếu còn hãy thêm vào đây)
+          # - frontend-service 
+
+    steps:
+      # 1. Lấy code từ repository
+      - name: 🛎️ Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Cài đặt Python (để chạy Lint)
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10' # Phải khớp với Dockerfile của bạn
+
+      # 3. Cài đặt Flake8 (Công cụ kiểm tra lỗi code Python)
+      - name: 📦 Install Flake8
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8
+
+      # 4. Chạy Lint (Kiểm tra lỗi cú pháp)
+      # Nó sẽ chạy 1 lần cho MỖI service trong ma trận (ví dụ: ./services/user-service/app)
+      - name: 💅 Lint ${{ matrix.service }}
+        run: |
+          echo "Linting ./services/${{ matrix.service }}/app"
+          # Lệnh 'flake8' sẽ báo lỗi nếu code bạn (vd: trong 'app/') vi phạm chuẩn
+          flake8 ./services/${{ matrix.service }}/app --max-line-length=120
+
+      # 5. Cài đặt Docker Buildx (cần thiết cho build)
+      - name: 🐳 Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # 6. Build Docker image
+      # Đây là bài test quan trọng nhất: Đảm bảo service có thể được build
+      # Nó sẽ chạy 1 lần cho MỖI service trong ma trận
+      - name: 🧱 Build ${{ matrix.service }}
+        run: |
+          docker build \
+            --tag ${{ matrix.service }}:ci-test \
+            ./services/${{ matrix.service }}
