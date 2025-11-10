@@ -13,7 +13,9 @@ DATABASE_URL = (
     f"{MYSQL_HOST}:{MYSQL_PORT}/{MYSQL_DB}"
 )
 
+
 class Settings:
     DATABASE_URL: str = DATABASE_URL
+
 
 settings = Settings()

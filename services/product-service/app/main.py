@@ -1,13 +1,6 @@
-from fastapi import FastAPI
-
-
 from app.api.v1 import products
-
-
 from app.db.database import Base, engine
-
-from app.db.models import Product
-
+from fastapi import FastAPI
 Base.metadata.create_all(bind=engine)
 
 
@@ -15,6 +8,7 @@ app = FastAPI(title="Product Service")
 
 
 app.include_router(products.router, prefix="/api", tags=["products"])
+
 
 @app.get("/")
 def read_root():
