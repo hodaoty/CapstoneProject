@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <script src="../js/config.js" defer></script>
+    <script src="../js/api.js" defer></script>
+    <script src="../js/auth.js" defer></script>
+    <script src="../js/utils.js" defer></script>
+</head>
+<body>
+    <include src="../components/navbar.html"></include> <!-- Use JS to load if needed -->
+    <div class="container">
+        <h2>Welcome to Dashboard</h2>
+        <p id="userEmail"></p>
+        <button onclick="logoutUser()">Logout</button>
+    </div>
+    <include src="../components/footer.html"></include>
+    <script>
+        // Check if logged in
+        if (!localStorage.getItem('token')) {
+            window.location.href = 'login.html';
+        } else {
+            fetchUserInfo(); // Function in auth.js to get user data
+        }
+    </script>
+</body>
+</html>
