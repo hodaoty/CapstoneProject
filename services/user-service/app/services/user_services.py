@@ -27,7 +27,10 @@ def create_user(db: Session, user: schemas.UserCreate):
     hashed_password = get_password_hash(user.password)
 
     db_user = models.User(
-        email=user.email, hashed_password=hashed_password  # Lưu mật khẩu đã băm
+        email=user.email, 
+        hashed_password=hashed_password,  # Lưu mật khẩu đã băm
+        role=user.role
+
     )
     db.add(db_user)
     db.commit()
