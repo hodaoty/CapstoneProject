@@ -14,3 +14,10 @@
 {"timestamp": "2025-11-28T05:25:02+00:00", "remote_ip": "172.18.0.1", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "PostmanRuntime/7.50.0", "body": "username=admin1%40test.com&password=admin1"}
 {"timestamp": "2025-11-28T05:29:28+00:00", "remote_ip": "172.18.0.1", "method": "GET", "url": "/api/users?=admin%27OR%271=1", "status": "307", "user_agent": "PostmanRuntime/7.50.0", "body": ""}
 {"timestamp": "2025-11-28T05:29:28+00:00", "remote_ip": "172.18.0.1", "method": "GET", "url": "/api/users/?=admin%27OR%271=1", "status": "200", "user_agent": "PostmanRuntime/7.50.0", "body": ""}
+{"timestamp": "2025-11-28T06:45:08+00:00", "remote_ip": "172.18.0.1", "method": "GET", "url": "/api/users?=admin%27OR%271=1", "status": "307", "user_agent": "PostmanRuntime/7.50.0", "body": ""}
+{"timestamp": "2025-11-28T06:45:09+00:00", "remote_ip": "172.18.0.1", "method": "GET", "url": "/api/users/?=admin%27OR%271=1", "status": "200", "user_agent": "PostmanRuntime/7.50.0", "body": ""}
+{"timestamp": "2025-11-28T06:49:50+00:00", "remote_ip": "172.18.0.10", "method": "GET", "url": "/api/users/by-email/user1@gmail.com", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2025-11-28T06:49:50+00:00", "remote_ip": "172.18.0.13", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "username=user1%40gmail.com&password=user1"}
+{"timestamp": "2025-11-28T06:50:10+00:00", "remote_ip": "172.18.0.10", "method": "GET", "url": "/api/users/by-email/admin1@test.com", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2025-11-28T06:50:10+00:00", "remote_ip": "172.18.0.13", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "username=admin1%40test.com&password=admin1"}
+{"timestamp": "2025-11-28T06:50:10+00:00", "remote_ip": "172.18.0.13", "method": "GET", "url": "/api/users/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
