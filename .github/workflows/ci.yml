@@ -6,11 +6,12 @@ on:
     branches:
       - main
       - develop
+      - feature
   pull_request:
     branches:
       - main
       - develop
-
+      - feature
 jobs:
   # Tên job chính
   build-and-lint:
