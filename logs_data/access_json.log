@@ -21,3 +21,10 @@
 {"timestamp": "2025-11-28T06:50:10+00:00", "remote_ip": "172.18.0.10", "method": "GET", "url": "/api/users/by-email/admin1@test.com", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
 {"timestamp": "2025-11-28T06:50:10+00:00", "remote_ip": "172.18.0.13", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "username=admin1%40test.com&password=admin1"}
 {"timestamp": "2025-11-28T06:50:10+00:00", "remote_ip": "172.18.0.13", "method": "GET", "url": "/api/users/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2025-12-15T00:16:15+00:00", "remote_ip": "172.18.0.11", "method": "GET", "url": "/api/users/by-email/admin1@test.com", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2025-12-15T00:16:16+00:00", "remote_ip": "172.18.0.13", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "username=admin1%40test.com&password=admin1"}
+{"timestamp": "2025-12-15T00:16:16+00:00", "remote_ip": "172.18.0.13", "method": "GET", "url": "/api/users/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2025-12-15T00:16:53+00:00", "remote_ip": "172.18.0.11", "method": "GET", "url": "/api/users/by-email/staff1@gmail.com", "status": "404", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2025-12-15T00:16:53+00:00", "remote_ip": "172.18.0.13", "method": "POST", "url": "/api/auth/login", "status": "401", "user_agent": "python-httpx/0.28.1", "body": "username=staff1%40gmail.com&password=staff1"}
+{"timestamp": "2025-12-15T00:17:31+00:00", "remote_ip": "172.18.0.11", "method": "GET", "url": "/api/users/by-email/user1@gmail.com", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2025-12-15T00:17:31+00:00", "remote_ip": "172.18.0.13", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "username=user1%40gmail.com&password=user1"}
