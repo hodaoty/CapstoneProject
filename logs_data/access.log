@@ -1,6 +1,0 @@
-172.18.0.1 - - [27/Nov/2025:14:30:43 +0000] "POST /api/users/ HTTP/1.1" 400 37 "-" "PostmanRuntime/7.50.0"
-172.18.0.1 - - [27/Nov/2025:14:32:03 +0000] "GET /api/auth/login?username=user123@example.com&password=123 HTTP/1.1" 405 31 "-" "PostmanRuntime/7.50.0"
-172.18.0.1 - - [27/Nov/2025:14:32:12 +0000] "POST /api/auth/login?username=user123@example.com&password=123 HTTP/1.1" 422 174 "-" "PostmanRuntime/7.50.0"
-172.18.0.11 - - [27/Nov/2025:14:32:48 +0000] "GET /api/users/by-email/user123@example.com HTTP/1.1" 200 136 "-" "python-httpx/0.28.1"
-172.18.0.1 - - [27/Nov/2025:14:32:48 +0000] "POST /api/auth/login?username=user123@example.com&password=123 HTTP/1.1" 200 346 "-" "PostmanRuntime/7.50.0"
-172.18.0.1 - - [27/Nov/2025:14:34:05 +0000] "POST /api/auth/login?username=user123@example.com&password=123 HTTP/1.1" 422 174 "-" "PostmanRuntime/7.50.0"
