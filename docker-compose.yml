@@ -1,12 +1,31 @@
 version: "3.9"
 
 services:
-  # 1️⃣ API Gateway (Nginx)
+  # ModSecurity WAF - Layer đầu tiên
+  modsecurity-waf:
+    image: iamfahadshaikh/modsecurity-nginx:v1
+    container_name: modsecurity-waf
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./infra/modsecurity-waf/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./infra/modsecurity-waf/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./infra/modsecurity-waf/rules/main.conf:/etc/modsecurity/rules/main.conf:ro
+      - ./infra/modsecurity-waf/logs:/var/log/nginx:rw
+      - ./infra/modsecurity-waf/logs:/var/log:rw
+    networks:
+      - ecommerce-net
+    restart: unless-stopped
+    depends_on:
+      - api-gateway
+
+  # API Gateway - Internal only
   api-gateway:
     image: nginx:1.21-alpine
     container_name: api-gateway
-    ports:
-      - "80:80"
+    expose:
+      - "80"
     volumes:
       - ./infra/api-gateway/nginx.conf:/etc/nginx/nginx.conf
       - ./logs_data:/var/log/nginx/
@@ -28,7 +47,7 @@ services:
     networks:
       - ecommerce-net
 
-  # 2️⃣ User Service (FastAPI)
+  # User Service
   user-service:
     build: ./services/user-service
     container_name: user-service
@@ -47,7 +66,7 @@ services:
     networks:
       - ecommerce-net
 
-  # 3️⃣ Auth Service (FastAPI)
+  # Auth Service
   auth-service:
     build: ./services/auth-service
     container_name: auth-service
@@ -72,7 +91,7 @@ services:
     networks:
       - ecommerce-net
 
-  # 4️⃣ Product Service (FastAPI + MySQL)
+  # Product Service
   product-service:
     build: ./services/product-service
     container_name: product-service
@@ -95,7 +114,7 @@ services:
     networks:
       - ecommerce-net
       
-  # 5️⃣ Inventory Service (MySQL)
+  # Inventory Service
   inventory-service:
     build: ./services/inventory-service
     container_name: inventory-service
@@ -118,7 +137,7 @@ services:
     networks:
       - ecommerce-net
 
-  # 6️⃣ Cart Service
+  # Cart Service
   cart-service:
     build: ./services/cart-service
     container_name: cart-service
@@ -137,7 +156,7 @@ services:
     networks:
       - ecommerce-net
 
-  # 7️⃣ Order service
+  # Order Service
   order-service:
     container_name: order-service
     build: ./services/order-service
@@ -170,7 +189,8 @@ services:
       retries: 5
     networks:
       - ecommerce-net
-  #11 Payment-service
+
+  # Payment Service
   payment-service:
     container_name: payment-service
     build: ./services/payment-service
@@ -188,6 +208,7 @@ services:
       retries: 5
     networks:
       - ecommerce-net
+
   
   #frontend-service:
   frontend-service:
@@ -202,6 +223,10 @@ services:
     networks:
       - ecommerce-net
   # 8️⃣ PostgreSQL Database
+
+
+  # PostgreSQL Database
+
   postgres-db:
     image: postgres:14-alpine
     container_name: postgres-db
@@ -221,7 +246,7 @@ services:
     networks:
       - ecommerce-net
 
-  # 9️⃣ MySQL Database
+  # MySQL Database
   mysql-db:
     image: mysql:8.0
     container_name: mysql-db
@@ -242,7 +267,7 @@ services:
     networks:
       - ecommerce-net
 
-  # 🔟 Redis Database
+  # Redis Database
   redis-db:
     image: redis:6-alpine
     container_name: redis-db
@@ -266,4 +291,3 @@ volumes:
 networks:
   ecommerce-net:
     driver: bridge
-
