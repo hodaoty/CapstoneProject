@@ -34,9 +34,10 @@ class OrderBase(BaseModel):
 class OrderCreate(BaseModel):
     """Đây là dữ liệu API (POST /api/orders) nhận vào"""
 
-    #user_id: str
+    # user_id: str
     # (API sẽ tự lấy địa chỉ, giỏ hàng, và tính tổng giá)
     shipping_address: str
+
 
 class OrderRead(OrderBase):
     """Đây là dữ liệu API trả về"""

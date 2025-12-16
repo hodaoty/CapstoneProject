@@ -107,7 +107,9 @@ async def call_payment_service(
 # --- Hàm Logic chính ---
 
 
-async def create_new_order(db: Session, order_in: OrderCreate, user_id: str) -> models.Order:
+async def create_new_order(
+    db: Session, order_in: OrderCreate, user_id: str
+) -> models.Order:
 
     async with httpx.AsyncClient() as client:
 
@@ -151,7 +153,7 @@ async def create_new_order(db: Session, order_in: OrderCreate, user_id: str) -> 
 
         # 5. Gọi Payment Service
         try:
-            #payment_result = await call_payment_service(client, order_id=db_order.id, amount=total_price)
+            # payment_result = await call_payment_service(client, order_id=db_order.id, amount=total_price)
             db_order.status = "COMPLETED"  # Cập nhật trạng thái
             db.add(db_order)
 
@@ -165,7 +167,9 @@ async def create_new_order(db: Session, order_in: OrderCreate, user_id: str) -> 
             db_order.status = "PAYMENT_ERROR"
             db.add(db_order)
             db.commit()
-            raise HTTPException(status_code=500, detail=f"Loi he thong khi thanh toan {str(e)}")
+            raise HTTPException(
+                status_code=500, detail=f"Loi he thong khi thanh toan {str(e)}"
+            )
         # 6. Lưu OrderItems (chỉ sau khi thanh toán gần như OK)
         for v_item in validated_items:
             db_item = models.OrderItem(
@@ -196,13 +200,17 @@ async def create_new_order(db: Session, order_in: OrderCreate, user_id: str) -> 
             )
         except httpx.ReadError as e:
             db.rollback()
-            raise HTTPException(status_code=500, detail=f"Loi ket noi khi tru kho/xoa don hang {e}")
+            raise HTTPException(
+                status_code=500, detail=f"Loi ket noi khi tru kho/xoa don hang {e}"
+            )
         except Exception as e:
             db.rollback()
             db_order.status = "UNKNOWN ERROR"
             db.add(db_order)
             db.commit()
-            raise HTTPException(status_code=500, detail=f"Loi he thong khong xac dinh {e}")
+            raise HTTPException(
+                status_code=500, detail=f"Loi he thong khong xac dinh {e}"
+            )
 
         # 8. Hoàn tất
         db.commit()
