@@ -151,7 +151,7 @@ async def create_new_order(db: Session, order_in: OrderCreate, user_id: str) -> 
 
         # 5. Gọi Payment Service
         try:
-            payment_result = await call_payment_service(client, order_id=db_order.id, amount=total_price)
+            #payment_result = await call_payment_service(client, order_id=db_order.id, amount=total_price)
             db_order.status = "COMPLETED"  # Cập nhật trạng thái
             db.add(db_order)
 
