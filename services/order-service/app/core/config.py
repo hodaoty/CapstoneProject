@@ -8,6 +8,8 @@ class Settings:
     INVENTORY_SERVICE_URL: str = os.environ.get("INVENTORY_SERVICE_URL")
     CART_SERVICE_URL: str = os.environ.get("CART_SERVICE_URL")
     PAYMENT_SERVICE_URL: str = os.environ.get("PAYMENT_SERVICE_URL")
-
+    #--NEW--#
+    JWT_SECRET_KEY: str = os.environ.get("JWT_SECRET_KEY")
+    JWT_ALGORITHM: str = os.environ.get("JWT_ALGORITHM","HS256")
 
 settings = Settings()

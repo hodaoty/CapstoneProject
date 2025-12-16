@@ -158,13 +158,13 @@ async def get_product_detail_api(product_id):
     except:
         return None
 
-async def create_order_api(token, user_email):
+async def create_order_api(token, shipping_address):
     try:
         headers = {"Authorization": f"Bearer {token}"}
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 f"{API_BASE_URL}/api/orders/",
-                json={"user_id": user_email},
+                json={"shipping_address": shipping_address},
                 headers=headers,
                 timeout=10.0
             )
@@ -417,7 +417,8 @@ async def checkout_page():
             return
 
         btn_order.props('loading')
-        success, result = await create_order_api(token, user_email)
+        full_shipping_info = f"{name_input.value}, Phone number: {phone_input.value}, Address: {address_input.value}"
+        success, result = await create_order_api(token, full_shipping_info)
         if success:
             ui.notify('🎉 Đặt hàng thành công!', type='positive', close_button=True, timeout=5000)
             with ui.dialog() as dialog, ui.card():
