@@ -47,7 +47,7 @@ services:
     networks:
       - ecommerce-net
 
-  # 3️⃣ Auth Service (FastAPI)
+  # Auth Service (FastAPI)
   auth-service:
     build: ./services/auth-service
     container_name: auth-service
@@ -137,7 +137,7 @@ services:
     networks:
       - ecommerce-net
 
-  # 7️⃣ Order service
+  #Order service
   order-service:
     container_name: order-service
     build: ./services/order-service
@@ -148,6 +148,8 @@ services:
       - INVENTORY_SERVICE_URL=http://api-gateway/api
       - CART_SERVICE_URL=http://api-gateway/api 
       - PAYMENT_SERVICE_URL=http://api-gateway/api
+      - JWT_SECRET_KEY=tykhoihanhduyen
+      - JWT_ALGORITHM=HS256
     depends_on:
       postgres-db:
         condition: service_healthy
