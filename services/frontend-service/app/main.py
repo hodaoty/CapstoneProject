@@ -117,7 +117,7 @@ async def add_to_cart_api(token, user_email, product_id, quantity=1):
         headers = {"Authorization": f"Bearer {token}"}
         async with httpx.AsyncClient() as client:
             response = await client.post(
-                f"{API_BASE_URL}/api/cart/{user_email}",
+                f"{API_BASE_URL}/api/cart/",
                 json={"product_id": product_id, "quantity": quantity},
                 headers=headers,
                 timeout=5.0,
@@ -133,7 +133,7 @@ async def get_cart_api(token, user_email):
         headers = {"Authorization": f"Bearer {token}"}
         async with httpx.AsyncClient() as client:
             response = await client.get(
-                f"{API_BASE_URL}/api/cart/{user_email}", headers=headers, timeout=5.0
+                f"{API_BASE_URL}/api/cart/", headers=headers, timeout=5.0
             )
             if response.status_code == 200:
                 return response.json()
@@ -148,7 +148,7 @@ async def remove_from_cart_api(token, user_email, product_id):
         headers = {"Authorization": f"Bearer {token}"}
         async with httpx.AsyncClient() as client:
             response = await client.delete(
-                f"{API_BASE_URL}/api/cart/{user_email}/item/{product_id}",
+                f"{API_BASE_URL}/api/cart/item/{product_id}",
                 headers=headers,
                 timeout=5.0,
             )

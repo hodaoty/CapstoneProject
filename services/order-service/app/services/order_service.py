@@ -11,10 +11,12 @@ from sqlalchemy.orm import Session
 # --- Các hàm gọi API nội bộ ---
 
 
-async def fetch_cart(client: httpx.AsyncClient, user_id: str) -> dict:
+async def fetch_cart(client: httpx.AsyncClient, user_id: str, token: str) -> dict:
     """Gọi Cart Service để lấy giỏ hàng"""
-    url = f"{settings.CART_SERVICE_URL}/cart/{user_id}"
-    response = await client.get(url)
+    url = f"{settings.CART_SERVICE_URL}/cart/"
+    headers = {"Authorization": f"Bearer {token}"}
+
+    response = await client.get(url, headers=headers)
     if response.status_code != 200:
         raise HTTPException(status_code=404, detail="Không tìm thấy giỏ hàng")
     return response.json()
@@ -76,10 +78,11 @@ async def decrease_inventory(client: httpx.AsyncClient, product_id: int, quantit
     response.raise_for_status()  # Ném lỗi nếu trừ kho thất bại
 
 
-async def clear_cart(client: httpx.AsyncClient, user_id: str):
+async def clear_cart(client: httpx.AsyncClient, user_id: str, token: str):
     """Gọi Cart Service để XÓA GIỎ HÀNG"""
-    url = f"{settings.CART_SERVICE_URL}/cart/{user_id}"
-    await client.delete(url)
+    url = f"{settings.CART_SERVICE_URL}/cart/"
+    headers = {"Authorization": f"Bearer {token}"}
+    await client.delete(url, headers=headers)
 
 
 async def call_payment_service(
@@ -108,13 +111,13 @@ async def call_payment_service(
 
 
 async def create_new_order(
-    db: Session, order_in: OrderCreate, user_id: str
+    db: Session, order_in: OrderCreate, user_id: str, token: str
 ) -> models.Order:
 
     async with httpx.AsyncClient() as client:
 
         # 1. Lấy giỏ hàng
-        cart = await fetch_cart(client, user_id)
+        cart = await fetch_cart(client, user_id, token)
         cart_items = cart.get("items", [])
         if not cart_items:
             raise HTTPException(status_code=400, detail="Giỏ hàng trống")
@@ -187,7 +190,7 @@ async def create_new_order(
                     client, v_item["product_id"], v_item["quantity"]
                 )
 
-            await clear_cart(client, user_id)
+            await clear_cart(client, user_id, token)
 
         except httpx.HTTPStatusError as e:
             # Nếu trừ kho lỗi (rất nghiêm trọng)
