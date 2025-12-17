@@ -3,7 +3,7 @@ from fastapi import FastAPI
 
 app = FastAPI(title="Cart Service")
 
-app.include_router(cart.router, prefix="/api", tags=["cart"])
+app.include_router(cart.router, prefix="/api/cart", tags=["cart"])
 
 
 @app.get("/")

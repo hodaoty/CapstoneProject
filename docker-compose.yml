@@ -118,12 +118,14 @@ services:
     networks:
       - ecommerce-net
 
-  # 6️⃣ Cart Service
+  #Cart Service
   cart-service:
     build: ./services/cart-service
     container_name: cart-service
     environment:
       - REDIS_URL=redis://redis-db:6379
+      - JWT_SECRET_KEY=tykhoihanhduyen
+      - JWT_ALGORITHM=HS256
     depends_on:
       redis-db:
         condition: service_healthy

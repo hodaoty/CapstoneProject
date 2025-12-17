@@ -2,3 +2,5 @@ fastapi
 uvicorn[standard]
 redis
 pydantic[email]
+python-jose[cryptography]
+python-multipart
