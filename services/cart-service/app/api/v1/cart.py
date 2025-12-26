@@ -9,7 +9,7 @@ router = APIRouter()
 
 
 # GET (Lấy giỏ hàng)
-@router.get("/", response_model=Cart)
+@router.get("/cart/", response_model=Cart)
 def read_cart(
     db: redis.Redis = Depends(get_redis_db),
     user_id: str = Depends(get_current_user_email),
@@ -18,7 +18,7 @@ def read_cart(
 
 
 # POST (Thêm/cập nhật sản phẩm)
-@router.post("/", response_model=Cart)
+@router.post("/cart/", response_model=Cart)
 def update_cart_item(
     item: CartItemCreate,
     db: redis.Redis = Depends(get_redis_db),
@@ -28,7 +28,7 @@ def update_cart_item(
 
 
 # DELETE (Xóa 1 sản phẩm)
-@router.delete("/item/{product_id}", response_model=Cart)
+@router.delete("/cart/item/{product_id}", response_model=Cart)
 def remove_cart_item(
     product_id: int,
     db: redis.Redis = Depends(get_redis_db),
@@ -38,7 +38,7 @@ def remove_cart_item(
 
 
 # DELETE (Xóa sạch giỏ hàng)
-@router.delete("/")
+@router.delete("/cart/")
 def delete_cart(
     db: redis.Redis = Depends(get_redis_db),
     user_id: str = Depends(get_current_user_email),
