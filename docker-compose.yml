@@ -1,20 +1,28 @@
 version: "3.9"
 
 services:
-  # Firewall 
-  firewall:
-    image: alpine:latest
-    container_name: firewall
+
+  nftables-firewall:
+    build: ./infra/nftables-firewall
+    container_name: nftables-firewall
+    hostname: firewall
+    privileged: true
     cap_add:
       - NET_ADMIN
+      - NET_RAW
+      - SYS_ADMIN
+    networks:
+      ecommerce-net:
+        ipv4_address: 172.20.0.10
     ports:
       - "80:80"
+      - "8888:8888"
     volumes:
-      - ./infra/firewall/init-iptables.sh:/init-iptables.sh
-    command: sh -c "apk add --no-cache iptables && sh /init-iptables.sh && tail -f /dev/null"
-    networks:
-      - ecommerce-net
-  # 1️⃣ API Gateway (Nginx)
+      - nftables-logs:/var/log/firewall
+                    # THÊM DÒNG NÀY
+    restart: unless-stopped  
+
+  # API Gateway (Nginx)
   api-gateway:
     image: nginx:1.21-alpine
     container_name: api-gateway
@@ -39,9 +47,24 @@ services:
       payment-service:
         condition: service_started
     networks:
-      - ecommerce-net
+      ecommerce-net:
+        ipv4_address: 172.20.0.20
 
-  # 2️⃣ User Service (FastAPI)
+  # Frontend Service
+  frontend-service:
+    container_name: frontend-service
+    build: ./services/frontend-service
+    expose:
+      - "8080"
+    environment:
+      - FIREWALL_URL=http://firewall:8888
+    depends_on:
+      - api-gateway
+    networks:
+      ecommerce-net:
+        ipv4_address: 172.20.0.30
+
+  # User Service (FastAPI)
   user-service:
     build: ./services/user-service
     container_name: user-service
@@ -69,7 +92,7 @@ services:
       - JWT_SECRET_KEY=tykhoihanhduyen
       - JWT_ALGORITHM=HS256
       - ACCESS_TOKEN_EXPIRE_MINUTES=30
-      - USER_SERVICE_URL=http://api-gateway:8080/api
+      - USER_SERVICE_URL=http://firewall:8888/api
     depends_on:
       redis-db:
         condition: service_healthy
@@ -85,7 +108,7 @@ services:
     networks:
       - ecommerce-net
 
-  # 4️⃣ Product Service (FastAPI + MySQL)
+  # Product Service (FastAPI + MySQL)
   product-service:
     build: ./services/product-service
     container_name: product-service
@@ -108,7 +131,7 @@ services:
     networks:
       - ecommerce-net
       
-  # 5️⃣ Inventory Service (MySQL)
+  # Inventory Service (MySQL)
   inventory-service:
     build: ./services/inventory-service
     container_name: inventory-service
@@ -131,7 +154,7 @@ services:
     networks:
       - ecommerce-net
 
-  #Cart Service
+  # Cart Service
   cart-service:
     build: ./services/cart-service
     container_name: cart-service
@@ -139,6 +162,7 @@ services:
       - REDIS_URL=redis://redis-db:6379
       - JWT_SECRET_KEY=tykhoihanhduyen
       - JWT_ALGORITHM=HS256
+      - USER_SERVICE_URL=http://firewall:8888/api
     depends_on:
       redis-db:
         condition: service_healthy
@@ -152,17 +176,17 @@ services:
     networks:
       - ecommerce-net
 
-  #Order service
+  # Order Service
   order-service:
     container_name: order-service
     build: ./services/order-service
     environment:
       - DATABASE_URL=postgresql://user:password@postgres-db:5432/mydatabase
-      - USER_SERVICE_URL=http://api-gateway:8080/api
-      - PRODUCT_SERVICE_URL=http://api-gateway:8080/api
-      - INVENTORY_SERVICE_URL=http://api-gateway:8080/api
-      - CART_SERVICE_URL=http://api-gateway:8080/api 
-      - PAYMENT_SERVICE_URL=http://api-gateway:8080/api
+      - USER_SERVICE_URL=http://firewall:8888/api
+      - PRODUCT_SERVICE_URL=http://firewall:8888/api
+      - INVENTORY_SERVICE_URL=http://firewall:8888/api
+      - CART_SERVICE_URL=http://firewall:8888/api
+      - PAYMENT_SERVICE_URL=http://firewall:8888/api
       - JWT_SECRET_KEY=tykhoihanhduyen
       - JWT_ALGORITHM=HS256
     depends_on:
@@ -187,7 +211,8 @@ services:
       retries: 5
     networks:
       - ecommerce-net
-  #11 Payment-service
+
+  # Payment Service
   payment-service:
     container_name: payment-service
     build: ./services/payment-service
@@ -205,20 +230,8 @@ services:
       retries: 5
     networks:
       - ecommerce-net
-  
-  #frontend-service:
-  frontend-service:
-    container_name: frontend-service
-    build: ./services/frontend-service
-    ports:
-      - "8080:8080"
-    environment:
-      - FIREWALL_URL=http://firewall:80
-    depends_on:
-      - api-gateway
-    networks:
-      - ecommerce-net
-  # 8️⃣ PostgreSQL Database
+
+  # PostgreSQL Database
   postgres-db:
     image: postgres:14-alpine
     container_name: postgres-db
@@ -238,7 +251,7 @@ services:
     networks:
       - ecommerce-net
 
-  # 9️⃣ MySQL Database
+  # MySQL Database
   mysql-db:
     image: mysql:8.0
     container_name: mysql-db
@@ -259,7 +272,7 @@ services:
     networks:
       - ecommerce-net
 
-  # 🔟 Redis Database
+  # Redis Database
   redis-db:
     image: redis:6-alpine
     container_name: redis-db
@@ -279,8 +292,11 @@ volumes:
   postgres_data:
   mysql_data:
   redis_data:
+  nftables-logs:
 
 networks:
   ecommerce-net:
     driver: bridge
-
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
