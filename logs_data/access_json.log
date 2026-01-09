@@ -730,3 +730,12 @@
 {"timestamp": "2026-01-09T12:11:20+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/abd@gmail.com", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
 {"timestamp": "2026-01-09T12:11:21+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "username=abd%40gmail.com&password=123"}
 {"timestamp": "2026-01-09T12:11:22+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-09T15:04:45+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/user1@gmail.com", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-09T15:04:46+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "username=user1%40gmail.com&password=user1"}
+{"timestamp": "2026-01-09T15:04:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-09T15:05:15+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/admin1@test.com", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-09T15:05:15+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "username=admin1%40test.com&password=admin1"}
+{"timestamp": "2026-01-09T15:05:25+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-09T15:05:25+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-09T15:05:25+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-09T15:05:25+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/3", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
