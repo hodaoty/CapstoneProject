@@ -5,7 +5,7 @@ from jose import jwt
 from nicegui import app, ui
 
 # --- 1. CẤU HÌNH & API ---
-API_BASE_URL = os.environ.get("API_GATEWAY_URL", "http://api-gateway:80")
+API_BASE_URL = os.environ.get("FIREWALL_URL", "http://firewall:80")
 
 
 def get_user_role(token):
