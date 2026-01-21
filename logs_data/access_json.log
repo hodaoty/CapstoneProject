@@ -730,3 +730,731 @@
 {"timestamp": "2026-01-09T12:11:20+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/abd@gmail.com", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
 {"timestamp": "2026-01-09T12:11:21+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "username=abd%40gmail.com&password=123"}
 {"timestamp": "2026-01-09T12:11:22+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-09T15:04:45+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/user1@gmail.com", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-09T15:04:46+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "username=user1%40gmail.com&password=user1"}
+{"timestamp": "2026-01-09T15:04:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-09T15:05:15+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/admin1@test.com", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-09T15:05:15+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "username=admin1%40test.com&password=admin1"}
+{"timestamp": "2026-01-09T15:05:25+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-09T15:05:25+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-09T15:05:25+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-09T15:05:25+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/3", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-09T15:07:52+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-15T03:09:24+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/admin1@test.com", "status": "404", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-15T03:09:24+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "401", "user_agent": "python-httpx/0.28.1", "body": "username=admin1%40test.com&password=admin1"}
+{"timestamp": "2026-01-15T03:10:00+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/users/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "{\"email\":\"user1@gmail.com\",\"password\":\"user1\",\"role\":\"USER\"}"}
+{"timestamp": "2026-01-15T03:10:07+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/user1@gmail.com", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-15T03:10:07+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "username=user1%40gmail.com&password=user1"}
+{"timestamp": "2026-01-15T03:10:08+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-15T03:10:10+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/cart/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-15T03:10:11+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-15T03:12:06+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-15T03:28:30+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/cart/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-15T03:28:32+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:40:04+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/cart/", "status": "401", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:40:07+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:47:14+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/user1@gmail.com", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:47:14+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "username=user1%40gmail.com&password=user1"}
+{"timestamp": "2026-01-17T02:47:14+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:49:40+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/admin1@test.com", "status": "404", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:49:40+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "401", "user_agent": "python-httpx/0.28.1", "body": "username=admin1%40test.com&password=admin1"}
+{"timestamp": "2026-01-17T02:49:47+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/users/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "{\"email\":\"admin1@test.com\",\"password\":\"admin1\",\"role\":\"USER\"}"}
+{"timestamp": "2026-01-17T02:49:52+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/admin1@test.com", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:49:52+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "username=admin1%40test.com&password=admin1"}
+{"timestamp": "2026-01-17T02:49:52+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:51:35+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/users/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "{\"email\":\"staff1@test.com\",\"password\":\"staff1\",\"role\":\"USER\"}"}
+{"timestamp": "2026-01-17T02:52:19+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/admin1@test.com", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:19+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "username=admin1%40test.com&password=admin1"}
+{"timestamp": "2026-01-17T02:52:22+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:24+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:27+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/3", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/4", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/5", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/6", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/7", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/8", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/9", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/10", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/11", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/12", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/13", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/14", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/15", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/16", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/17", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/18", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/19", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/20", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:34+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/inventory/update", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "{\"product_id\":1,\"change_quantity\":10}"}
+{"timestamp": "2026-01-17T02:52:34+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:34+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:34+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:34+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/3", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:34+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/4", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:34+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/5", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:34+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/6", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:34+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/7", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:34+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/8", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:34+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/9", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:34+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/10", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:34+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/11", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:34+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/12", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:34+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/13", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:34+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/14", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:34+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/15", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:34+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/16", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:34+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/17", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:35+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/18", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:35+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/19", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:35+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/20", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:36+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/inventory/update", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "{\"product_id\":2,\"change_quantity\":10}"}
+{"timestamp": "2026-01-17T02:52:36+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:36+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:36+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:36+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/3", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:36+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/4", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:36+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/5", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:36+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/6", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:36+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/7", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:36+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/8", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:36+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/9", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:36+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/10", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:36+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/11", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:36+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/12", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:36+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/13", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:36+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/14", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:36+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/15", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:36+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/16", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:36+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/17", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:36+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/18", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:36+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/19", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:36+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/20", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:37+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/inventory/update", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "{\"product_id\":3,\"change_quantity\":10}"}
+{"timestamp": "2026-01-17T02:52:38+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:38+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:38+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:38+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/3", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:38+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/4", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:38+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/5", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:38+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/6", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:38+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/7", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:38+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/8", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:38+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/9", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:38+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/10", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:38+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/11", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:38+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/12", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:38+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/13", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:38+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/14", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:38+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/15", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:38+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/16", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:38+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/17", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:38+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/18", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:38+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/19", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:38+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/20", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:39+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/inventory/update", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "{\"product_id\":4,\"change_quantity\":10}"}
+{"timestamp": "2026-01-17T02:52:39+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:39+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:39+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:39+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/3", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:39+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/4", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:39+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/5", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:39+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/6", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:39+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/7", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:40+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/8", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:40+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/9", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:40+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/10", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:40+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/11", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:40+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/12", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:40+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/13", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:40+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/14", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:40+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/15", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:40+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/16", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:40+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/17", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:40+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/18", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:40+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/19", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:40+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/20", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:41+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/inventory/update", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "{\"product_id\":5,\"change_quantity\":10}"}
+{"timestamp": "2026-01-17T02:52:41+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:41+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:41+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:41+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/3", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:41+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/4", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:42+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/5", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:42+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/6", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:42+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/7", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:42+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/8", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:42+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/9", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:42+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/10", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:42+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/11", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:42+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/12", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:42+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/13", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:42+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/14", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:42+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/15", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:42+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/16", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:42+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/17", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:42+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/18", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:42+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/19", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:42+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/20", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:44+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/inventory/update", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "{\"product_id\":6,\"change_quantity\":10}"}
+{"timestamp": "2026-01-17T02:52:44+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:44+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:44+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:44+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/3", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:44+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/4", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:44+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/5", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:44+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/6", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:44+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/7", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:44+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/8", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:44+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/9", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:44+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/10", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:44+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/11", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:44+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/12", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:44+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/13", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:44+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/14", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:44+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/15", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:44+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/16", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:44+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/17", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:44+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/18", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:44+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/19", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:44+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/20", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:46+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/inventory/update", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "{\"product_id\":7,\"change_quantity\":10}"}
+{"timestamp": "2026-01-17T02:52:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/3", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/4", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/5", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/6", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/7", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/8", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/9", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/10", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/11", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/12", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/13", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/14", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/15", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/16", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/17", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/18", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/19", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/20", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:48+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/inventory/update", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "{\"product_id\":8,\"change_quantity\":10}"}
+{"timestamp": "2026-01-17T02:52:48+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:48+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:48+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:48+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/3", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:48+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/4", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:48+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/5", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:48+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/6", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:48+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/7", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:48+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/8", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:48+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/9", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:48+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/10", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:48+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/11", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:48+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/12", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:48+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/13", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:48+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/14", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:48+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/15", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:48+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/16", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:48+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/17", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:49+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/18", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:49+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/19", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:49+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/20", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:52+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/inventory/update", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "{\"product_id\":9,\"change_quantity\":10}"}
+{"timestamp": "2026-01-17T02:52:52+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:52+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:52+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:52+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/3", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:52+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/4", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:52+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/5", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:52+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/6", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:52+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/7", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:52+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/8", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:52+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/9", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:52+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/10", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:52+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/11", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/12", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/13", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/14", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/15", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/16", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/17", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/18", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/19", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/20", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:55+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/inventory/update", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "{\"product_id\":10,\"change_quantity\":10}"}
+{"timestamp": "2026-01-17T02:52:55+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:55+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:55+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:55+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/3", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:55+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/4", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:55+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/5", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:55+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/6", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:55+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/7", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:55+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/8", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:55+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/9", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:55+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/10", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:55+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/11", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:55+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/12", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:55+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/13", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:55+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/14", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:55+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/15", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:55+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/16", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:55+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/17", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:55+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/18", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:56+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/19", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:52:56+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/20", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:00+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/inventory/update", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "{\"product_id\":11,\"change_quantity\":10}"}
+{"timestamp": "2026-01-17T02:53:00+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:00+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:00+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:00+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/3", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:00+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/4", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:00+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/5", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:00+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/6", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:00+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/7", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:00+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/8", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:00+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/9", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:00+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/10", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:00+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/11", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:00+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/12", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:00+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/13", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:00+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/14", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:00+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/15", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:00+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/16", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:00+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/17", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:00+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/18", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:01+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/19", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:01+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/20", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:04+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/inventory/update", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "{\"product_id\":12,\"change_quantity\":10}"}
+{"timestamp": "2026-01-17T02:53:04+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:04+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:04+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:04+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/3", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:04+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/4", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/5", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/6", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/7", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/8", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/9", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/10", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/11", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/12", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/13", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/14", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/15", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/16", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/17", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/18", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/19", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/20", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:08+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/inventory/update", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "{\"product_id\":13,\"change_quantity\":10}"}
+{"timestamp": "2026-01-17T02:53:08+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:08+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:08+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:08+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/3", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:08+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/4", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:08+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/5", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:08+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/6", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:08+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/7", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:08+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/8", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:08+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/9", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:08+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/10", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:08+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/11", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:08+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/12", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:08+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/13", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:08+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/14", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:08+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/15", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:08+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/16", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:08+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/17", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:08+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/18", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:08+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/19", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:08+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/20", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:10+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/inventory/update", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "{\"product_id\":14,\"change_quantity\":10}"}
+{"timestamp": "2026-01-17T02:53:10+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:11+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:11+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:11+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/3", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:11+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/4", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:11+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/5", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:11+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/6", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:11+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/7", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:11+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/8", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:11+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/9", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:11+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/10", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:11+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/11", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:11+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/12", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:11+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/13", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:11+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/14", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:11+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/15", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:11+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/16", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:11+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/17", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:11+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/18", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:11+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/19", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:11+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/20", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:13+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/inventory/update", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "{\"product_id\":15,\"change_quantity\":10}"}
+{"timestamp": "2026-01-17T02:53:13+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:13+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:13+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:13+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/3", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:13+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/4", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:13+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/5", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:13+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/6", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:13+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/7", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:13+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/8", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:13+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/9", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:13+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/10", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:13+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/11", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:13+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/12", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:13+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/13", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:13+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/14", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:13+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/15", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:13+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/16", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:13+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/17", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:13+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/18", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:13+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/19", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:13+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/20", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:15+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/inventory/update", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "{\"product_id\":16,\"change_quantity\":10}"}
+{"timestamp": "2026-01-17T02:53:15+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:15+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:15+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:15+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/3", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:15+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/4", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:15+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/5", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:15+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/6", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:15+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/7", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:16+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/8", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:16+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/9", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:16+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/10", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:16+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/11", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:16+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/12", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:16+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/13", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:16+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/14", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:16+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/15", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:16+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/16", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:16+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/17", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:16+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/18", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:16+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/19", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:16+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/20", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:18+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/inventory/update", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "{\"product_id\":17,\"change_quantity\":10}"}
+{"timestamp": "2026-01-17T02:53:18+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:18+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:18+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:18+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/3", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:18+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/4", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:18+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/5", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:18+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/6", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:18+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/7", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:18+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/8", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:18+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/9", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:18+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/10", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:18+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/11", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:18+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/12", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:18+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/13", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:18+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/14", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:18+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/15", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:18+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/16", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:18+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/17", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:18+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/18", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:18+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/19", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:18+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/20", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:20+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/inventory/update", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "{\"product_id\":18,\"change_quantity\":10}"}
+{"timestamp": "2026-01-17T02:53:20+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:20+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:20+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:20+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/3", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:20+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/4", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:20+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/5", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:20+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/6", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:20+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/7", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:20+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/8", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:20+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/9", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:20+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/10", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:20+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/11", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:20+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/12", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:21+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/13", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:21+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/14", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:21+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/15", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:21+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/16", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:21+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/17", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:21+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/18", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:21+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/19", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:53:21+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/20", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:03+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/staff1@test.com", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:03+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "username=staff1%40test.com&password=staff1"}
+{"timestamp": "2026-01-17T02:54:03+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/3", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/4", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/5", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/6", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/7", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/8", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/9", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/10", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/11", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/12", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/13", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/14", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/15", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/16", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/17", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/18", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/19", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:05+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/20", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:09+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/inventory/update", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "{\"product_id\":19,\"change_quantity\":10}"}
+{"timestamp": "2026-01-17T02:54:09+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:09+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:09+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:09+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/3", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:09+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/4", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:09+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/5", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:09+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/6", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:09+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/7", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:09+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/8", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:09+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/9", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:09+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/10", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:09+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/11", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:09+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/12", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:09+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/13", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:10+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/14", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:10+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/15", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:10+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/16", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:10+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/17", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:10+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/18", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:10+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/19", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:10+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/20", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:12+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/inventory/update", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "{\"product_id\":20,\"change_quantity\":10}"}
+{"timestamp": "2026-01-17T02:54:12+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:12+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:12+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:12+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/3", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:12+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/4", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:12+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/5", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:12+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/6", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:12+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/7", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:12+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/8", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:12+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/9", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:12+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/10", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:12+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/11", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:12+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/12", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:12+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/13", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:12+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/14", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:12+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/15", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:12+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/16", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:12+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/17", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:12+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/18", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:12+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/19", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T02:54:12+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/20", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T03:00:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/user1@gmail.com", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T03:00:54+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "username=user1%40gmail.com&password=user1"}
+{"timestamp": "2026-01-17T03:00:54+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T03:01:58+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/cart/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T03:02:00+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T03:02:02+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/cart/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "{\"product_id\":1,\"quantity\":1}"}
+{"timestamp": "2026-01-17T03:02:04+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/cart/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T03:02:04+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/1", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T03:02:09+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/cart/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T03:02:09+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/1", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T03:02:16+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/cart/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T03:02:16+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/1", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T03:02:16+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T03:02:16+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/inventory/update", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "{\"product_id\":1,\"change_quantity\":-1}"}
+{"timestamp": "2026-01-17T03:02:16+00:00", "remote_ip": "172.20.0.10", "method": "DELETE", "url": "/api/cart/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": ""}
+{"timestamp": "2026-01-17T03:02:16+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/orders/", "status": "200", "user_agent": "python-httpx/0.28.1", "body": "{\"shipping_address\":\"a, Phone number: a, Address: a\"}"}
+{"timestamp": "2026-01-17T03:04:50+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/user1@gmail.com", "status": "200", "user_agent": "python-httpx/0.28.1", "cookie_session": "", "body": ""}
+{"timestamp": "2026-01-17T03:04:50+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "cookie_session": "", "body": "username=user1%40gmail.com&password=user1"}
+{"timestamp": "2026-01-17T03:04:50+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "cookie_session": "", "body": ""}
+{"timestamp": "2026-01-17T03:13:33+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "authorization": "", "body": ""}
+{"timestamp": "2026-01-17T03:13:40+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/user1@gmail.com", "status": "200", "user_agent": "python-httpx/0.28.1", "authorization": "", "body": ""}
+{"timestamp": "2026-01-17T03:13:40+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "authorization": "", "body": "username=user1%40gmail.com&password=user1"}
+{"timestamp": "2026-01-17T03:13:40+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "authorization": "", "body": ""}
+{"timestamp": "2026-01-17T03:20:51+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": """body": ""}
+{"timestamp": "2026-01-17T03:21:03+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/user1@gmail.com", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": """body": ""}
+{"timestamp": "2026-01-17T03:21:04+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": """body": "username=user1%40gmail.com&password=user1"}
+{"timestamp": "2026-01-17T03:21:04+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": """body": ""}
+{"timestamp": "2026-01-17T03:23:47+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/user1@gmail.com", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-17T03:23:47+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": "username=user1%40gmail.com&password=user1"}
+{"timestamp": "2026-01-17T03:23:47+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-17T03:26:26+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-17T03:26:33+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/user1@gmail.com", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-17T03:26:33+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "401", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": "username=user1%40gmail.com&password=usder1"}
+{"timestamp": "2026-01-17T03:26:43+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/user1@gmail.com", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-17T03:26:44+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": "username=user1%40gmail.com&password=user1"}
+{"timestamp": "2026-01-17T03:26:44+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-17T03:26:45+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/cart/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMUBnbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc2ODYyMjIwNH0.zRUeP9F0m7AK70GXHFkDRrA63YtEa6749Epk1_Pdt64", "body": ""}
+{"timestamp": "2026-01-17T03:27:08+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-17T03:27:30+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/cart/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMUBnbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc2ODYyMjIwNH0.zRUeP9F0m7AK70GXHFkDRrA63YtEa6749Epk1_Pdt64", "body": ""}
+{"timestamp": "2026-01-17T03:27:48+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/admin1@test.com", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-17T03:27:48+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": "username=admin1%40test.com&password=admin1"}
+{"timestamp": "2026-01-17T03:27:58+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjFAdGVzdC5jb20iLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3Njg2MjIyNjh9.nzSPnT90QQIt1SX2fhrexzk2TpaZ0CqdGsPrwqJBP0U", "body": ""}
+{"timestamp": "2026-01-17T03:48:11+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-17T03:48:56+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/user1@gmail.com", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-17T03:48:56+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": "username=user1%40gmail.com&password=user1"}
+{"timestamp": "2026-01-17T03:48:57+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-17T03:49:25+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/cart/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMUBnbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc2ODYyMzUzNn0.3wy7ynVqcbVUHsVGFa0iDn8ucVEv6SMI0dNKw4AVVOE", "body": ""}
+{"timestamp": "2026-01-17T03:49:44+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-17T03:49:48+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/cart/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMUBnbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc2ODYyMzUzNn0.3wy7ynVqcbVUHsVGFa0iDn8ucVEv6SMI0dNKw4AVVOE", "body": "{\"product_id\":2,\"quantity\":1}"}
+{"timestamp": "2026-01-17T03:49:50+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/cart/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMUBnbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc2ODYyMzUzNn0.3wy7ynVqcbVUHsVGFa0iDn8ucVEv6SMI0dNKw4AVVOE", "body": ""}
+{"timestamp": "2026-01-17T03:49:50+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/2", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-17T03:50:29+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/cart/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMUBnbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc2ODYyMzUzNn0.3wy7ynVqcbVUHsVGFa0iDn8ucVEv6SMI0dNKw4AVVOE", "body": ""}
+{"timestamp": "2026-01-17T03:50:29+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/2", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-17T03:50:56+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/cart/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMUBnbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc2ODYyMzUzNn0.3wy7ynVqcbVUHsVGFa0iDn8ucVEv6SMI0dNKw4AVVOE", "body": ""}
+{"timestamp": "2026-01-17T03:50:56+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/2", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-17T03:50:56+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-17T03:50:56+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/inventory/update", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": "{\"product_id\":2,\"change_quantity\":-1}"}
+{"timestamp": "2026-01-17T03:50:56+00:00", "remote_ip": "172.20.0.10", "method": "DELETE", "url": "/api/cart/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMUBnbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc2ODYyMzUzNn0.3wy7ynVqcbVUHsVGFa0iDn8ucVEv6SMI0dNKw4AVVOE", "body": ""}
+{"timestamp": "2026-01-17T03:50:57+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/orders/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMUBnbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc2ODYyMzUzNn0.3wy7ynVqcbVUHsVGFa0iDn8ucVEv6SMI0dNKw4AVVOE", "body": "{\"shipping_address\":\"a, Phone number: aa, Address: a\"}"}
+{"timestamp": "2026-01-17T03:51:40+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/cart/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMUBnbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc2ODYyMzUzNn0.3wy7ynVqcbVUHsVGFa0iDn8ucVEv6SMI0dNKw4AVVOE", "body": ""}
+{"timestamp": "2026-01-17T03:51:41+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-17T03:51:43+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/cart/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMUBnbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc2ODYyMzUzNn0.3wy7ynVqcbVUHsVGFa0iDn8ucVEv6SMI0dNKw4AVVOE", "body": "{\"product_id\":3,\"quantity\":1}"}
+{"timestamp": "2026-01-17T03:51:45+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/cart/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMUBnbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc2ODYyMzUzNn0.3wy7ynVqcbVUHsVGFa0iDn8ucVEv6SMI0dNKw4AVVOE", "body": ""}
+{"timestamp": "2026-01-17T03:51:45+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/3", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:33:07+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/admin1@test.com", "status": "404", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:33:07+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "401", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": "username=admin1%40test.com&password=admin1"}
+{"timestamp": "2026-01-19T13:33:24+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/user1@gmail.com", "status": "404", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:33:24+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "401", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": "username=user1%40gmail.com&password=user1"}
+{"timestamp": "2026-01-19T13:33:43+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:33:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:36:47+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/users/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": "{\"email\":\"user1@gmail.com\",\"password\":\"user1\",\"role\":\"USER\"}"}
+{"timestamp": "2026-01-19T13:36:56+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/users/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": "{\"email\":\"admin1@test.com\",\"password\":\"admin1\",\"role\":\"USER\"}"}
+{"timestamp": "2026-01-19T13:37:03+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/users/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": "{\"email\":\"staff1@test.com\",\"password\":\"staff1\",\"role\":\"USER\"}"}
+{"timestamp": "2026-01-19T13:37:49+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/admin1@test.com", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:37:49+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": "username=admin1%40test.com&password=admin1"}
+{"timestamp": "2026-01-19T13:37:52+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:37:54+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:37:55+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:37:56+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjFAdGVzdC5jb20iLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3Njg4MzE2Njl9.pGMAeoLpee_ISzu_7Bzzgu0kX5UmQq5BR4JJ-ZWgdxg", "body": ""}
+{"timestamp": "2026-01-19T13:38:07+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/staff1@test.com", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:38:07+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": "username=staff1%40test.com&password=staff1"}
+{"timestamp": "2026-01-19T13:38:07+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:38:09+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:42:42+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:42:44+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:42:45+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:42:45+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:42:45+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/3", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:42:45+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/4", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:42:45+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/5", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:42:45+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/6", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:42:45+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/7", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:42:45+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/8", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:42:45+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/9", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:42:45+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/10", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:42:45+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/11", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:42:45+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/12", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:42:45+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/13", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:42:45+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/14", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:42:45+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/15", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:42:45+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/16", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:42:45+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/17", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:42:45+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/18", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:42:45+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/19", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:42:45+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/20", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:44:27+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:44:27+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:44:27+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:44:27+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/3", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:44:27+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/4", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:44:27+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/5", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:44:27+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/6", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:44:27+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/7", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:44:27+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/8", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:44:27+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/9", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:44:27+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/10", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:44:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/11", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:44:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/12", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:44:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/13", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:44:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/14", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:44:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/15", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:44:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/16", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:44:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/17", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:44:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/18", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:44:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/19", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:44:28+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/20", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:49:19+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "422", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": "username=&password="}
+{"timestamp": "2026-01-19T13:51:10+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "422", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": "username=&password="}
+{"timestamp": "2026-01-19T13:51:21+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/%C3%A1dasdas", "status": "404", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:51:21+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "401", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": "username=%C3%A1dasdas&password=a"}
+{"timestamp": "2026-01-19T13:55:08+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/user1@gmail.com", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:55:08+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "401", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": "username=user1%40gmail.com&password=1"}
+{"timestamp": "2026-01-19T13:58:36+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/user1@gmail.com", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:58:37+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "401", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": "username=user1%40gmail.com&password=1"}
+{"timestamp": "2026-01-19T13:59:00+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/user1@gmail.com", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:59:01+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "401", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": "username=user1%40gmail.com&password=admin1%40test.com"}
+{"timestamp": "2026-01-19T13:59:10+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/user1@gmail.com", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T13:59:10+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": "username=user1%40gmail.com&password=user1"}
+{"timestamp": "2026-01-19T13:59:10+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T14:00:10+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/user1@gmail.com", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T14:00:10+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "401", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": "username=user1%40gmail.com&password=user1%40gmail.com"}
+{"timestamp": "2026-01-19T14:00:40+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/users/", "status": "400", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": "{\"email\":\"user1@gmail.com\",\"password\":\"1\",\"role\":\"USER\"}"}
+{"timestamp": "2026-01-19T14:03:11+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/user1@gmail.com", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T14:03:12+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "401", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": "username=user1%40gmail.com&password=admin1%40test.com"}
+{"timestamp": "2026-01-19T14:08:18+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/user1@gmail.com", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-19T14:08:18+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "401", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": "username=user1%40gmail.com&password=admin1%40test.com"}
+{"timestamp": "2026-01-21T03:08:16+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/user1@gmail.com", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:08:16+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": "username=user1%40gmail.com&password=user1"}
+{"timestamp": "2026-01-21T03:08:17+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:08:55+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/cart/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMUBnbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc2ODk2NjY5Nn0.wv_yZ-rFdYcRfaZ663ikOGh01dfPMiC-1l2Ek9blYZo", "body": "{\"product_id\":1,\"quantity\":1}"}
+{"timestamp": "2026-01-21T03:12:19+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/cart/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMUBnbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc2ODk2NjY5Nn0.wv_yZ-rFdYcRfaZ663ikOGh01dfPMiC-1l2Ek9blYZo", "body": ""}
+{"timestamp": "2026-01-21T03:12:20+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/1", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:22+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/cart/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMUBnbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc2ODk2NjY5Nn0.wv_yZ-rFdYcRfaZ663ikOGh01dfPMiC-1l2Ek9blYZo", "body": ""}
+{"timestamp": "2026-01-21T03:12:22+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/1", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:32+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/cart/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMUBnbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc2ODk2NjY5Nn0.wv_yZ-rFdYcRfaZ663ikOGh01dfPMiC-1l2Ek9blYZo", "body": ""}
+{"timestamp": "2026-01-21T03:12:32+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/1", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:32+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:33+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/inventory/update", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": "{\"product_id\":1,\"change_quantity\":-1}"}
+{"timestamp": "2026-01-21T03:12:33+00:00", "remote_ip": "172.20.0.10", "method": "DELETE", "url": "/api/cart/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMUBnbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc2ODk2NjY5Nn0.wv_yZ-rFdYcRfaZ663ikOGh01dfPMiC-1l2Ek9blYZo", "body": ""}
+{"timestamp": "2026-01-21T03:12:33+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/orders/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMUBnbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImV4cCI6MTc2ODk2NjY5Nn0.wv_yZ-rFdYcRfaZ663ikOGh01dfPMiC-1l2Ek9blYZo", "body": "{\"shipping_address\":\"a, Phone number: aa, Address: a\"}"}
+{"timestamp": "2026-01-21T03:12:44+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/by-email/admin1@test.com", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:44+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/auth/login", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": "username=admin1%40test.com&password=admin1"}
+{"timestamp": "2026-01-21T03:12:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/3", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/4", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/5", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/6", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/7", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:46+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/8", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:47+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/9", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:47+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/10", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:47+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/11", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:47+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/12", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:47+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/13", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:47+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/14", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:47+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/15", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:47+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/16", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:47+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/17", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:47+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/18", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:47+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/19", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:47+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/20", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:53+00:00", "remote_ip": "172.20.0.10", "method": "POST", "url": "/api/inventory/update", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjFAdGVzdC5jb20iLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3Njg5NjY5NjR9.1CSAj8u9pgRO-6svpieAv9eeS8mR0IExkt5s674rB9g", "body": "{\"product_id\":1,\"change_quantity\":1}"}
+{"timestamp": "2026-01-21T03:12:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/products/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/1", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/2", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/3", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/4", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/5", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/6", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/7", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/8", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/9", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/10", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/11", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/12", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/13", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/14", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/15", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/16", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/17", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/18", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/19", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:12:53+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/20", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-01-21T03:13:45+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/users/", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbjFAdGVzdC5jb20iLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3Njg5NjY5NjR9.1CSAj8u9pgRO-6svpieAv9eeS8mR0IExkt5s674rB9g", "body": ""}

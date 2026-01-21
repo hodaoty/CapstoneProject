@@ -1,4 +1,4 @@
-import os
+import os, time, asyncio
 
 import httpx
 from jose import jwt
@@ -649,6 +649,10 @@ def login_page():
             notification.text = "Email hoặc mật khẩu không chính xác!"
             notification.classes("block text-red-500 text-sm mt-2")
             ui.notify("Đăng nhập thất bại", type="negative")
+            await asyncio.sleep(2)
+            ui.navigate.to("/login")
+
+            #pass_input.value = ""
         btn_login.props("remove-loading")
 
     with ui.column().classes(
