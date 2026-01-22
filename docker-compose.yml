@@ -18,7 +18,7 @@ services:
       - "80:80"
       - "8888:8888"
     volumes:
-      - nftables-logs:/var/log/firewall
+      - ./logs_data/firewall:/var/log/firewall
     restart: unless-stopped  
 
   # API Gateway (Nginx)
@@ -310,7 +310,7 @@ services:
     volumes:
       - ./infra/logstash/pipeline:/usr/share/logstash/pipeline
       - ./logs_data:/var/log/nginx
-      - nftables-logs:/var/log/firewall
+      - ./logs_data/firewall:/var/log/firewall
     ports:
       - "5000:5000" #input
       - "9600:9600" #monitoring
@@ -338,7 +338,6 @@ volumes:
   postgres_data:
   mysql_data:
   redis_data:
-  nftables-logs:
   es_data:
 
 networks:
