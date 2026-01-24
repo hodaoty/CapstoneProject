@@ -309,8 +309,8 @@ services:
     container_name: logstash
     volumes:
       - ./infra/logstash/pipeline:/usr/share/logstash/pipeline
-      - ./logs_data:/var/log/nginx
-      - nftables-logs:/var/log/firewall
+      - ./logs_data/api-gateway/:/var/log/nginx
+      - ./logs_data/nftables-logs/:/var/log/firewall
     ports:
       - "5000:5000" #input
       - "9600:9600" #monitoring
