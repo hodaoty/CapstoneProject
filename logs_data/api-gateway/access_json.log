@@ -1700,3 +1700,4 @@
 {"timestamp": "2026-01-24T13:48:18+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/18", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
 {"timestamp": "2026-01-24T13:48:18+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/19", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
 {"timestamp": "2026-01-24T13:48:18+00:00", "remote_ip": "172.20.0.10", "method": "GET", "url": "/api/inventory/20", "status": "200", "user_agent": "python-httpx/0.28.1", "auth_token": "", "body": ""}
+{"timestamp": "2026-03-04T20:36:55+00:00", "remote_ip": "172.20.0.10", "real_ip": "172.20.0.10", "x_forwarded_for": "", "method": "GET", "url": "/api/products/search?q=&page=1", "status": "200", "user_agent": "curl/8.15.0", "auth_token": "", "body": ""}
