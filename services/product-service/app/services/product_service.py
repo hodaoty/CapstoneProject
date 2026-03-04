@@ -1,3 +1,5 @@
+import math
+
 from app.db import models
 from app.models import product as schemas
 from sqlalchemy.orm import Session
@@ -52,3 +54,28 @@ def delete_product(db: Session, db_product: models.Product):
     db.delete(db_product)
     db.commit()
     return db_product
+
+
+# Tim kiem san pham (loc theo ten, category, khoang gia, phan trang)
+def search_products(
+    db: Session,
+    q: str = "",
+    category: str = "",
+    min_price: float = 0,
+    max_price: float = 999999999,
+    page: int = 1,
+    page_size: int = 20,
+):
+    query = db.query(models.Product)
+    if q:
+        query = query.filter(models.Product.name.ilike(f"%{q}%"))
+    if category:
+        query = query.filter(models.Product.category.ilike(f"%{category}%"))
+    query = query.filter(
+        models.Product.price >= min_price,
+        models.Product.price <= max_price,
+    )
+    total = query.count()
+    items = query.offset((page - 1) * page_size).limit(page_size).all()
+    total_pages = math.ceil(total / page_size) if page_size > 0 else 0
+    return items, total, total_pages

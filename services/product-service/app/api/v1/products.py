@@ -29,6 +29,36 @@ def read_products_endpoint(
     return products
 
 
+# GET (Tìm kiếm sản phẩm) — phải đặt TRƯỚC /{product_id} để tránh xung đột path
+@router.get("/products/search")
+def search_products_endpoint(
+    q: str = "",
+    category: str = "",
+    brand: str = "",  # brand chua co trong model, nhan nhung khong filter
+    min_price: float = 0,
+    max_price: float = 999999999,
+    page: int = 1,
+    page_size: int = 20,
+    db: Session = Depends(get_db),
+):
+    items, total, total_pages = crud.search_products(
+        db,
+        q=q,
+        category=category,
+        min_price=min_price,
+        max_price=max_price,
+        page=page,
+        page_size=page_size,
+    )
+    return {
+        "items": [schemas.ProductRead.model_validate(item) for item in items],
+        "total": total,
+        "page": page,
+        "page_size": page_size,
+        "total_pages": total_pages,
+    }
+
+
 # GET (Lấy 1 sản phẩm)
 @router.get("/products/{product_id}", response_model=schemas.ProductRead)
 def read_product_endpoint(product_id: int, db: Session = Depends(get_db)):

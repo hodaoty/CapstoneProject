@@ -18,8 +18,26 @@ services:
       - "80:80"
       - "8888:8888"
     volumes:
-      - ./logs_data/firewall:/var/log/firewall
-    restart: unless-stopped  
+      - ./logs_data/firewall:/var/log/firewall   # exposes firewall.log AND traffic.csv to host
+    restart: unless-stopped
+
+  # Firewall Admin Dashboard
+  firewall-admin:
+    build: ./services/firewall-admin
+    container_name: firewall-admin
+    environment:
+      - ADMIN_USERNAME=${ADMIN_USERNAME:-admin}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin123}
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./logs_data:/app/logs:ro                 # access_json.log + firewall/ subdir (incl. traffic.csv)
+      - /var/run/docker.sock:/var/run/docker.sock # allows docker exec into nftables-firewall
+    networks:
+      - ecommerce-net
+    depends_on:
+      - nftables-firewall
+    restart: unless-stopped
 
   # API Gateway (Nginx)
   api-gateway:
