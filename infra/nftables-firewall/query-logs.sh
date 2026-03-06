@@ -1,121 +1,121 @@
 #!/bin/bash
+# =============================================================================
+# QUERY LOGS - Utility to query firewall logs
+# Usage: query-logs [option]
+# =============================================================================
 
-show_menu() {
-    clear
-    echo "=========================================================="
-    echo "          FIREWALL LOGS VIEWER"
-    echo "=========================================================="
+LOG_FILE="/var/log/firewall/firewall.log"
+PACKET_LOG="/var/log/firewall/packets.log"
+
+show_help() {
+    echo "Usage: query-logs [option]"
     echo ""
-    echo "  1. View all traffic (last 30 lines)"
-    echo "  2. Search by IP address"
-    echo "  3. Filter by port 80"
-    echo "  4. Filter by port 8888"
-    echo "  5. Real-time monitoring"
-    echo "  6. Show ruleset"
-    echo "  7. Ban IP permanently"
-    echo "  8. Unban IP"
-    echo "  9. Traffic summary"
-    echo "  0. Exit"
+    echo "Options:"
+    echo "  -a, --all         Show all logs"
+    echo "  -b, --banned      Show only banned IPs"
+    echo "  -r, --rate        Show rate-limited events"
+    echo "  -t, --tail [n]    Show last n lines (default: 50)"
+    echo "  -f, --follow      Follow log in real-time"
+    echo "  -s, --stats       Show statistics"
+    echo "  -p, --packets     Show packet capture log"
+    echo "  -c, --counters    Show nftables counters"
+    echo "  -l, --lists       Show blacklists"
+    echo "  -h, --help        Show this help"
     echo ""
-    echo "=========================================================="
-    read -p "Select option: " choice
 }
 
-while true; do
-    show_menu
-    case $choice in
-        1)
-            echo ""
-            echo "ALL TRAFFIC (last 30 lines):"
-            echo "=========================================================="
-            tail -30 /var/log/firewall/access.log
-            echo ""
-            read -p "Press Enter to continue..."
-            ;;
-        2)
-            read -p "Enter IP address: " ip
-            echo ""
-            echo "Results for IP: $ip"
-            echo "=========================================================="
-            grep "$ip" /var/log/firewall/access.log | tail -30
-            echo ""
-            read -p "Press Enter to continue..."
-            ;;
-        3)
-            echo ""
-            echo "PORT 80 TRAFFIC:"
-            echo "=========================================================="
-            grep "\.80 " /var/log/firewall/access.log | tail -30
-            echo ""
-            read -p "Press Enter to continue..."
-            ;;
-        4)
-            echo ""
-            echo "PORT 8888 TRAFFIC:"
-            echo "=========================================================="
-            grep "\.8888 " /var/log/firewall/access.log | tail -30
-            echo ""
-            read -p "Press Enter to continue..."
-            ;;
-        5)
-            echo ""
-            echo "REAL-TIME MONITORING (Ctrl+C to stop)"
-            echo "=========================================================="
-            tail -f /var/log/firewall/access.log
-            ;;
-        6)
-            echo ""
-            echo "CURRENT NFTABLES RULESET:"
-            echo "=========================================================="
-            nft list ruleset
-            echo ""
-            read -p "Press Enter to continue..."
-            ;;
-        7)
-            read -p "Enter IP to ban permanently: " ip
-            if [[ $ip =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
-                nft add element inet filter permanent_ban { $ip }
-                echo "IP $ip has been banned permanently"
-            else
-                echo "Invalid IP address format"
-            fi
-            sleep 2
-            ;;
-        8)
-            read -p "Enter IP to unban: " ip
-            nft delete element inet filter permanent_ban { $ip } 2>/dev/null
-            if [ $? -eq 0 ]; then
-                echo "IP $ip has been unbanned"
-            else
-                echo "IP not found in ban list"
-            fi
-            sleep 2
-            ;;
-        9)
-            echo ""
-            echo "TRAFFIC SUMMARY:"
-            echo "=========================================================="
-            echo "Total packets logged: $(wc -l < /var/log/firewall/access.log)"
-            echo ""
-            echo "Top 5 source IPs:"
-            grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]+ >' /var/log/firewall/access.log | \
-                awk '{print $1}' | cut -d'.' -f1-4 | sort | uniq -c | sort -rn | head -5
-            echo ""
-            echo "Traffic by port:"
-            echo "  Port 80:   $(grep -c '\.80 ' /var/log/firewall/access.log) packets"
-            echo "  Port 8888: $(grep -c '\.8888 ' /var/log/firewall/access.log) packets"
-            echo ""
-            read -p "Press Enter to continue..."
-            ;;
-        0)
-            echo ""
-            echo "Goodbye!"
-            exit 0
-            ;;
-        *)
-            echo ""
-            echo "Invalid option!"
-            sleep 1
-            ;;
-    esac
-done
+show_stats() {
+    echo "═══════════════════════════════════════════"
+    echo "           FIREWALL STATISTICS"
+    echo "═══════════════════════════════════════════"
+    echo ""
+    
+    # Counter stats
+    echo "┌─────────────── COUNTERS ───────────────┐"
+    nft list counters inet filter 2>/dev/null | grep -E "counter|packets" | \
+        awk '/counter/{name=$2} /packets/{print "│ " name ": " $2 " packets"}'
+    echo "└─────────────────────────────────────────┘"
+    echo ""
+    
+    # Banned IPs
+    local banned_count=$(nft list set inet filter ddos_blacklist 2>/dev/null | grep -cE '([0-9]{1,3}\.){3}[0-9]{1,3}' || echo 0)
+    echo "┌─────────────── BANNED IPs ───────────────┐"
+    echo "│ Currently banned: $banned_count IPs"
+    if [ "$banned_count" -gt 0 ]; then
+        nft list set inet filter ddos_blacklist 2>/dev/null | grep -oE '([0-9]{1,3}\.){3}[0-9]{1,3}[^}]*' | \
+            while read line; do echo "│   - $line"; done
+    fi
+    echo "└───────────────────────────────────────────┘"
+    echo ""
+    
+    # Log stats
+    if [ -f "$LOG_FILE" ]; then
+        echo "┌─────────────── LOG STATS ───────────────┐"
+        echo "│ Total log entries: $(wc -l < "$LOG_FILE")"
+        echo "│ BANNED events: $(grep -c "BANNED" "$LOG_FILE" 2>/dev/null || echo 0)"
+        echo "│ RATE-LIMITED events: $(grep -c "RATE-LIMITED" "$LOG_FILE" 2>/dev/null || echo 0)"
+        echo "│ BLOCKED events: $(grep -c "BLOCKED" "$LOG_FILE" 2>/dev/null || echo 0)"
+        echo "└─────────────────────────────────────────┘"
+    fi
+}
+
+show_counters() {
+    echo "═══════════════════════════════════════════"
+    echo "          NFTABLES COUNTERS"
+    echo "═══════════════════════════════════════════"
+    nft list counters inet filter 2>/dev/null
+}
+
+show_lists() {
+    echo "═══════════════════════════════════════════"
+    echo "           BLACKLISTS & SETS"
+    echo "═══════════════════════════════════════════"
+    echo ""
+    echo ">>> DDoS Blacklist (auto-ban):"
+    nft list set inet filter ddos_blacklist 2>/dev/null
+    echo ""
+    echo ">>> Rate Limit Violations (tracking):"
+    nft list set inet filter rate_limit_violations 2>/dev/null
+    echo ""
+    echo ">>> Permanent Ban List:"
+    nft list set inet filter permanent_ban 2>/dev/null
+}
+
+case "${1:-}" in
+    -a|--all)
+        cat "$LOG_FILE" 2>/dev/null || echo "No logs found"
+        ;;
+    -b|--banned)
+        grep -E "BANNED|AUTO-BAN" "$LOG_FILE" 2>/dev/null || echo "No ban events found"
+        ;;
+    -r|--rate)
+        grep "RATE-LIMITED" "$LOG_FILE" 2>/dev/null || echo "No rate-limit events found"
+        ;;
+    -t|--tail)
+        n="${2:-50}"
+        tail -n "$n" "$LOG_FILE" 2>/dev/null || echo "No logs found"
+        ;;
+    -f|--follow)
+        tail -f "$LOG_FILE" 2>/dev/null || echo "No logs found"
+        ;;
+    -s|--stats)
+        show_stats
+        ;;
+    -p|--packets)
+        tail -n "${2:-100}" "$PACKET_LOG" 2>/dev/null || echo "No packet logs found"
+        ;;
+    -c|--counters)
+        show_counters
+        ;;
+    -l|--lists)
+        show_lists
+        ;;
+    -h|--help|"")
+        show_help
+        ;;
+    *)
+        echo "Unknown option: $1"
+        show_help
+        exit 1
+        ;;
+esac

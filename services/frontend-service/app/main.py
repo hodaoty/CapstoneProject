@@ -226,6 +226,31 @@ async def update_inventory_api(token, product_id, change_quantity):
         return False
 
 
+async def search_products_api(
+    q="", category="", brand="", min_price=0, max_price=999999999, page=1, page_size=20
+):
+    try:
+        params = {
+            "q": q,
+            "category": category,
+            "brand": brand,
+            "min_price": min_price,
+            "max_price": max_price,
+            "page": page,
+            "page_size": page_size,
+        }
+        async with httpx.AsyncClient() as client:
+            response = await client.get(
+                f"{API_BASE_URL}/api/products/search", params=params, timeout=10.0
+            )
+            if response.status_code == 200:
+                return response.json()
+            return None
+    except Exception as e:
+        print(f"Search Products Error: {e}")
+        return None
+
+
 # --- 2. GIAO DIỆN CHUNG (Header/Layout) ---
 def layout_header():
     """Thanh menu điều hướng dùng chung cho các trang"""
@@ -243,6 +268,9 @@ def layout_header():
         with ui.row().classes("items-center gap-4"):
             ui.link("Sản phẩm", "/products").classes(
                 "text-white no-underline hover:text-blue-300 font-medium cursor-pointer"
+            )
+            ui.link("Tìm kiếm", "/search").classes(
+                "text-white no-underline hover:text-green-300 font-medium cursor-pointer"
             )
 
             token = app.storage.user.get("token")
@@ -1047,6 +1075,272 @@ def profile_page():
                     ui.navigate.to("/"),
                 ),
             ).classes("bg-red-500 w-full")
+
+
+# --- TRANG TÌM KIẾM SẢN PHẨM ---
+@ui.page("/search")
+async def search_page():
+    layout_header()
+
+    state = {
+        "q": "",
+        "category": "",
+        "brand": "",
+        "min_price": 0,
+        "max_price": 999999999,
+        "page": 1,
+        "results": None,
+        "loading": False,
+    }
+
+    token = app.storage.user.get("token")
+    user_email = get_user_email(token) if token else None
+
+    async def do_search(reset_page=True):
+        if reset_page:
+            state["page"] = 1
+        state["loading"] = True
+        render_results.refresh()
+        result = await search_products_api(
+            q=state["q"],
+            category=state["category"],
+            brand=state["brand"],
+            min_price=state["min_price"],
+            max_price=state["max_price"],
+            page=state["page"],
+            page_size=20,
+        )
+        state["results"] = result
+        state["loading"] = False
+        render_results.refresh()
+
+    async def go_to_page(new_page):
+        state["page"] = new_page
+        await do_search(reset_page=False)
+
+    async def handle_buy(product):
+        if not token:
+            ui.notify("Vui lòng đăng nhập để mua hàng!", type="warning")
+            ui.navigate.to("/login")
+            return
+        success = await add_to_cart_api(token, user_email, product["id"], 1)
+        if success:
+            ui.notify(
+                f'Đã thêm "{product["name"]}" vào giỏ!',
+                type="positive",
+                position="bottom-right",
+            )
+        else:
+            ui.notify("Lỗi khi thêm vào giỏ hàng.", type="negative")
+
+    @ui.refreshable
+    def render_results():
+        if state["loading"]:
+            with ui.column().classes("w-full items-center p-16"):
+                ui.spinner("dots", size="xl").classes("text-green-600")
+                ui.label("Đang tìm kiếm...").classes("text-gray-500 mt-4 text-lg")
+            return
+
+        if state["results"] is None:
+            with ui.column().classes("w-full items-center p-16"):
+                ui.icon("search", size="80px").classes("text-gray-300 mb-4")
+                ui.label("Nhập từ khóa để tìm kiếm sản phẩm").classes(
+                    "text-xl text-gray-500"
+                )
+            return
+
+        results = state["results"]
+        total = results["total"]
+        items = results["items"]
+        page = results["page"]
+        total_pages = results["total_pages"]
+
+        ui.label(f"Tìm thấy {total} sản phẩm").classes(
+            "text-green-700 font-semibold mb-4 text-base"
+        )
+
+        if not items:
+            with ui.column().classes("w-full items-center p-16"):
+                ui.icon("search_off", size="80px").classes("text-gray-300 mb-4")
+                ui.label("Không tìm thấy sản phẩm nào").classes(
+                    "text-xl text-gray-500"
+                )
+                ui.label("Thử tìm với từ khóa hoặc bộ lọc khác").classes(
+                    "text-gray-400 mt-2"
+                )
+            return
+
+        # Lưới sản phẩm
+        with ui.element("div").classes(
+            "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full mb-6"
+        ):
+            for p in items:
+                with ui.card().classes(
+                    "flex flex-col hover:shadow-xl transition-shadow bg-white border border-gray-100"
+                ):
+                    with ui.column().classes("p-4 flex-grow"):
+                        cat = p.get("category") or "Khác"
+                        ui.label(cat).classes(
+                            "text-xs font-bold text-green-600 uppercase tracking-wider mb-1"
+                        )
+                        ui.label(p["name"]).classes(
+                            "text-base font-bold text-slate-900 leading-tight mb-2 line-clamp-2"
+                        )
+                        price = float(p["price"])
+                        ui.label(f"{price:,.0f}đ").classes(
+                            "text-lg font-bold text-red-500 mt-auto"
+                        )
+                    with ui.row().classes("w-full px-4 pb-4"):
+                        ui.button(
+                            "MUA",
+                            icon="add_shopping_cart",
+                            on_click=lambda p=p: handle_buy(p),
+                        ).classes(
+                            "w-full bg-green-600 text-white hover:bg-green-700 font-bold shadow-sm"
+                        )
+
+        # Phân trang
+        if total_pages > 1:
+            with ui.row().classes("w-full justify-center items-center gap-2 mt-2 flex-wrap"):
+                ui.button(
+                    "Trang trước",
+                    on_click=lambda pg=page: go_to_page(pg - 1),
+                ).classes(
+                    "border border-green-400 text-green-700 font-medium"
+                    if page > 1
+                    else "text-gray-300 border border-gray-200"
+                ).props("" if page > 1 else "disable")
+
+                start = max(1, page - 2)
+                end = min(total_pages, page + 2)
+                for p_num in range(start, end + 1):
+                    is_current = p_num == page
+                    ui.button(
+                        str(p_num),
+                        on_click=lambda pn=p_num: go_to_page(pn),
+                    ).classes(
+                        "bg-green-600 text-white font-bold min-w-10"
+                        if is_current
+                        else "border border-green-400 text-green-700 min-w-10"
+                    )
+
+                ui.button(
+                    "Trang sau",
+                    on_click=lambda pg=page: go_to_page(pg + 1),
+                ).classes(
+                    "border border-green-400 text-green-700 font-medium"
+                    if page < total_pages
+                    else "text-gray-300 border border-gray-200"
+                ).props("" if page < total_pages else "disable")
+
+    # ---- Layout chính ----
+    with ui.element("div").style("background:#f3f4f6; min-height:100vh; width:100%"):
+
+        # Thanh tìm kiếm — màu #0f172a (slate-900), giống hệt navbar "TECH STORE"
+        with ui.element("div").style(
+            "background:#0f172a; padding:16px 24px; display:flex; "
+            "align-items:center; gap:12px; box-shadow:0 2px 6px rgba(0,0,0,0.4)"
+        ):
+            ui.icon("search", size="28px").style("color:white; flex-shrink:0")
+            ui.label("TÌM KIẾM SẢN PHẨM").style(
+                "color:white; font-size:18px; font-weight:700; "
+                "margin-right:16px; white-space:nowrap"
+            )
+
+            def on_search_click():
+                state["q"] = search_input.value
+                asyncio.ensure_future(do_search())
+
+            search_input = (
+                ui.input(placeholder="Nhập tên sản phẩm cần tìm...")
+                .style("flex:1; background:white; border-radius:6px")
+                .props("outlined dense")
+            )
+            search_input.on("keydown.enter", lambda: on_search_click())
+            ui.button("TÌM KIẾM", icon="search", on_click=on_search_click).style(
+                "background:white; color:#0f172a; font-weight:700; "
+                "border-radius:6px; flex-shrink:0"
+            )
+
+        # Nội dung: sidebar trái cố định + kết quả phải co giãn
+        # Dùng plain div để flexbox hoạt động đúng, không bị Quasar override
+        with ui.element("div").style(
+            "display:flex; align-items:flex-start; gap:24px; "
+            "padding:24px; max-width:1200px; margin:0 auto"
+        ):
+
+            # Sidebar bộ lọc — plain div, width cố định, không kéo theo chiều cao
+            with ui.element("div").style(
+                "width:260px; flex-shrink:0; background:white; "
+                "border-radius:8px; padding:20px; "
+                "box-shadow:0 1px 4px rgba(0,0,0,0.1)"
+            ):
+                ui.label("BỘ LỌC").style(
+                    "font-weight:700; font-size:15px; color:#1e293b; "
+                    "border-bottom:1px solid #e2e8f0; padding-bottom:8px; "
+                    "margin-bottom:12px; display:block; width:100%"
+                )
+
+                ui.label("Danh mục").classes("font-semibold text-gray-700 mb-1 text-sm")
+                category_input = (
+                    ui.input(placeholder="VD: Laptop, Điện thoại...")
+                    .classes("w-full mb-3")
+                    .props("dense outlined")
+                )
+
+                ui.label("Thương hiệu").classes("font-semibold text-gray-700 mb-1 text-sm")
+                brand_input = (
+                    ui.input(placeholder="VD: Samsung, Apple...")
+                    .classes("w-full mb-3")
+                    .props("dense outlined")
+                )
+
+                ui.label("Khoảng giá (đ)").classes("font-semibold text-gray-700 mb-1 text-sm")
+                min_price_input = (
+                    ui.number("Giá từ", min=0, format="%.0f")
+                    .classes("w-full mb-2")
+                    .props("dense outlined")
+                )
+                max_price_input = (
+                    ui.number("Giá đến", min=0, format="%.0f")
+                    .classes("w-full mb-4")
+                    .props("dense outlined")
+                )
+
+                def apply_filters():
+                    state["category"] = category_input.value or ""
+                    state["brand"] = brand_input.value or ""
+                    state["min_price"] = (
+                        float(min_price_input.value) if min_price_input.value else 0
+                    )
+                    state["max_price"] = (
+                        float(max_price_input.value)
+                        if max_price_input.value
+                        else 999999999
+                    )
+                    asyncio.ensure_future(do_search())
+
+                def reset_filters():
+                    category_input.value = ""
+                    brand_input.value = ""
+                    min_price_input.value = None
+                    max_price_input.value = None
+                    state["category"] = ""
+                    state["brand"] = ""
+                    state["min_price"] = 0
+                    state["max_price"] = 999999999
+                    asyncio.ensure_future(do_search())
+
+                ui.button("ÁP DỤNG BỘ LỌC", on_click=apply_filters).classes(
+                    "w-full bg-green-600 text-white font-bold mb-2 shadow-sm"
+                )
+                ui.button("XÓA BỘ LỌC", on_click=reset_filters).props("flat").classes(
+                    "w-full text-gray-500"
+                )
+
+            # Khu vực kết quả — plain div, chiếm phần còn lại
+            with ui.element("div").style("flex:1; min-width:0"):
+                render_results()
 
 
 # KHỞI CHẠY
