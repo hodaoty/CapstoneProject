@@ -1,0 +1,59 @@
+[2026-03-06 08:54:34] [INFO] Firewall initializing...
+[2026-03-06 08:54:35] [INFO] nftables rules loaded
+[2026-03-06 08:54:35] [INFO] Monitor started (PID: 14)
+[2026-03-06 08:54:35] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-03-06 08:54:35] [INFO] Now tracking real IPs for normal traffic via conntrack
+[2026-03-06 08:55:53] [ACCEPT] ✓ 5 connection(s) ACCEPTED (IP unknown)
+[2026-03-06 09:00:08] [ACCEPT] ✓ 4 connection(s) ACCEPTED (IP unknown)
+[2026-03-06 09:03:02] [ACCEPT] ✓ 10 connection(s) ACCEPTED (IP unknown)
+[2026-03-06 09:03:04] [ACCEPT] ✓ 7 connection(s) ACCEPTED (IP unknown)
+[2026-03-06 09:03:05] [ACCEPT] ✓ 3 connection(s) ACCEPTED (IP unknown)
+[2026-03-06 09:03:09] [ACCEPT] ✓ 3 connection(s) ACCEPTED (IP unknown)
+[2026-03-06 09:05:09] [ACCEPT] ✓ 3 connection(s) ACCEPTED (IP unknown)
+[2026-03-06 09:07:36] [ACCEPT] ✓ 7 connection(s) ACCEPTED (IP unknown)
+[2026-03-06 09:09:16] [ACCEPT] ✓ 3 connection(s) ACCEPTED (IP unknown)
+[2026-03-06 09:12:20] [ACCEPT] ✓ 3 connection(s) ACCEPTED (IP unknown)
+[2026-03-06 09:19:33] [INFO] Firewall initializing...
+[2026-03-06 09:19:33] [INFO] nftables rules loaded
+[2026-03-06 09:19:33] [INFO] Monitor started (PID: 16)
+[2026-03-06 09:19:33] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-03-06 09:19:33] [INFO] Now tracking real IPs for normal traffic via conntrack
+[2026-03-06 09:20:16] [ACCEPT] ✓ 8 connection(s) ACCEPTED (IP unknown)
+[2026-03-06 09:20:19] [ACCEPT] ✓ 9 connection(s) ACCEPTED (IP unknown)
+[2026-03-06 09:20:20] [ACCEPT] ✓ 3 connection(s) ACCEPTED (IP unknown)
+[2026-03-06 09:20:24] [ACCEPT] ✓ 4 connection(s) ACCEPTED (IP unknown)
+[2026-03-07 23:18:11] [INFO] Firewall initializing...
+[2026-03-07 23:18:11] [INFO] nftables rules loaded
+[2026-03-07 23:18:11] [INFO] Monitor started (PID: 15)
+[2026-03-07 23:18:11] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-03-07 23:18:11] [INFO] Now tracking real IPs for normal traffic via conntrack
+[2026-03-07 23:18:49] [ACCEPT] ✓ 6 connection(s) ACCEPTED (IP unknown)
+[2026-03-07 23:38:58] [INFO] Firewall initializing...
+[2026-03-07 23:38:58] [INFO] nftables rules loaded
+[2026-03-07 23:38:58] [INFO] Monitor started (PID: 15)
+[2026-03-07 23:38:58] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-03-07 23:38:58] [INFO] Now tracking real IPs for normal traffic via conntrack
+[2026-03-07 23:39:26] [ACCEPT] ✓ 4 connection(s) ACCEPTED (IP unknown)
+[2026-03-07 23:56:22] [INFO] Firewall initializing...
+[2026-03-07 23:56:22] [INFO] nftables rules loaded
+[2026-03-07 23:56:22] [INFO] Monitor started (PID: 15)
+[2026-03-07 23:56:22] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-03-07 23:56:22] [INFO] Now tracking real IPs for normal traffic via conntrack
+[2026-03-07 23:56:51] [ACCEPT] ✓ 4 connection(s) ACCEPTED (IP unknown)
+[2026-03-07 23:57:21] [ACCEPT] ✓ 3 connection(s) ACCEPTED (IP unknown)
+[2026-03-08 00:00:52] [INFO] Firewall initializing...
+[2026-03-08 00:00:52] [INFO] nftables rules loaded
+[2026-03-08 00:00:52] [INFO] Monitor started (PID: 15)
+[2026-03-08 00:00:52] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-03-08 00:00:52] [INFO] Now tracking real IPs for normal traffic via conntrack
+[2026-03-08 00:01:28] [ACCEPT] ✓ 3 connection(s) ACCEPTED (IP unknown)
+[2026-03-08 00:01:29] [ACCEPT] ✓ 3 connection(s) ACCEPTED (IP unknown)
+[2026-03-08 00:03:56] [INFO] Firewall initializing...
+[2026-03-08 00:03:57] [INFO] nftables rules loaded
+[2026-03-08 00:03:57] [INFO] Monitor started (PID: 15)
+[2026-03-08 00:03:57] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-03-08 00:03:57] [INFO] Now tracking real IPs for normal traffic via conntrack
+[2026-03-08 00:04:21] [ACCEPT] ✓ 3 connection(s) ACCEPTED (IP unknown)
+[2026-03-08 00:04:24] [ACCEPT] ✓ 3 connection(s) ACCEPTED (IP unknown)
+[2026-03-08 00:05:15] [ACCEPT] ✓ 3 connection(s) ACCEPTED (IP unknown)
+[2026-03-08 00:07:25] [ACCEPT] ✓ 3 connection(s) ACCEPTED (IP unknown)
