@@ -57,3 +57,84 @@
 [2026-03-08 00:04:24] [ACCEPT] ✓ 3 connection(s) ACCEPTED (IP unknown)
 [2026-03-08 00:05:15] [ACCEPT] ✓ 3 connection(s) ACCEPTED (IP unknown)
 [2026-03-08 00:07:25] [ACCEPT] ✓ 3 connection(s) ACCEPTED (IP unknown)
+[2026-03-08 09:02:50] [INFO] Firewall initializing...
+[2026-03-08 09:02:51] [INFO] nftables rules loaded
+[2026-03-08 09:02:51] [INFO] Monitor started (PID: 14)
+[2026-03-08 09:02:51] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-03-08 09:02:51] [INFO] Now tracking real IPs for normal traffic via conntrack
+[2026-03-08 09:07:28] [INFO] Firewall initializing...
+[2026-03-08 09:07:28] [INFO] nftables rules loaded
+[2026-03-08 09:07:28] [INFO] Monitor started (PID: 15)
+[2026-03-08 09:07:28] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-03-08 09:07:28] [INFO] Now tracking real IPs for normal traffic via conntrack
+[2026-03-08 09:19:31] [ACCEPT] ✓ 20 connection(s) ACCEPTED (IP unknown)
+[2026-03-08 09:19:31] [RATE-LIMITED] IP 172.20.0.30 exceeded rate limit
+[2026-03-08 09:19:31] [RATE-LIMITED]  IP 172.20.0.30 - 1 packet(s) DROPPED
+[2026-03-08 09:19:32] [BANNED]  IP 172.20.0.30 AUTO-BANNED for 1 HOUR
+[2026-03-08 09:19:33] [BLOCKED]  IP 172.20.0.30 - 6 packet(s) BLOCKED
+[2026-03-08 09:19:34] [BLOCKED]  IP 172.20.0.30 - 4 packet(s) BLOCKED
+[2026-03-08 09:19:35] [BLOCKED]  IP 172.20.0.30 - 5 packet(s) BLOCKED
+[2026-03-08 09:19:36] [BLOCKED]  IP 172.20.0.30 - 3 packet(s) BLOCKED
+[2026-03-08 09:19:37] [BLOCKED]  IP 172.20.0.30 - 1 packet(s) BLOCKED
+[2026-03-08 09:19:38] [BLOCKED]  IP 172.20.0.30 - 3 packet(s) BLOCKED
+[2026-03-08 09:19:40] [BLOCKED]  IP 172.20.0.30 - 4 packet(s) BLOCKED
+[2026-03-08 09:19:41] [BLOCKED]  IP 172.20.0.30 - 2 packet(s) BLOCKED
+[2026-03-08 09:19:42] [BLOCKED]  IP 172.20.0.30 - 2 packet(s) BLOCKED
+[2026-03-08 09:19:43] [BLOCKED]  IP 172.20.0.30 - 2 packet(s) BLOCKED
+[2026-03-08 09:19:44] [BLOCKED]  IP 172.20.0.30 - 1 packet(s) BLOCKED
+[2026-03-08 09:19:46] [BLOCKED]  IP 172.20.0.30 - 3 packet(s) BLOCKED
+[2026-03-08 09:19:47] [BLOCKED]  IP 172.20.0.30 - 2 packet(s) BLOCKED
+[2026-03-08 09:19:49] [BLOCKED]  IP 172.20.0.30 - 1 packet(s) BLOCKED
+[2026-03-08 09:19:50] [BLOCKED]  IP 172.20.0.30 - 2 packet(s) BLOCKED
+[2026-03-08 09:19:58] [BLOCKED]  IP 172.20.0.30 - 3 packet(s) BLOCKED
+[2026-03-08 09:19:59] [BLOCKED]  IP 172.20.0.30 - 11 packet(s) BLOCKED
+[2026-03-08 09:20:00] [BLOCKED]  IP 172.20.0.30 - 6 packet(s) BLOCKED
+[2026-03-08 09:20:01] [BLOCKED]  IP 172.20.0.30 - 1 packet(s) BLOCKED
+[2026-03-08 09:20:01] [INFO] ✓ IP 172.20.0.30 violation expired
+[2026-03-08 09:20:02] [BLOCKED]  IP 172.20.0.30 - 4 packet(s) BLOCKED
+[2026-03-08 09:20:03] [BLOCKED]  IP 172.20.0.30 - 1 packet(s) BLOCKED
+[2026-03-08 09:20:05] [BLOCKED]  IP 172.20.0.30 - 3 packet(s) BLOCKED
+[2026-03-08 09:20:12] [BLOCKED]  IP 172.20.0.30 - 2 packet(s) BLOCKED
+[2026-03-08 09:20:13] [BLOCKED]  IP 172.20.0.30 - 1 packet(s) BLOCKED
+[2026-03-08 09:20:14] [BLOCKED]  IP 172.20.0.30 - 2 packet(s) BLOCKED
+[2026-03-08 09:20:22] [BLOCKED]  IP 172.20.0.30 - 1 packet(s) BLOCKED
+[2026-03-08 09:20:26] [BLOCKED]  IP 172.20.0.30 - 3 packet(s) BLOCKED
+[2026-03-08 09:20:28] [BLOCKED]  IP 172.20.0.30 - 1 packet(s) BLOCKED
+[2026-03-08 09:20:30] [BLOCKED]  IP 172.20.0.30 - 2 packet(s) BLOCKED
+[2026-03-08 09:20:37] [BLOCKED]  IP 172.20.0.30 - 1 packet(s) BLOCKED
+[2026-03-08 09:20:47] [BLOCKED]  IP 172.20.0.30 - 1 packet(s) BLOCKED
+[2026-03-08 09:20:48] [BLOCKED]  IP 172.20.0.30 - 1 packet(s) BLOCKED
+[2026-03-08 09:20:49] [BLOCKED]  IP 172.20.0.30 - 1 packet(s) BLOCKED
+[2026-03-08 09:20:52] [BLOCKED]  IP 172.20.0.30 - 2 packet(s) BLOCKED
+[2026-03-08 09:20:53] [BLOCKED]  IP 172.20.0.30 - 1 packet(s) BLOCKED
+[2026-03-08 09:20:55] [BLOCKED]  IP 172.20.0.30 - 1 packet(s) BLOCKED
+[2026-03-08 09:21:02] [BLOCKED]  IP 172.20.0.30 - 1 packet(s) BLOCKED
+[2026-03-08 09:21:18] [BLOCKED]  IP 172.20.0.30 - 1 packet(s) BLOCKED
+[2026-03-08 09:21:52] [BLOCKED]  IP 172.20.0.30 - 1 packet(s) BLOCKED
+[2026-03-08 09:21:54] [BLOCKED]  IP 172.20.0.30 - 2 packet(s) BLOCKED
+[2026-03-08 09:21:55] [BLOCKED]  IP 172.20.0.30 - 2 packet(s) BLOCKED
+[2026-03-08 09:21:56] [BLOCKED]  IP 172.20.0.30 - 1 packet(s) BLOCKED
+[2026-03-08 09:21:57] [BLOCKED]  IP 172.20.0.30 - 1 packet(s) BLOCKED
+[2026-03-08 09:21:59] [BLOCKED]  IP 172.20.0.30 - 2 packet(s) BLOCKED
+[2026-03-08 09:22:03] [BLOCKED]  IP 172.20.0.30 - 2 packet(s) BLOCKED
+[2026-03-08 09:22:12] [BLOCKED]  IP 172.20.0.30 - 2 packet(s) BLOCKED
+[2026-03-08 09:22:28] [BLOCKED]  IP 172.20.0.30 - 2 packet(s) BLOCKED
+[2026-03-08 09:23:02] [BLOCKED]  IP 172.20.0.30 - 1 packet(s) BLOCKED
+[2026-03-08 09:23:03] [BLOCKED]  IP 172.20.0.30 - 1 packet(s) BLOCKED
+[2026-03-08 09:23:05] [BLOCKED]  IP 172.20.0.30 - 1 packet(s) BLOCKED
+[2026-03-08 09:23:08] [BLOCKED]  IP 172.20.0.30 - 1 packet(s) BLOCKED
+[2026-03-08 09:23:17] [BLOCKED]  IP 172.20.0.30 - 1 packet(s) BLOCKED
+[2026-03-08 09:23:22] [INFO] ✓ IP 172.20.0.30 UNBANNED
+[2026-03-08 09:23:33] [ACCEPT] ✓ 7 connection(s) ACCEPTED (IP unknown)
+[2026-03-08 09:25:01] [INFO] Firewall initializing...
+[2026-03-08 09:25:01] [INFO] nftables rules loaded
+[2026-03-08 09:25:01] [INFO] Monitor started (PID: 15)
+[2026-03-08 09:25:01] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-03-08 09:25:01] [INFO] Now tracking real IPs for normal traffic via conntrack
+[2026-03-08 09:25:21] [ACCEPT] ✓ 4 connection(s) ACCEPTED (IP unknown)
+[2026-03-08 09:25:44] [ACCEPT] ✓ 3 connection(s) ACCEPTED (IP unknown)
+[2026-03-08 09:25:55] [ACCEPT] ✓ 3 connection(s) ACCEPTED (IP unknown)
+[2026-03-08 09:25:58] [ACCEPT] ✓ 10 connection(s) ACCEPTED (IP unknown)
+[2026-03-08 09:26:00] [ACCEPT] ✓ 11 connection(s) ACCEPTED (IP unknown)
+[2026-03-08 09:26:47] [ACCEPT] ✓ 4 connection(s) ACCEPTED (IP unknown)
+[2026-03-08 09:26:56] [ACCEPT] ✓ 3 connection(s) ACCEPTED (IP unknown)
