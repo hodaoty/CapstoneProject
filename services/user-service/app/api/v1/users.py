@@ -4,7 +4,7 @@ from typing import List
 from app.db.database import get_db
 from app.models import user as schemas
 from app.services import user_services as crud
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 
 router = APIRouter()
@@ -19,7 +19,13 @@ def create_user_endpoint(user: schemas.UserCreate, db: Session = Depends(get_db)
 
 
 @router.get("/users/", response_model=List[schemas.UserRead])
-def read_users_endpoint(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+def read_users_endpoint(request: Request, skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    user_role = request.headers.get("X-User-Role", "GUEST")
+    if user_role != "ADMIN":
+        raise HTTPException(
+            status_code=403,
+            detail="Forbidden: You do not have permission to access this resource",
+        )
     users = crud.get_users(db, skip=skip, limit=limit)
     return users
 
@@ -54,7 +60,13 @@ def update_user_endpoint(
 
 
 @router.delete("/users/{user_id}", response_model=schemas.UserRead)
-def delete_user_endpoint(user_id: int, db: Session = Depends(get_db)):
+def delete_user_endpoint(request: Request, user_id: int, db: Session = Depends(get_db)):
+    user_role = request.headers.get("X-User-Role", "GUEST")
+    if user_role != "ADMIN":
+        raise HTTPException(
+            status_code=403,
+            detail="Forbidden: You do not have permission to access this resource",
+        )
     db_user = crud.delete_user(db, user_id=user_id)
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
