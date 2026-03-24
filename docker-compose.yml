@@ -329,6 +329,8 @@ services:
       - ./infra/logstash/pipeline:/usr/share/logstash/pipeline
       - ./logs_data/api-gateway/:/var/log/nginx
       #- ./logs_data/nftables-logs/:/var/log/firewall
+      #Mount folder chua .sincedb ra o cung ben ngoai 
+      - logstash_data:/usr/share/logstash/data
     ports:
       - "5000:5000" #input
       - "9600:9600" #monitoring
@@ -357,7 +359,8 @@ volumes:
   mysql_data:
   redis_data:
   es_data:
-
+  logstash_data:
+  
 networks:
   ecommerce-net:
     driver: bridge
