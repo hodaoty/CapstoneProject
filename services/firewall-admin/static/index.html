@@ -357,6 +357,23 @@
     .b-CmdInjection  { background: rgba(248,81,73,0.2);   color: #f85149; }
     .b-Obfuscation   { background: rgba(63,185,80,0.2);   color: #3fb950; }
 
+    /* ── TCP flag badges ─────────────────────────────────────────────── */
+    .flag-badge {
+      display: inline-block;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 0.67rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-right: 3px;
+    }
+    .flag-SYN { background: rgba(88,166,255,0.2);  color: #58a6ff; }
+    .flag-ACK { background: rgba(63,185,80,0.2);   color: #3fb950; }
+    .flag-FIN { background: rgba(210,153,34,0.2);  color: #d29922; }
+    .flag-RST { background: rgba(248,81,73,0.2);   color: #f85149; }
+    .flag-PSH { background: rgba(188,140,255,0.2); color: #bc8cff; }
+
     /* ── Log viewer ──────────────────────────────────────────────────── */
     .log-viewer {
       background: #090d12;
@@ -634,22 +651,48 @@
             <span class="rdot" id="fl-rdot"></span>
             <span id="fl-rlabel">Manual</span>
           </span>
+          <input type="date" class="ctrl-input" id="fl-date" style="width:150px;">
           <select class="ctrl-select" id="fl-autorefresh">
             <option value="0">Auto-refresh: Off</option>
             <option value="5">Every 5 s</option>
             <option value="10" selected>Every 10 s</option>
             <option value="30">Every 30 s</option>
           </select>
-          <input class="ctrl-input" type="text" id="fl-search" placeholder="Filter…" style="width:180px;">
+          <input class="ctrl-input" type="text" id="fl-search" placeholder="Filter IP/port/proto/flag…" style="width:200px;">
           <button class="btn btn-ghost btn-sm" id="fl-refresh">↻ Refresh</button>
         </div>
       </div>
 
-      <div class="page-body" style="padding-bottom:0;">
+      <div class="page-body" style="overflow:auto;">
         <div id="fl-error" class="error-banner hidden"></div>
-        <div class="log-viewer" id="fl-viewer">
-          <div style="text-align:center;padding:40px;"><span class="spinner"></span></div>
+
+        <!-- Summary row -->
+        <div id="fl-summary" style="display:flex;gap:18px;margin-bottom:14px;font-size:0.82rem;color:var(--text-dim);flex-wrap:wrap;">
+          <span>Total: <strong id="fl-total">—</strong></span>
+          <span>Unique SRC: <strong id="fl-usrc">—</strong></span>
+          <span>Unique DST: <strong id="fl-udst">—</strong></span>
         </div>
+
+        <!-- Structured table -->
+        <div style="overflow-x:auto;">
+          <table class="data-table" id="fl-table" style="font-size:0.8rem;">
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Source IP</th>
+                <th>Destination IP</th>
+                <th>Protocol</th>
+                <th>SPT</th>
+                <th>DPT</th>
+                <th>Flags</th>
+              </tr>
+            </thead>
+            <tbody id="fl-tbody">
+              <tr><td colspan="7" style="text-align:center;padding:36px;"><span class="spinner"></span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="fl-count" style="font-size:0.72rem;color:var(--text-dim);margin-top:8px;"></div>
       </div>
     </div><!-- /page-firewall-logs -->
 
@@ -964,44 +1007,74 @@ document.getElementById('al-autorefresh').addEventListener('change', e => {
 // FIREWALL LOGS
 // ════════════════════════════════════════════════════════════════════════════
 
-let flData = [];
-let flTimer = null;
-let flAutoSec = 10;
+let flEntries = [];   // raw parsed entries from API
+let flTimer    = null;
+let flAutoSec  = 10;
 let flCountdown = 0;
 
-function logClass(line) {
-  if (/\[BANNED\]|BANNED/.test(line))           return 'll-BANNED';
-  if (/\[BLOCKED\]|BLOCKED/.test(line))         return 'll-BLOCKED';
-  if (/\[RATE-LIMITED\]|RATE-LIMITED/.test(line))return 'll-RATE-LIMITED';
-  if (/\[ACCEPT\]|ACCEPTED/.test(line))          return 'll-ACCEPT';
-  if (/\[INFO\]/.test(line))                     return 'll-INFO';
-  return 'll-default';
+// Initialise date picker to today
+(function() {
+  const today = new Date().toISOString().slice(0, 10);
+  document.getElementById('fl-date').value = today;
+})();
+
+function _flagBadge(f) {
+  return `<span class="flag-badge flag-${f}">${esc(f)}</span>`;
 }
 
 function renderFL() {
-  const viewer = document.getElementById('fl-viewer');
   const search = document.getElementById('fl-search').value.toLowerCase();
-  const rows   = search ? flData.filter(l => l.toLowerCase().includes(search)) : flData;
+  const tbody  = document.getElementById('fl-tbody');
+
+  let rows = flEntries;
+  if (search) {
+    rows = flEntries.filter(e => {
+      const proto = (e.proto || '').toLowerCase();
+      const src   = (e.src   || '').toLowerCase();
+      const dst   = (e.dst   || '').toLowerCase();
+      const flags = (e.flags || []).join(' ').toLowerCase();
+      const spt   = String(e.spt ?? '');
+      const dpt   = String(e.dpt ?? '');
+      return src.includes(search) || dst.includes(search) ||
+             proto.includes(search) || spt.includes(search) ||
+             dpt.includes(search)   || flags.includes(search);
+    });
+  }
+
+  // Summary
+  document.getElementById('fl-total').textContent = rows.length;
+  document.getElementById('fl-usrc').textContent  = new Set(rows.map(e => e.src)).size;
+  document.getElementById('fl-udst').textContent  = new Set(rows.map(e => e.dst)).size;
+  document.getElementById('fl-count').textContent = `Showing ${rows.length} of ${flEntries.length} entries`;
 
   if (!rows.length) {
-    viewer.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-dim);">No logs found</div>';
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:36px;color:var(--text-dim);">No entries found</td></tr>';
     return;
   }
-  viewer.innerHTML = rows.map(line =>
-    `<div class="log-line ${logClass(line)}">${esc(line)}</div>`
-  ).join('');
+
+  tbody.innerHTML = rows.map(e => `
+    <tr>
+      <td style="white-space:nowrap;">${esc(e.timestamp)}</td>
+      <td>${esc(e.src)}</td>
+      <td>${esc(e.dst)}</td>
+      <td>${esc(e.proto)}</td>
+      <td>${e.spt != null ? e.spt : '<span style="color:var(--text-dim)">—</span>'}</td>
+      <td>${e.dpt != null ? e.dpt : '<span style="color:var(--text-dim)">—</span>'}</td>
+      <td>${(e.flags || []).map(_flagBadge).join('')}</td>
+    </tr>`).join('');
 }
 
 async function loadFL() {
   hideErr('fl-error');
+  const date = document.getElementById('fl-date').value;
   try {
-    const r = await api('/api/firewall-logs?limit=2000');
+    const r = await fetch(`/api/firewall-logs/daily?date=${encodeURIComponent(date)}`);
     if (!r.ok) { showErr('fl-error', `HTTP ${r.status}`); return; }
     const d = await r.json();
-    flData = d.logs;
+    flEntries = d.entries || [];
     renderFL();
   } catch(err) {
-    if (err.message !== 'session-expired') showErr('fl-error', 'Failed: ' + err.message);
+    showErr('fl-error', 'Failed: ' + err.message);
   }
 }
 
@@ -1036,6 +1109,7 @@ document.getElementById('fl-refresh').addEventListener('click', () => {
   }
   loadFL();
 });
+document.getElementById('fl-date').addEventListener('change', loadFL);
 document.getElementById('fl-search').addEventListener('input', renderFL);
 document.getElementById('fl-autorefresh').addEventListener('change', e => {
   startFLAutoRefresh(+e.target.value);

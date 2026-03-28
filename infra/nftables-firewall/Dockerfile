@@ -8,7 +8,9 @@ RUN apk add --no-cache \
     coreutils \
     dos2unix \
     grep \
-    gawk
+    gawk \
+    python3 \
+    cronie
 
 # Create log directory
 RUN mkdir -p /var/log/firewall
@@ -24,15 +26,20 @@ COPY init-firewall.sh /init-firewall.sh
 COPY firewall-monitor.sh /firewall-monitor.sh
 COPY query-logs.sh /usr/local/bin/query-logs
 
+# Copy log-rotation and new entrypoint scripts
+COPY scripts/ /scripts/
+
 # Fix line endings (for Windows compatibility)
-RUN dos2unix /init-firewall.sh /firewall-monitor.sh /usr/local/bin/query-logs /etc/nftables.conf 2>/dev/null || true
+RUN dos2unix /init-firewall.sh /firewall-monitor.sh /usr/local/bin/query-logs \
+             /etc/nftables.conf /scripts/entrypoint.sh 2>/dev/null || true
 
 # Make scripts executable
-RUN chmod +x /init-firewall.sh /firewall-monitor.sh /usr/local/bin/query-logs
+RUN chmod +x /init-firewall.sh /firewall-monitor.sh /usr/local/bin/query-logs \
+             /scripts/entrypoint.sh
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD nft list tables > /dev/null 2>&1 || exit 1
 
-# Start firewall
-CMD ["/init-firewall.sh"]
+# Start firewall (entrypoint merges original init logic + log rotation + crond)
+CMD ["/scripts/entrypoint.sh"]

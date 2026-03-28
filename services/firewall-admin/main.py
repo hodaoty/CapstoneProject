@@ -5,11 +5,16 @@ import re
 import json
 import secrets
 import ipaddress
+import smtplib
+from datetime import datetime, timezone
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 from pathlib import Path
 from typing import Optional
 
 import http.client
 import socket
+import urllib.request
 from fastapi import FastAPI, Request, HTTPException, Form
 from fastapi.responses import JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -18,6 +23,10 @@ from fastapi.staticfiles import StaticFiles
 
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin123")
+
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
+TELEGRAM_CHAT_ID   = os.getenv("TELEGRAM_CHAT_ID", "")
+FIREWALL_ADMIN_URL = os.getenv("FIREWALL_ADMIN_URL", "http://localhost:9000")
 
 ACCESS_LOG   = Path("/app/logs/access_json.log")
 FIREWALL_LOG = Path("/app/logs/firewall/firewall.log")
@@ -124,6 +133,215 @@ def nft_exec(cmd: list[str]) -> tuple[str, str, int]:
         return "", "Docker daemon not reachable", 1
     except Exception as e:
         return "", f"Docker API error: {e}", 1
+
+# ─── Email notification ────────────────────────────────────────────────────────
+
+NOTIFY_TO = "duyenptmse184526@fpt.edu.vn"
+
+
+def build_email_html(
+    action: str,
+    ip: str,
+    reason: str,
+    ts: str,
+    attack_type: str   = "",
+    score: float       = 0.0,
+    endpoint: str      = "",
+    method: str        = "",
+    status_code: str   = "",
+    request_count: int = 0,
+    trend: str         = "",
+) -> str:
+    color = "#c0392b" if action == "BLOCKED" else "#27ae60"
+    label = "CANH BAO TAN CONG - IP DA BI CHAN" if action == "BLOCKED" else "THONG BAO - IP DA DUOC MO CHAN"
+
+    attack_section = ""
+    if attack_type:
+        score_bar  = int(min(score, 100))
+        trend_text = trend if trend else "Chua xac dinh"
+        attack_section = f"""
+        <tr><td colspan="2" style="padding:12px 16px 4px;font-weight:bold;color:#555;
+            border-top:1px solid #eee;">THONG TIN TAN CONG</td></tr>
+        <tr>
+          <td style="padding:4px 16px;color:#888;width:40%">Loai tan cong</td>
+          <td style="padding:4px 16px;font-weight:bold;color:{color}">{attack_type}</td>
+        </tr>
+        <tr>
+          <td style="padding:4px 16px;color:#888">Do tin cay (LightGBM)</td>
+          <td style="padding:4px 16px">
+            <div style="background:#eee;border-radius:4px;height:10px;width:200px">
+              <div style="background:{color};width:{score_bar}%;height:10px;border-radius:4px"></div>
+            </div>
+            <span style="font-size:12px;color:#555">{score:.1f}%</span>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:4px 16px;color:#888">Endpoint bi tan cong</td>
+          <td style="padding:4px 16px;font-family:monospace">{method} {endpoint}</td>
+        </tr>
+        <tr>
+          <td style="padding:4px 16px;color:#888">Ma phan hoi</td>
+          <td style="padding:4px 16px">{status_code if status_code else "N/A"}</td>
+        </tr>
+        <tr>
+          <td style="padding:4px 16px;color:#888">So request phat hien</td>
+          <td style="padding:4px 16px">{request_count if request_count else "N/A"}</td>
+        </tr>
+        <tr>
+          <td style="padding:4px 16px 12px;color:#888">Xu huong tan cong</td>
+          <td style="padding:4px 16px 12px">{trend_text}</td>
+        </tr>
+        """
+
+    return f"""<!DOCTYPE html>
+<html><head><meta charset="utf-8"></head>
+<body style="margin:0;padding:0;background:#f4f4f4;font-family:Arial,sans-serif">
+  <table width="100%" cellpadding="0" cellspacing="0">
+    <tr><td align="center" style="padding:30px 0">
+      <table width="600" cellpadding="0" cellspacing="0"
+             style="background:#fff;border-radius:8px;overflow:hidden;
+                    box-shadow:0 2px 8px rgba(0,0,0,.1)">
+        <tr><td style="background:{color};padding:20px 24px">
+          <p style="margin:0;color:#fff;font-size:11px;text-transform:uppercase;
+                    letter-spacing:1px">He thong phat hien tan cong API</p>
+          <h1 style="margin:4px 0 0;color:#fff;font-size:20px">{label}</h1>
+        </td></tr>
+        <tr><td>
+          <table width="100%" cellpadding="0" cellspacing="0">
+            <tr><td colspan="2" style="padding:16px 16px 4px;font-weight:bold;
+                color:#555">THONG TIN CO BAN</td></tr>
+            <tr style="background:#fafafa">
+              <td style="padding:8px 16px;color:#888;width:40%">Dia chi IP</td>
+              <td style="padding:8px 16px;font-weight:bold;
+                  font-size:18px;color:{color}">{ip}</td>
+            </tr>
+            <tr>
+              <td style="padding:8px 16px;color:#888">Hanh dong</td>
+              <td style="padding:8px 16px">
+                <span style="background:{color};color:#fff;padding:2px 10px;
+                      border-radius:12px;font-size:13px">{action}</span>
+              </td>
+            </tr>
+            <tr style="background:#fafafa">
+              <td style="padding:8px 16px;color:#888">Ly do</td>
+              <td style="padding:8px 16px">{reason}</td>
+            </tr>
+            <tr>
+              <td style="padding:8px 16px;color:#888">Thoi gian (UTC)</td>
+              <td style="padding:8px 16px">{ts}</td>
+            </tr>
+            {attack_section}
+            <tr><td colspan="2" style="padding:16px;background:#f9f9f9;
+                border-top:1px solid #eee">
+              <p style="margin:0;font-size:12px;color:#aaa">
+                Email nay duoc gui tu Firewall Admin Dashboard.<br>
+                Kiem tra chi tiet tai: <a href="{FIREWALL_ADMIN_URL}"
+                style="color:{color}">{FIREWALL_ADMIN_URL}</a>
+              </p>
+            </td></tr>
+          </table>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body></html>"""
+
+_REQUIRED_SMTP_VARS = ("SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASSWORD")
+
+
+def _smtp_config() -> tuple[str, int, str, str]:
+    """Read SMTP credentials from environment. Raises ValueError if any are missing."""
+    missing = [v for v in _REQUIRED_SMTP_VARS if not os.getenv(v)]
+    if missing:
+        raise ValueError(
+            f"Missing required environment variable(s): {', '.join(missing)}. "
+            "Set them before starting the service."
+        )
+    return (
+        os.getenv("SMTP_HOST"),
+        int(os.getenv("SMTP_PORT")),
+        os.getenv("SMTP_USER"),
+        os.getenv("SMTP_PASSWORD"),
+    )
+
+
+def send_firewall_email(subject: str, body: str) -> None:
+    """Send an HTML email via Gmail SMTP with STARTTLS.
+
+    Credentials are read exclusively from environment variables.
+    If SMTP vars are not set the function logs a warning and returns
+    without raising so the API response is never blocked by email failure.
+    """
+    try:
+        host, port, user, password = _smtp_config()
+    except ValueError as exc:
+        print(f"[EMAIL] WARN: {exc}")
+        return
+
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = subject
+    msg["From"]    = user
+    msg["To"]      = NOTIFY_TO
+    msg.attach(MIMEText(body, "html", "utf-8"))
+
+    try:
+        with smtplib.SMTP(host, port, timeout=10) as smtp:
+            smtp.ehlo()
+            smtp.starttls()
+            smtp.ehlo()
+            smtp.login(user, password)
+            smtp.sendmail(user, [NOTIFY_TO], msg.as_string())
+        print(f"[EMAIL] Sent: {subject}")
+    except Exception as exc:
+        print(f"[EMAIL] ERROR sending '{subject}': {exc}")
+
+
+def send_telegram_message(text: str, ip_to_block: str | None = None) -> None:
+    """Send a message to Telegram via Bot API.
+
+    If ip_to_block is provided, attaches an inline keyboard with two buttons:
+      - "Block IP ngay"  → callback_data for the webhook to handle
+      - "Bo qua / Xem chi tiet" → opens the dashboard URL
+    Uses urllib stdlib only — no external dependencies required.
+    """
+    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+        print("[TELEGRAM] WARN: TELEGRAM_BOT_TOKEN hoac TELEGRAM_CHAT_ID chua duoc set.")
+        return
+
+    payload: dict = {
+        "chat_id":    TELEGRAM_CHAT_ID,
+        "text":       text,
+        "parse_mode": "HTML",
+    }
+
+    if ip_to_block:
+        review_url = f"{FIREWALL_ADMIN_URL}/"
+        payload["reply_markup"] = {
+            "inline_keyboard": [[
+                {
+                    "text":          "🚫 Block IP ngay",
+                    "callback_data": f"block:{ip_to_block}",
+                },
+                {
+                    "text": "👁 Bo qua / Xem chi tiet",
+                    "url":  review_url,
+                },
+            ]]
+        }
+
+    data = json.dumps(payload).encode("utf-8")
+    req  = urllib.request.Request(
+        f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
+        data    = data,
+        headers = {"Content-Type": "application/json"},
+        method  = "POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            print(f"[TELEGRAM] Sent OK (status {resp.status})")
+    except Exception as exc:
+        print(f"[TELEGRAM] ERROR: {exc}")
+
 
 # ─── Suspicious pattern detection ─────────────────────────────────────────────
 
@@ -286,7 +504,35 @@ async def block_ip(request: Request):
     )
     if rc != 0 and stderr:
         raise HTTPException(500, stderr.strip())
-    return {"ok": True, "message": f"{ip} added to permanent_ban"}
+
+    ts     = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+    reason = body.get("reason", "").strip() or "No reason provided"
+    html_body = build_email_html(
+        action        = "BLOCKED",
+        ip            = ip,
+        reason        = reason,
+        ts            = ts,
+        attack_type   = body.get("attack_type", ""),
+        score         = float(body.get("score", 0)),
+        endpoint      = body.get("endpoint", ""),
+        method        = body.get("method", ""),
+        status_code   = str(body.get("status_code", "")),
+        request_count = int(body.get("request_count", 0)),
+        trend         = body.get("trend", ""),
+    )
+    send_firewall_email(f"[FIREWALL] IP {ip} da bi BLOCK", html_body)
+    tg_text = (
+        f"<b>\u26a0\ufe0f CANH BAO: IP bi BLOCK</b>\n\n"
+        f"IP: <code>{ip}</code>\n"
+        f"Ly do: {reason}\n"
+        + (f"Loai tan cong: <b>{body.get('attack_type')}</b>\n" if body.get("attack_type") else "")
+        + (f"Do tin cay: {float(body.get('score', 0)):.1f}%\n" if body.get("score") else "")
+        + (f"Endpoint: <code>{body.get('method', '')} {body.get('endpoint', '')}</code>\n" if body.get("endpoint") else "")
+        + (f"Xu huong: {body.get('trend')}\n" if body.get("trend") else "")
+        + f"Thoi gian: {ts}"
+    )
+    send_telegram_message(tg_text, ip_to_block=ip)
+    return {"ok": True, "message": f"{ip} added to permanent_ban", "timestamp": ts}
 
 
 @app.post("/api/unblock")
@@ -308,7 +554,219 @@ async def unblock_ip(request: Request):
     )
     if rc1 != 0 and rc2 != 0:
         raise HTTPException(500, f"{ip} not found in any blacklist")
-    return {"ok": True, "message": f"{ip} removed from blacklist"}
+
+    ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+    html_body = build_email_html(action="UNBLOCKED", ip=ip, reason="Admin unblock", ts=ts)
+    send_firewall_email(f"[FIREWALL] IP {ip} da duoc UNBLOCK", html_body)
+    send_telegram_message(
+        f"<b>\u2705 IP da duoc MO CHAN</b>\n\nIP: <code>{ip}</code>\nThoi gian: {ts}",
+        ip_to_block=None,
+    )
+    return {"ok": True, "message": f"{ip} removed from blacklist", "timestamp": ts}
+
+# ─── Public v1 endpoints (no authentication) ──────────────────────────────────
+
+@app.post("/api/v1/block")
+async def v1_block_ip(request: Request):
+    try:
+        body = await request.json()
+    except Exception:
+        return JSONResponse({"ok": False, "error": "Invalid JSON body"}, status_code=400)
+    ip = body.get("ip", "").strip()
+    try:
+        ipaddress.ip_address(ip)
+    except ValueError:
+        return JSONResponse({"ok": False, "error": f"Invalid IP address: {ip!r}"}, status_code=400)
+
+    _, stderr, rc = nft_exec(
+        ["nft", "add", "element", "inet", "filter", "permanent_ban", f"{{ {ip} }}"]
+    )
+    if rc != 0 and stderr:
+        return JSONResponse({"ok": False, "error": stderr.strip()}, status_code=500)
+
+    ts     = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+    reason = body.get("reason", "").strip() or "No reason provided"
+    html_body = build_email_html(
+        action        = "BLOCKED",
+        ip            = ip,
+        reason        = reason,
+        ts            = ts,
+        attack_type   = body.get("attack_type", ""),
+        score         = float(body.get("score", 0)),
+        endpoint      = body.get("endpoint", ""),
+        method        = body.get("method", ""),
+        status_code   = str(body.get("status_code", "")),
+        request_count = int(body.get("request_count", 0)),
+        trend         = body.get("trend", ""),
+    )
+    send_firewall_email(f"[FIREWALL] IP {ip} da bi BLOCK", html_body)
+    tg_text = (
+        f"<b>\u26a0\ufe0f CANH BAO: IP bi BLOCK</b>\n\n"
+        f"IP: <code>{ip}</code>\n"
+        f"Ly do: {reason}\n"
+        + (f"Loai tan cong: <b>{body.get('attack_type')}</b>\n" if body.get("attack_type") else "")
+        + (f"Do tin cay: {float(body.get('score', 0)):.1f}%\n" if body.get("score") else "")
+        + (f"Endpoint: <code>{body.get('method', '')} {body.get('endpoint', '')}</code>\n" if body.get("endpoint") else "")
+        + (f"Xu huong: {body.get('trend')}\n" if body.get("trend") else "")
+        + f"Thoi gian: {ts}"
+    )
+    send_telegram_message(tg_text, ip_to_block=ip)
+    return {"ok": True, "ip": ip, "action": "blocked", "timestamp": ts}
+
+
+@app.post("/api/v1/unblock")
+async def v1_unblock_ip(request: Request):
+    try:
+        body = await request.json()
+    except Exception:
+        return JSONResponse({"ok": False, "error": "Invalid JSON body"}, status_code=400)
+    ip = body.get("ip", "").strip()
+    try:
+        ipaddress.ip_address(ip)
+    except ValueError:
+        return JSONResponse({"ok": False, "error": f"Invalid IP address: {ip!r}"}, status_code=400)
+
+    _, _, rc1 = nft_exec(
+        ["nft", "delete", "element", "inet", "filter", "ddos_blacklist", f"{{ {ip} }}"]
+    )
+    _, _, rc2 = nft_exec(
+        ["nft", "delete", "element", "inet", "filter", "permanent_ban", f"{{ {ip} }}"]
+    )
+    if rc1 != 0 and rc2 != 0:
+        return JSONResponse({"ok": False, "error": f"{ip} not found in any blacklist"}, status_code=404)
+
+    ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+    html_body = build_email_html(action="UNBLOCKED", ip=ip, reason="ML auto-unblock", ts=ts)
+    send_firewall_email(f"[FIREWALL] IP {ip} da duoc UNBLOCK", html_body)
+    send_telegram_message(
+        f"<b>\u2705 IP da duoc MO CHAN</b>\n\nIP: <code>{ip}</code>\nThoi gian: {ts}",
+        ip_to_block=None,
+    )
+    return {"ok": True, "ip": ip, "action": "unblocked", "timestamp": ts}
+
+
+@app.get("/api/v1/blocked")
+async def v1_blocked():
+    perm_out, _, _ = nft_exec(["nft", "list", "set", "inet", "filter", "permanent_ban"])
+    ddos_out, _, _ = nft_exec(["nft", "list", "set", "inet", "filter", "ddos_blacklist"])
+    return {
+        "permanent_ban":  parse_nft_ips(perm_out),
+        "ddos_blacklist": parse_nft_ips(ddos_out),
+    }
+
+# ─── Daily firewall log endpoint ───────────────────────────────────────────────
+
+DAILY_LOG_DIR = Path("/app/logs/nftables-logs")
+
+_SIMPLIFIED_RE = re.compile(
+    r"^(?P<ts>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) \| "
+    r"SRC=(?P<src>\S+) DST=(?P<dst>\S+) \| "
+    r"PROTO=(?P<proto>\S+)"
+    r"(?: SPT=(?P<spt>\d+))?"
+    r"(?: DPT=(?P<dpt>\d+))?"
+    r" \|\s*(?P<flags>.*)$"
+)
+
+
+@app.get("/api/firewall-logs/daily")
+async def firewall_logs_daily(date: str = ""):
+    if not date:
+        date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    try:
+        datetime.strptime(date, "%Y-%m-%d")
+    except ValueError:
+        return JSONResponse({"ok": False, "error": "Invalid date format, use YYYY-MM-DD"}, status_code=400)
+
+    log_file = DAILY_LOG_DIR / f"{date}.log"
+    entries = []
+    if log_file.exists():
+        for line in log_file.read_text(errors="replace").splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            m = _SIMPLIFIED_RE.match(line)
+            if not m:
+                continue
+            flags_str = m.group("flags").strip()
+            flags = [f for f in flags_str.split() if f] if flags_str else []
+            entry: dict = {
+                "timestamp": m.group("ts"),
+                "src":       m.group("src"),
+                "dst":       m.group("dst"),
+                "proto":     m.group("proto"),
+                "flags":     flags,
+            }
+            spt = m.group("spt")
+            dpt = m.group("dpt")
+            if spt:
+                entry["spt"] = int(spt)
+            if dpt:
+                entry["dpt"] = int(dpt)
+            entries.append(entry)
+    return {"date": date, "entries": entries}
+
+# ─── Telegram webhook (handles inline button callbacks) ───────────────────────
+
+@app.post("/telegram/webhook")
+async def telegram_webhook(request: Request):
+    update   = await request.json()
+    callback = update.get("callback_query")
+    if not callback:
+        return {"ok": True}
+
+    data       = callback.get("data", "")
+    chat_id    = callback["message"]["chat"]["id"]
+    message_id = callback["message"]["message_id"]
+    cb_id      = callback["id"]
+
+    if data.startswith("block:"):
+        ip_target = data.split(":", 1)[1].strip()
+        try:
+            ipaddress.ip_address(ip_target)
+            nft_exec(["nft", "add", "element", "inet", "filter",
+                      "permanent_ban", f"{{ {ip_target} }}"])
+            result_text = f"Da block IP {ip_target} thanh cong qua Telegram."
+        except Exception as exc:
+            result_text = f"Loi khi block IP {ip_target}: {exc}"
+
+        _answer_callback(cb_id, result_text)
+        _edit_message_reply_markup(chat_id, message_id)
+
+    return {"ok": True}
+
+
+def _answer_callback(callback_query_id: str, text: str) -> None:
+    payload = json.dumps({
+        "callback_query_id": callback_query_id,
+        "text":              text,
+        "show_alert":        True,
+    }).encode("utf-8")
+    req = urllib.request.Request(
+        f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/answerCallbackQuery",
+        data=payload, headers={"Content-Type": "application/json"}, method="POST",
+    )
+    try:
+        urllib.request.urlopen(req, timeout=10)
+    except Exception as exc:
+        print(f"[TELEGRAM] answerCallbackQuery error: {exc}")
+
+
+def _edit_message_reply_markup(chat_id, message_id) -> None:
+    """Remove inline keyboard after button is pressed."""
+    payload = json.dumps({
+        "chat_id":      chat_id,
+        "message_id":   message_id,
+        "reply_markup": {"inline_keyboard": []},
+    }).encode("utf-8")
+    req = urllib.request.Request(
+        f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/editMessageReplyMarkup",
+        data=payload, headers={"Content-Type": "application/json"}, method="POST",
+    )
+    try:
+        urllib.request.urlopen(req, timeout=10)
+    except Exception as exc:
+        print(f"[TELEGRAM] editMessageReplyMarkup error: {exc}")
+
 
 # ─── Serve SPA ─────────────────────────────────────────────────────────────────
 
