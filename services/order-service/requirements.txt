@@ -7,3 +7,7 @@ psycopg2-binary
 pydantic[email]
 # Thư viện gọi API (để gọi các service khác)
 httpx
+#Thu vien xu ly JWT
+python-jose[cryptography]
+python-multipart
+    

@@ -20,6 +20,7 @@ class TokenPayload(BaseModel):
     """
 
     sub: str  # Subject (Chúng ta sẽ dùng email)
+    role: str
 
 
 class RefreshTokenPayload(BaseModel):
@@ -28,6 +29,7 @@ class RefreshTokenPayload(BaseModel):
     """
 
     sub: str  # Subject (Chúng ta sẽ dùng email)
+    role: str
 
 
 class TokenData(BaseModel):
@@ -36,3 +38,4 @@ class TokenData(BaseModel):
     """
 
     email: Optional[str] = None
+    role: Optional[str] = None

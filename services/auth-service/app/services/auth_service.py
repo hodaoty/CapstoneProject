@@ -74,7 +74,9 @@ async def authenticate_user(email: str, password: str, db_redis: redis.Redis) ->
 
     # --- Bước 3: Tạo Access Token và Refresh Token ---
     # Dữ liệu payload cho token (chúng ta dùng email làm 'subject')
-    token_payload = {"sub": user_data.get("email")}
+    user_role = user_data.get("role", "USER")  # Add parametor role
+
+    token_payload = {"sub": user_data.get("email"), "role": user_role}
 
     access_token = create_access_token(data=token_payload)
     refresh_token = create_refresh_token(data=token_payload)

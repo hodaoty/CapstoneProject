@@ -1,0 +1,4 @@
+nicegui
+httpx
+python-jose
+asyncio

@@ -1,8 +1,11 @@
 import redis
+import hashlib
+from jose import jwt
 from app.db.database import get_redis_db
 from app.models.token import Token
 from app.services import auth_service
-from fastapi import APIRouter, Depends, HTTPException, status
+from app.core.config import settings
+from fastapi import APIRouter, Depends, HTTPException, status, Request, Response
 from fastapi.security import OAuth2PasswordRequestForm
 
 router = APIRouter()
@@ -37,3 +40,39 @@ async def login_for_access_token(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Lỗi máy chủ nội bộ: {str(e)}",
         )
+
+@router.get("/auth/verify-internal")
+def verify_internal(request: Request):
+    """
+    API nội bộ dùng cho Nginx auth_request.
+    Luôn trả về 200 OK, nhưng sẽ inject headers băm nếu token hợp lệ để Nginx ghi log.
+    """
+    auth_header = request.headers.get("Authorization")
+    headers = {
+        "X-Token-Hash": "",
+        "X-User-Id-Hash": "",
+        "X-User-Role": ""
+    }
+    
+    if auth_header and auth_header.startswith("Bearer "):
+        token = auth_header.split(" ")[1]
+        try:
+            # Decode token (không verify qua DB, chỉ lấy payload)
+            payload = jwt.decode(
+                token, 
+                settings.JWT_SECRET_KEY, 
+                algorithms=[settings.JWT_ALGORITHM]
+            )
+            user_id = payload.get("sub")
+            role = payload.get("role", "USER")
+            
+            if user_id:
+                # Băm token và email bằng SHA-256
+                headers["X-Token-Hash"] = hashlib.sha256(token.encode()).hexdigest()
+                headers["X-User-Id-Hash"] = hashlib.sha256(user_id.encode()).hexdigest()
+                headers["X-User-Role"] = role
+        except Exception:
+            # Token sai hoặc hết hạn -> Cứ trả về 200 với header rỗng
+            pass 
+            
+    return Response(content="OK", status_code=200, headers=headers)

@@ -1,112 +1,117 @@
-# **Dự án E-commerce Microservices (Capstone Project)**
+# **Hệ Thống E-commerce Microservices (Capstone Project)**
 
-Copyright: tykhoihanhduyen 
+Đây là một dự án E-commerce toàn diện được xây dựng dựa trên kiến trúc **Microservices**. Dự án bao gồm hệ thống Backend mạnh mẽ với 7 dịch vụ độc lập, giao tiếp qua API Gateway, và một giao diện Frontend hiện đại được viết hoàn toàn bằng Python (NiceGUI).
 
-Đây là một dự án backend E-commerce hoàn chỉnh, được xây dựng theo kiến trúc microservice. Hệ thống bao gồm 7 service độc lập (viết bằng FastAPI), 1 API Gateway (Nginx), và 3 loại cơ sở dữ liệu (PostgreSQL, MySQL, Redis) để xử lý các nghiệp vụ khác nhau.
+Hệ thống được thiết kế để mô phỏng quy trình mua sắm thực tế, bao gồm quản lý người dùng, sản phẩm, kho hàng, giỏ hàng, đặt hàng và thanh toán, với cơ chế bảo mật và phân quyền (RBAC) đầy đủ.
 
-Toàn bộ hệ thống được container hóa bằng Docker và quản lý bởi Docker Compose.
+## **Kiến trúc Hệ thống**
 
-## **Kiến trúc hệ thống**
+Dự án sử dụng mô hình **Hub-and-Spoke** với **Nginx API Gateway** làm trung tâm điều phối mọi luồng dữ liệu.
 
-Hệ thống được thiết kế với một cổng vào duy nhất (`api-gateway`) chịu trách nhiệm định tuyến (routing) các yêu cầu đến các service vi mô (microservice) tương ứng.
+### **Sơ đồ luồng dữ liệu (Data Flow)**
 
-### **Sơ đồ các thành phần (Components)**
+1. **Frontend/Client** gửi request đến **API Gateway** (Port 80).  
+2. **API Gateway** định tuyến request đến service cụ thể (User, Product, Order...).  
+3. **Service-to-Service:** Các service giao tiếp nội bộ cũng thông qua API Gateway để đảm bảo tính nhất quán và log tập trung.
 
-1. **API Gateway (Nginx):**  
-   * Chạy trên `http://localhost:80`.  
-   * Là cổng vào duy nhất cho tất cả các request.  
-   * Định tuyến các đường dẫn (ví dụ: `/api/users/*`) đến service nội bộ tương ứng (ví dụ: `user-service:8000`).  
-2. **User Service (FastAPI & PostgreSQL):**  
-   * Cổng nội bộ: `8000`.  
-   * **Trách nhiệm:** Quản lý CRUD (Tạo, Đọc, Cập nhật, Xóa) thông tin người dùng, địa chỉ, và mật khẩu đã băm.  
-   * CSDL: `postgres-db` (Dùng chung với Order & Payment Service).  
-3. **Auth Service (FastAPI & Redis):**  
-   * Cổng nội bộ: `8001`.  
-   * **Trách nhiệm:** Xử lý đăng nhập (`/login`), xác thực mật khẩu (bằng cách gọi `user-service`), tạo JWT (Access Token & Refresh Token), và lưu Refresh Token vào Redis.  
-   * CSDL: `redis-db` (Dùng chung với Cart Service).  
-4. **Product Service (FastAPI & MySQL):**  
-   * Cổng nội bộ: `8002`.  
-   * **Trách nhiệm:** Quản lý danh mục sản phẩm (tên, mô tả, giá, danh mục).  
-   * CSDL: `mysql-db` (Dùng chung với Inventory Service).  
-5. **Inventory Service (FastAPI & MySQL):**  
-   * Cổng nội bộ: `8003`.  
-   * **Trách nhiệm:** Chỉ quản lý số lượng tồn kho (`product_id` \-\> `quantity`). Cung cấp API để tăng/giảm số lượng.  
-   * CSDL: `mysql-db` (Dùng chung với Product Service, nhưng làm việc trên bảng `inventory`).  
-6. **Cart Service (FastAPI & Redis):**  
-   * Cổng nội bộ: `8004`.  
-   * **Trách nhiệm:** Quản lý giỏ hàng tạm thời của người dùng (sử dụng Redis Hash, ví dụ: `cart:<user_id>`).  
-   * CSDL: `redis-db` (Dùng chung với Auth Service).  
-7. **Order Service (FastAPI & PostgreSQL):**  
-   * Cổng nội bộ: `8005`.  
-   * **Trách nhiệm:** "Bộ não" của hệ thống. Đây là service điều phối (orchestrator) chính, chịu trách nhiệm thực hiện toàn bộ luồng nghiệp vụ "Tạo Đơn hàng".  
-   * CSDL: `postgres-db` (Tạo bảng `orders` và `order_items`).  
-8. **Payment Service (FastAPI & PostgreSQL):**  
-   * Cổng nội bộ: `8006`.  
-   * **Trách nhiệm:** Xử lý logic thanh toán. Hiện tại đang "giả lập" (mock) một giao dịch thành công và ghi log vào bảng `payments`.  
-   * CSDL: `postgres-db` (Tạo bảng `payments`).
+### **Danh sách các Services**
 
-### **Mạng (Networking)**
+| Service Name | Port (Local) | Database | Công nghệ & Vai trò |
+| :---- | :---- | :---- | :---- |
+| **API Gateway** | 80 | N/A | **Nginx**. Cổng vào duy nhất, Load Balancing, Logging (JSON). |
+| **Frontend Service** | 5173 | N/A | **Python (NiceGUI)**. Giao diện người dùng và quản trị viên. |
+| **User Service** | 8000 | PostgreSQL | **FastAPI**. Quản lý User, đăng ký, thông tin cá nhân. |
+| **Auth Service** | 8001 | Redis | **FastAPI**. Đăng nhập, cấp phát & xác thực JWT Token. |
+| **Product Service** | 8002 | MySQL | **FastAPI**. Quản lý danh mục sản phẩm (Tên, giá, mô tả). |
+| **Inventory Service** | 8003 | MySQL | **FastAPI**. Quản lý số lượng tồn kho. |
+| **Cart Service** | 8004 | Redis | **FastAPI**. Quản lý giỏ hàng tạm thời (Thêm/Xóa/Sửa). |
+| **Order Service** | 8005 | PostgreSQL | **FastAPI**. "Bộ não" xử lý đơn hàng, gọi các service khác để hoàn tất giao dịch. |
+| **Payment Service** | 8006 | PostgreSQL | **FastAPI**. Giả lập cổng thanh toán và lưu lịch sử giao dịch. |
 
-Tất cả 11 container (7 service, 3 DB, 1 Gateway) đều được kết nối vào một mạng ảo (bridge network) tùy chỉnh tên là `ecommerce-net`. Điều này cho phép các service gọi nhau nội bộ một cách an toàn bằng tên service (ví dụ: `http://user-service:8000`).
+## **Công nghệ Sử dụng (Tech Stack)**
 
-## **Công nghệ sử dụng**
+### **Backend**
 
-* **Backend:** Python 3.10, FastAPI  
-* **Database:**  
-  * PostgreSQL (Cho dữ liệu quan hệ, user, đơn hàng)  
-  * MySQL 8.0 (Cho dữ liệu sản phẩm, kho hàng)  
-  * Redis (Cho dữ liệu cache, session, giỏ hàng)  
-* **API Gateway:** Nginx  
-* **Containerization:** Docker & Docker Compose  
-* **Thư viện Python (chính):**  
-  * `SQLAlchemy` (ORM cho SQL)  
-  * `httpx` (Cho giao tiếp service-to-service bất đồng bộ)  
-  * `redis-py` (Client cho Redis)  
-  * `passlib[bcrypt]` (Băm mật khẩu)  
-  * `python-jose[cryptography]` (Tạo JWT)
+* **Ngôn ngữ:** Python 3.10  
+* **Framework:** FastAPI (High performance API)  
+* **Communication:** HTTP REST (sử dụng thư viện httpx cho async calls)  
+* **Authentication:** JWT (JSON Web Tokens), Passlib (Bcrypt hashing)
 
-## **Khởi chạy Dự án**
+### **Frontend**
 
-### **Yêu cầu**
+* **Framework:** NiceGUI (Dựa trên Vue.js & Quasar, nhưng viết bằng 100% Python)  
+* **Styling:** Tailwind CSS (Tích hợp sẵn trong NiceGUI)
 
-* Docker  
-* Docker Compose
+### **Databases**
 
-### **Các bước**
+* **PostgreSQL:** Dữ liệu quan hệ (Users, Orders, Payments).  
+* **MySQL 8.0:** Dữ liệu sản phẩm và kho hàng (Products, Inventory).  
+* **Redis:** Dữ liệu truy xuất nhanh (Tokens, Shopping Cart).
 
-1. Clone repository này:  
-git clone \[https://github.com/hodaoty/CapstoneProject.git\](https://github.com/hodaoty/CapstoneProject.git)  
-cd CapstoneProject
+### **Infrastructure & DevOps**
 
-   
-2. Đảm bảo tất cả các file `__init__.py` (rỗng) đã được tạo trong các thư mục con của mỗi service (ví dụ: `services/user-service/app/core/`, `services/user-service/app/db/`...)
+* **Containerization:** Docker & Docker Compose.  
+* **Gateway:** Nginx (Reverse Proxy).  
+* **CI/CD:** GitHub Actions (Automated Linting & Building).
 
-Build và khởi chạy toàn bộ 11 container:  
-docker-compose up \--build
+## **Tính năng Nổi bật**
 
-3. (Thêm `-d` để chạy ở chế độ nền)  
-4. Hệ thống đã sẵn sàng\! Tất cả các API đều có thể được truy cập thông qua API Gateway tại: `http://localhost`
+### **1\. Phân quyền Người dùng (RBAC)**
 
-## **API Workflow (Luồng Test chính)**
+Hệ thống hỗ trợ 3 vai trò với quyền hạn khác nhau:
 
-Đây là quy trình test End-to-End (từ đầu đến cuối) bằng Postman.
+* **USER (Khách hàng):** Xem sản phẩm, thêm vào giỏ, đặt hàng, xem hồ sơ.  
+* **ADMIN (Quản trị viên):** Truy cập Dashboard, quản lý toàn bộ User, xóa sản phẩm.  
+* **STAFF (Nhân viên):** Truy cập khu vực kho, nhập hàng, cập nhật số lượng tồn kho.
 
-### **Giai đoạn 1: Chuẩn bị**
+### **2\. Giao diện Frontend (NiceGUI)**
 
-1. **Tạo User:** `POST http://localhost/api/users/` (Body: `{"email": "user@test.com", "password": "123"}`)  
-2. **Tạo Sản phẩm:** `POST http://localhost/api/products/` (Body: `{"name": "Laptop", "price": 1000}`) (Giả sử trả về `id: 1`)  
-3. **Thêm Kho:** `POST http://localhost/api/inventory/update` (Body: `{"product_id": 1, "change_quantity": 10}`)  
-4. **Thêm vào Giỏ hàng:** `POST http://localhost/api/cart/user@test.com` (Body: `{"product_id": 1, "quantity": 2}`)
+* **Landing Page:** Trang giới thiệu đẹp mắt.  
+* **Product Grid:** Hiển thị sản phẩm dạng lưới responsive.  
+* **Interactive Cart:** Giỏ hàng cập nhật thời gian thực (Real-time UI update).  
+* **Admin Hub:** Trung tâm điều khiển dành riêng cho Admin/Staff.
 
-### **Giai đoạn 2: Đặt hàng (Test lớn)**
+### **3\. Quy trình Đặt hàng (Order Flow)**
 
-5. **Tạo Đơn hàng:** `POST http://localhost/api/orders/` (Body: `{"user_id": "user@test.com"}`)
+Hệ thống xử lý logic phức tạp khi tạo đơn hàng:
 
-### **Giai đoạn 3: Kiểm tra**
+1. Lấy thông tin Giỏ hàng & User.  
+2. Kiểm tra giá mới nhất từ Product Service.  
+3. Kiểm tra tồn kho từ Inventory Service.  
+4. Thực hiện thanh toán qua Payment Service.  
+5. Lưu đơn hàng \-\> Trừ kho \-\> Xóa giỏ hàng.
 
-6. **Kiểm tra Kho:** `GET http://localhost/api/inventory/1` (Số lượng phải còn 8\)  
-7. **Kiểm tra Giỏ hàng:** `GET http://localhost/api/cart/user@test.com` (Giỏ hàng phải `items: []`)  
-8. **Kiểm tra CSDL (Tùy chọn):**  
-   * Kết nối **PostgreSQL** (`localhost:5432`): Kiểm tra bảng `orders`, `order_items`, `payments` đã có dữ liệu mới.  
-   * Kết nối **Redis** (`localhost:6379`): Chạy `HGETALL cart:user@test.com` (phải trả về rỗng).
+## **Cấu trúc Thư mục Dự án**
 
+CapstoneProject/  
+├── .github/workflows/   \# Cấu hình CI/CD  
+├── infra/               \# Cấu hình hạ tầng (Nginx)  
+├── logs\_data/           \# Thư mục chứa Log (JSON format) từ Gateway  
+├── services/            \# Mã nguồn các microservices  
+│   ├── auth-service/  
+│   ├── cart-service/  
+│   ├── frontend-service/ \# Code giao diện (NiceGUI)  
+│   ├── inventory-service/  
+│   ├── order-service/  
+│   ├── payment-service/  
+│   ├── product-service/  
+│   └── user-service/  
+├── docker-compose.yml   \# File khởi chạy toàn bộ hệ thống  
+└── README.md            \# Tài liệu dự án
+
+## **Hướng dẫn Cài đặt & Chạy**
+
+### **Yêu cầu tiên quyết**
+
+* Docker Desktop đã được cài đặt và đang chạy.  
+* Git.
+
+### **Các bước thực hiện**
+
+1. **Clone repository:**  
+   git clone \[https://github.com/hodaoty/CapstoneProject.git\](https://github.com/hodaoty/CapstoneProject.git)  
+   cd CapstoneProject
+
+2. Khởi chạy hệ thống:  
+   Chạy lệnh sau tại thư mục gốc để build và start các containers:  
+   docker-compose up \--build  
