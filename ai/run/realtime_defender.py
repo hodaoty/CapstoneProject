@@ -34,6 +34,12 @@ ES_URL = os.getenv("ES_URL", "http://elasticsearch:9200")
 INDEX_NAME = os.getenv("INDEX_NAME", "mlops-api-logs-*")
 FIREWALL_CONTAINER = os.getenv("FIREWALL_CONTAINER", "nftables-firewall")
 
+# ADDED: notify / review config
+FIREWALL_ADMIN_API_URL = os.getenv("FIREWALL_ADMIN_API_URL", "http://firewall-admin:9000")
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "")
+FIREWALL_ADMIN_URL = os.getenv("FIREWALL_ADMIN_URL", "http://localhost:9000")
+
 # Tự động trỏ đường dẫn tới file pkl nằm trong thư mục /models của dự án
 MODEL_PATH = os.path.join(PROJECT_ROOT, "models", "lightgbm_threatAPI_detector.pkl")
 
@@ -63,55 +69,120 @@ def get_threat_level(score: float) -> str:
     return "LOW"
 
 
-def send_admin_alert(ip: str, score: float, level: str, path: str = ""):
+# def send_admin_alert(ip: str, score: float, level: str, path: str = ""):
+#     now = datetime.now().strftime("%H:%M:%S")
+
+#     # 🔹 vẫn giữ log file (optional)
+#     alert_msg = f"[{now}] [{level}] IP: {ip} | Score: {score:.4f} | Path: {path}\n"
+#     with open("security_alerts.log", "a", encoding="utf-8") as f:
+#         f.write(alert_msg)
+
+#     print(Fore.CYAN + f"   [ACTION-NOTIFY] Đang gửi Telegram alert...")
+
+#     # 🔥 TELEGRAM CONFIG
+#     BOT_TOKEN = "8567266730:AAEBgoJKHdWfV7T1rMhac9AMPpZXRVfYS6k"
+#     CHAT_ID = "-5180306481"
+
+#     message = (
+#         f"🚨 *SECURITY ALERT*\n\n"
+#         f"🧠 Level: *{level}*\n"
+#         f"🌐 IP: `{ip}`\n"
+#         f"📊 Score: *{score:.4f}*\n"
+#         f"📍 Path: `{path}`\n"
+#         f"⏰ Time: {now}"
+#     )
+
+#     try:
+#         r = requests.post(
+#             f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage",
+#             json={
+#                 "chat_id": CHAT_ID,
+#                 "text": message,
+#                 "parse_mode": "Markdown"
+#             },
+#             timeout=5
+#         )
+
+#         print(Fore.CYAN + f"   [TELEGRAM] status={r.status_code}")
+
+#     except Exception as e:
+#         print(Fore.YELLOW + f"[TELEGRAM ERROR] {e}")
+
+# ADDED: gửi Telegram cho MEDIUM, chỉ có nút mở web admin
+def send_medium_review_alert(ip: str, score: float, path: str = "", method: str = "GET"):
     now = datetime.now().strftime("%H:%M:%S")
 
-    # 🔹 vẫn giữ log file (optional)
-    alert_msg = f"[{now}] [{level}] IP: {ip} | Score: {score:.4f} | Path: {path}\n"
+    alert_msg = f"[{now}] [MEDIUM] IP: {ip} | Score: {score:.4f} | Path: {path}\n"
     with open("security_alerts.log", "a", encoding="utf-8") as f:
         f.write(alert_msg)
 
-    print(Fore.CYAN + f"   [ACTION-NOTIFY] Đang gửi Telegram alert...")
-
-    # 🔥 TELEGRAM CONFIG
-    BOT_TOKEN = "8567266730:AAEBgoJKHdWfV7T1rMhac9AMPpZXRVfYS6k"
-    CHAT_ID = "-5180306481"
+    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+        print(Fore.YELLOW + "[TELEGRAM WARN] Missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID")
+        return
 
     message = (
-        f"🚨 *SECURITY ALERT*\n\n"
-        f"🧠 Level: *{level}*\n"
-        f"🌐 IP: `{ip}`\n"
-        f"📊 Score: *{score:.4f}*\n"
-        f"📍 Path: `{path}`\n"
-        f"⏰ Time: {now}"
+        f"⚠️ <b>MEDIUM SECURITY ALERT</b>\n\n"
+        f"🧠 Level: <b>MEDIUM</b>\n"
+        f"🌐 IP: <code>{ip}</code>\n"
+        f"📊 Score: <b>{score:.4f}</b>\n"
+        f"📍 Endpoint: <code>{method} {path}</code>\n"
+        f"⏰ Time: {now}\n\n"
+        f"Admin vui lòng vào Firewall Admin để quyết định block hay không."
     )
 
     try:
         r = requests.post(
-            f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage",
+            f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
             json={
-                "chat_id": CHAT_ID,
+                "chat_id": TELEGRAM_CHAT_ID,
                 "text": message,
-                "parse_mode": "Markdown"
+                "parse_mode": "HTML",
+                "reply_markup": {
+                    "inline_keyboard": [[
+                        {
+                            "text": "👁 Open Firewall Admin",
+                            "url": f"{FIREWALL_ADMIN_URL}?ip={ip}"
+                        }
+                    ]]
+                }
             },
             timeout=5
         )
-
-        print(Fore.CYAN + f"   [TELEGRAM] status={r.status_code}")
-
+        print(Fore.CYAN + f"   [TELEGRAM-MEDIUM] status={r.status_code}")
+        # print(Fore.CYAN + f"   [TELEGRAM-MEDIUM] status={r.status_code} body={r.text}")
     except Exception as e:
-        print(Fore.YELLOW + f"[TELEGRAM ERROR] {e}")
+        print(Fore.YELLOW + f"[TELEGRAM MEDIUM ERROR] {e}")
 
 
-def execute_block_ip(ip: str):
-    """
-    Chặn IP bằng nftables khi mức HIGH.
-    Yêu cầu: firewall container đã có sẵn nft set:
-        inet filter ddos_blacklist
-    """
+# ADDED: HIGH đã block xong thì gọi firewall-admin để gửi mail + telegram
+def notify_high_blocked(ip: str, score: float, path: str = "", method: str = "GET"):
+    payload = {
+        "ip": ip,
+        "reason": "AI detected HIGH threat and auto-blocked into ddos_blacklist",
+        "attack_type": "HIGH",
+        "score": round(score * 100, 2),
+        "endpoint": path,
+        "method": method,
+        "status_code": "",
+        "request_count": 1,
+        "trend": "Auto-block by realtime defender"
+    }
+
+    try:
+        r = requests.post(
+            f"{FIREWALL_ADMIN_API_URL}/api/v1/notify-high-blocked",
+            json=payload,
+            timeout=8
+        )
+        print(Fore.CYAN + f"   [NOTIFY-HIGH] status={r.status_code}")
+    except Exception as e:
+        print(Fore.YELLOW + f"[NOTIFY HIGH ERROR] {e}")
+
+
+def execute_block_ip(ip: str) -> bool:
     whitelist = ["127.0.0.1", "0.0.0.0"]
     if ip in whitelist:
-        return
+        return False
 
     try:
         cmd = [
@@ -121,34 +192,76 @@ def execute_block_ip(ip: str):
             "{", f"{ip} timeout 1h", "}"
         ]
 
-        subprocess.run(cmd, check=False)
-        print(Fore.RED + Style.BRIGHT + f"[BLOCKED] IP {ip} added to ddos_blacklist in {FIREWALL_CONTAINER}")
+        result = subprocess.run(cmd, check=False, capture_output=True, text=True)
+        if result.returncode == 0:
+            print(Fore.RED + Style.BRIGHT + f"[BLOCKED] IP {ip} added to ddos_blacklist in {FIREWALL_CONTAINER}")
+            return True
+
+        print(Fore.YELLOW + f"[ERROR] Cannot block IP {ip}: {result.stderr.strip()}")
+        return False
 
     except Exception as e:
         print(Fore.YELLOW + f"[ERROR] Cannot block IP {ip}: {e}")
+        return False
 
-def handle_threat(ip: str, score: float, path: str):
+# def handle_threat(ip: str, score: float, path: str):
+#     """
+#     Xử lý hành động cuối cùng theo level:
+#     - LOW: không làm gì
+#     - MEDIUM: gửi cảnh báo
+#     - HIGH: block + cảnh báo
+#     """
+#     level = get_threat_level(score)
+
+#     if level == "HIGH":
+#         print(Fore.RED + Style.BRIGHT + f"[HIGH - {score:.4f}] TẤN CÔNG NGUY HIỂM! IP: {ip}")
+#         execute_block_ip(ip)
+#         send_admin_alert(ip, score, "HIGH", path)
+
+#     elif level == "MEDIUM":
+#         print(Fore.YELLOW + f"[MEDIUM - {score:.4f}] Hoạt động nghi vấn từ IP: {ip}")
+#         send_admin_alert(ip, score, "MEDIUM", path)
+
+#     else:
+#         print(Fore.GREEN + f"[LOW - {score:.4f}] Bình thường | IP: {ip}")
+
+#     return level
+
+def handle_threat(ip: str, score: float, path: str, method: str = "GET"):
     """
     Xử lý hành động cuối cùng theo level:
     - LOW: không làm gì
-    - MEDIUM: gửi cảnh báo
-    - HIGH: block + cảnh báo
+    - MEDIUM: chỉ gửi Telegram + link qua web admin
+    - HIGH: block IP trước, rồi firewall-admin gửi mail + Telegram
     """
     level = get_threat_level(score)
 
     if level == "HIGH":
         print(Fore.RED + Style.BRIGHT + f"[HIGH - {score:.4f}] TẤN CÔNG NGUY HIỂM! IP: {ip}")
-        execute_block_ip(ip)
-        send_admin_alert(ip, score, "HIGH", path)
+
+        # ADDED: chỉ notify nếu block thành công
+        blocked = execute_block_ip(ip)
+
+        if blocked:
+            notify_high_blocked(ip, score, path, method)
+        else:
+            print(Fore.YELLOW + f"[WARN] Block thất bại, không gửi notify HIGH cho IP {ip}")
 
     elif level == "MEDIUM":
         print(Fore.YELLOW + f"[MEDIUM - {score:.4f}] Hoạt động nghi vấn từ IP: {ip}")
-        send_admin_alert(ip, score, "MEDIUM", path)
+
+        # COMMENTED OLD: trước đây MEDIUM dùng chung send_admin_alert
+        # send_admin_alert(ip, score, "MEDIUM", path)
+
+        # ADDED: MEDIUM chỉ gửi Telegram + link qua web admin
+        send_medium_review_alert(ip, score, path, method)
 
     else:
         print(Fore.GREEN + f"[LOW - {score:.4f}] Bình thường | IP: {ip}")
 
     return level
+
+
 
 
 # ==========================================
@@ -282,7 +395,8 @@ def run_realtime_defender():
                 # - LOW    -> log bình thường
                 # - MEDIUM -> cảnh báo admin
                 # - HIGH   -> block IP + cảnh báo admin
-                level = handle_threat(ip, score, path)
+                # level = handle_threat(ip, score, path)
+                level = handle_threat(ip, score, path, method)
 
                 # Chỉ đếm các request có mức đe dọa đáng chú ý
                 if level in ["MEDIUM", "HIGH"]:

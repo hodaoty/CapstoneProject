@@ -28,6 +28,15 @@ services:
     environment:
       - ADMIN_USERNAME=${ADMIN_USERNAME:-admin}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin123}
+      # ADDED: mail + telegram + web url
+      - SMTP_HOST=${SMTP_HOST:-smtp.gmail.com}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      - NOTIFY_TO=${NOTIFY_TO}
+      - FIREWALL_ADMIN_URL=${FIREWALL_ADMIN_URL:-http://localhost:9000}
     ports:
       - "9000:9000"
     volumes:
@@ -371,6 +380,8 @@ services:
         condition: service_healthy
       nftables-firewall:
         condition: service_started
+      firewall-admin:
+        condition: service_started   # ADDED
     networks:
       - ecommerce-net
     volumes:
@@ -379,6 +390,12 @@ services:
       - ES_URL=http://elasticsearch:9200
       - INDEX_NAME=mlops-api-logs-*
       - FIREWALL_CONTAINER=nftables-firewall
+
+      # ADDED: notify + medium review link
+      - FIREWALL_ADMIN_API_URL=http://firewall-admin:9000
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      - FIREWALL_ADMIN_URL=${FIREWALL_ADMIN_URL:-http://localhost:9000}
     restart: unless-stopped
 
 volumes:

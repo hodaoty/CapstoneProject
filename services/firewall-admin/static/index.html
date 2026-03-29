@@ -716,6 +716,18 @@
 ════════════════════════════════════════════════════════════════════════ -->
 <script>
 'use strict';
+// 👉 AUTO FILL IP từ Telegram link
+window.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+  const ip = params.get("ip");
+
+  if (ip) {
+    const input = document.getElementById("block-input");
+    if (input) {
+      input.value = ip;
+    }
+  }
+});
 
 // ── Utilities ──────────────────────────────────────────────────────────────
 

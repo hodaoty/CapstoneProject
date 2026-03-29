@@ -5,11 +5,16 @@ import re
 import json
 import secrets
 import ipaddress
+import smtplib
+from datetime import datetime, timezone
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 from pathlib import Path
 from typing import Optional
 
 import http.client
 import socket
+import urllib.request
 from fastapi import FastAPI, Request, HTTPException, Form
 from fastapi.responses import JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -18,6 +23,10 @@ from fastapi.staticfiles import StaticFiles
 
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin123")
+# ADDED: mail + telegram + web url
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
+TELEGRAM_CHAT_ID   = os.getenv("TELEGRAM_CHAT_ID", "")
+FIREWALL_ADMIN_URL = os.getenv("FIREWALL_ADMIN_URL", "http://localhost:9000")
 
 ACCESS_LOG   = Path("/app/logs/access_json.log")
 FIREWALL_LOG = Path("/app/logs/firewall/firewall.log")
@@ -124,6 +133,116 @@ def nft_exec(cmd: list[str]) -> tuple[str, str, int]:
         return "", "Docker daemon not reachable", 1
     except Exception as e:
         return "", f"Docker API error: {e}", 1
+
+
+# ADDED: email/telegram notification helpers
+
+NOTIFY_TO = os.getenv("NOTIFY_TO")
+
+_REQUIRED_SMTP_VARS = ("SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASSWORD")
+
+
+def build_email_html(
+    action: str,
+    ip: str,
+    reason: str,
+    ts: str,
+    attack_type: str = "",
+    score: float = 0.0,
+    endpoint: str = "",
+    method: str = "",
+):
+    color = "#c0392b" if action == "BLOCKED" else "#27ae60"
+    label = "CANH BAO TAN CONG - IP DA BI CHAN" if action == "BLOCKED" else "THONG BAO - IP DA DUOC MO CHAN"
+
+    return f"""<!DOCTYPE html>
+<html><head><meta charset="utf-8"></head>
+<body style="margin:0;padding:0;background:#f4f4f4;font-family:Arial,sans-serif">
+  <table width="100%" cellpadding="0" cellspacing="0">
+    <tr><td align="center" style="padding:30px 0">
+      <table width="600" cellpadding="0" cellspacing="0"
+             style="background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.1)">
+        <tr><td style="background:{color};padding:20px 24px">
+          <p style="margin:0;color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:1px">Firewall Admin</p>
+          <h1 style="margin:4px 0 0;color:#fff;font-size:20px">{label}</h1>
+        </td></tr>
+        <tr><td style="padding:18px 24px">
+          <p><b>IP:</b> {ip}</p>
+          <p><b>Action:</b> {action}</p>
+          <p><b>Reason:</b> {reason}</p>
+          <p><b>Time:</b> {ts}</p>
+          <p><b>Attack Type:</b> {attack_type or 'N/A'}</p>
+          <p><b>Score:</b> {score:.2f}</p>
+          <p><b>Endpoint:</b> {method} {endpoint}</p>
+          <hr>
+          <p><a href="{FIREWALL_ADMIN_URL}">{FIREWALL_ADMIN_URL}</a></p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body></html>"""
+
+
+def _smtp_config() -> tuple[str, int, str, str]:
+    missing = [v for v in _REQUIRED_SMTP_VARS if not os.getenv(v)]
+    if missing:
+        raise ValueError(f"Missing required environment variable(s): {', '.join(missing)}")
+    return (
+        os.getenv("SMTP_HOST"),
+        int(os.getenv("SMTP_PORT")),
+        os.getenv("SMTP_USER"),
+        os.getenv("SMTP_PASSWORD"),
+    )
+
+
+def send_firewall_email(subject: str, body: str) -> None:
+    try:
+        host, port, user, password = _smtp_config()
+    except ValueError as exc:
+        print(f"[EMAIL] WARN: {exc}")
+        return
+
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = subject
+    msg["From"] = user
+    msg["To"] = NOTIFY_TO
+    msg.attach(MIMEText(body, "html", "utf-8"))
+
+    try:
+        with smtplib.SMTP(host, port, timeout=10) as smtp:
+            smtp.ehlo()
+            smtp.starttls()
+            smtp.ehlo()
+            smtp.login(user, password)
+            smtp.sendmail(user, [NOTIFY_TO], msg.as_string())
+        print(f"[EMAIL] Sent: {subject}")
+    except Exception as exc:
+        print(f"[EMAIL] ERROR: {exc}")
+
+
+def send_telegram_message(text: str) -> None:
+    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+        print("[TELEGRAM] WARN: TELEGRAM_BOT_TOKEN hoac TELEGRAM_CHAT_ID chua duoc set.")
+        return
+
+    payload = {
+        "chat_id": TELEGRAM_CHAT_ID,
+        "text": text,
+        "parse_mode": "HTML",
+    }
+
+    data = json.dumps(payload).encode("utf-8")
+    req = urllib.request.Request(
+        f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
+        data=data,
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            print(f"[TELEGRAM] Sent OK (status {resp.status})")
+    except Exception as exc:
+        print(f"[TELEGRAM] ERROR: {exc}")
 
 # ─── Suspicious pattern detection ─────────────────────────────────────────────
 
@@ -271,6 +390,23 @@ async def blacklist(request: Request):
     }
 
 
+# @app.post("/api/block")
+# async def block_ip(request: Request):
+#     require_auth(request)
+#     body = await request.json()
+#     ip = body.get("ip", "").strip()
+#     try:
+#         ipaddress.ip_address(ip)
+#     except ValueError:
+#         raise HTTPException(400, f"Invalid IP address: {ip!r}")
+
+#     _, stderr, rc = nft_exec(
+#         ["nft", "add", "element", "inet", "filter", "permanent_ban", f"{{ {ip} }}"]
+#     )
+#     if rc != 0 and stderr:
+#         raise HTTPException(500, stderr.strip())
+#     return {"ok": True, "message": f"{ip} added to permanent_ban"}
+
 @app.post("/api/block")
 async def block_ip(request: Request):
     require_auth(request)
@@ -286,7 +422,38 @@ async def block_ip(request: Request):
     )
     if rc != 0 and stderr:
         raise HTTPException(500, stderr.strip())
-    return {"ok": True, "message": f"{ip} added to permanent_ban"}
+
+    # ADDED: block xong mới gửi mail + telegram
+    ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+    reason = body.get("reason", "").strip() or "Admin manual block via Firewall Admin"
+    attack_type = body.get("attack_type", "MEDIUM/ADMIN")
+    score = float(body.get("score", 0))
+    endpoint = body.get("endpoint", "")
+    method = body.get("method", "")
+
+    html_body = build_email_html(
+        action="BLOCKED",
+        ip=ip,
+        reason=reason,
+        ts=ts,
+        attack_type=attack_type,
+        score=score,
+        endpoint=endpoint,
+        method=method,
+    )
+    send_firewall_email(f"[FIREWALL] IP {ip} da bi BLOCK", html_body)
+
+    send_telegram_message(
+        f"<b>⚠️ CANH BAO: IP bi BLOCK</b>\n\n"
+        f"IP: <code>{ip}</code>\n"
+        f"Ly do: {reason}\n"
+        f"Loai: <b>{attack_type}</b>\n"
+        f"Score: {score:.2f}\n"
+        f"Endpoint: <code>{method} {endpoint}</code>\n"
+        f"Thoi gian: {ts}"
+    )
+
+    return {"ok": True, "message": f"{ip} added to permanent_ban", "timestamp": ts}
 
 
 @app.post("/api/unblock")
@@ -309,6 +476,52 @@ async def unblock_ip(request: Request):
     if rc1 != 0 and rc2 != 0:
         raise HTTPException(500, f"{ip} not found in any blacklist")
     return {"ok": True, "message": f"{ip} removed from blacklist"}
+
+# ADDED: endpoint cho realtime-defender gọi sau khi HIGH đã auto-block xong
+@app.post("/api/v1/notify-high-blocked")
+async def notify_high_blocked(request: Request):
+    try:
+        body = await request.json()
+    except Exception:
+        return JSONResponse({"ok": False, "error": "Invalid JSON body"}, status_code=400)
+
+    ip = body.get("ip", "").strip()
+    try:
+        ipaddress.ip_address(ip)
+    except ValueError:
+        return JSONResponse({"ok": False, "error": f"Invalid IP address: {ip!r}"}, status_code=400)
+
+    ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+    reason = body.get("reason", "").strip() or "HIGH threat auto-blocked into ddos_blacklist"
+    attack_type = body.get("attack_type", "HIGH")
+    score = float(body.get("score", 0))
+    endpoint = body.get("endpoint", "")
+    method = body.get("method", "")
+
+    html_body = build_email_html(
+        action="BLOCKED",
+        ip=ip,
+        reason=reason,
+        ts=ts,
+        attack_type=attack_type,
+        score=score,
+        endpoint=endpoint,
+        method=method,
+    )
+    send_firewall_email(f"[FIREWALL] HIGH IP {ip} da bi AUTO BLOCK", html_body)
+
+    send_telegram_message(
+        f"<b>🚨 HIGH SECURITY ALERT</b>\n\n"
+        f"IP: <code>{ip}</code>\n"
+        f"Ly do: {reason}\n"
+        f"Loai: <b>{attack_type}</b>\n"
+        f"Score: {score:.2f}\n"
+        f"Endpoint: <code>{method} {endpoint}</code>\n"
+        f"Action: <b>Auto-blocked (ddos_blacklist)</b>\n"
+        f"Thoi gian: {ts}"
+    )
+
+    return {"ok": True, "ip": ip, "timestamp": ts}
 
 # ─── Serve SPA ─────────────────────────────────────────────────────────────────
 
