@@ -901,6 +901,7 @@ async def v1_notify_high_blocked(request: Request):
     endpoint     = body.get("endpoint", "")
     method       = body.get("method", "")
     trend        = body.get("trend", "")
+    status_code  = body.get("status_code", "")
 
     text = (
         f"<b>🔴 DA TU DONG CHAN IP (HIGH)</b>\n\n"
@@ -911,6 +912,13 @@ async def v1_notify_high_blocked(request: Request):
         + (f"Xu huong: {trend}\n" if trend else "")
         + "IP da bi chan tu dong. Ban co muon mo chan khong?"
     )
+    append_to_daily_csv({
+        "ip": ip,
+        "endpoint": endpoint,
+        "method": method,
+        "status_code": status_code,
+        "attack_type": attack_type,
+    }, label=1)
     from_time = (datetime.now(timezone.utc) - timedelta(seconds=30)).strftime('%Y-%m-%dT%H:%M:%S.000Z')
     to_time   = (datetime.now(timezone.utc) + timedelta(seconds=30)).strftime('%Y-%m-%dT%H:%M:%S.000Z')
     rison_g = urllib.parse.quote(f"(time:(from:'{from_time}',to:'{to_time}'))", safe="")
