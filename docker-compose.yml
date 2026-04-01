@@ -359,6 +359,33 @@ services:
       - ecommerce-net
     mem_limit: 512m
     cpus: 0.5
+  realtime-defender:
+    build:
+      context: .
+      dockerfile: ./ai/Dockerfile
+    container_name: realtime-defender
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+      nftables-firewall:
+        condition: service_started
+      firewall-admin:
+        condition: service_started   # ADDED
+    networks:
+      - ecommerce-net
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - ES_URL=http://elasticsearch:9200
+      - INDEX_NAME=mlops-api-logs-*
+      - FIREWALL_CONTAINER=nftables-firewall
+
+      # ADDED: notify + medium review link
+      - FIREWALL_ADMIN_API_URL=http://firewall-admin:9000
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      - FIREWALL_ADMIN_URL=${FIREWALL_ADMIN_URL:-http://localhost:9000}
+    restart: unless-stopped
 volumes:
   postgres_data:
   mysql_data:
