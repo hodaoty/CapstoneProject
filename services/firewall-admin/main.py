@@ -15,6 +15,7 @@ from typing import Optional
 
 import http.client
 import socket
+import urllib.parse
 import urllib.request
 from fastapi import FastAPI, Request, HTTPException, Form
 from fastapi.responses import JSONResponse, FileResponse
@@ -912,10 +913,9 @@ async def v1_notify_high_blocked(request: Request):
     )
     from_time = (datetime.now(timezone.utc) - timedelta(seconds=30)).strftime('%Y-%m-%dT%H:%M:%S.000Z')
     to_time   = (datetime.now(timezone.utc) + timedelta(seconds=30)).strftime('%Y-%m-%dT%H:%M:%S.000Z')
-    kibana_url = (
-        f"{KIBANA_URL}/app/discover#/?_g=(time:(from:'{from_time}',to:'{to_time}'))"
-        f"&_a=(query:(language:kuery,query:'remote_ip:\"{ip}\"'))"
-    )
+    rison_g = urllib.parse.quote(f"(time:(from:'{from_time}',to:'{to_time}'))", safe="")
+    rison_a = urllib.parse.quote(f"(query:(language:kuery,query:'remote_ip:\"{ip}\"'))", safe="")
+    kibana_url = f"{KIBANA_URL}/app/discover#/?_g={rison_g}&_a={rison_a}"
     _send_tg_with_keyboard(text, [[
         {"text": "🔍 Xem tren Kibana", "url": kibana_url},
         {"text": "🔓 Go block",        "callback_data": f"unblock:{ip}"},
