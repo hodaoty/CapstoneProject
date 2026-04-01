@@ -39,6 +39,7 @@ services:
       - "9000:9000"
     volumes:
       - ./logs_data:/app/logs:ro                 # access_json.log + firewall/ subdir (incl. traffic.csv)
+      - ./logs_data/daily:/app/logs/daily        # writable override for auto-label daily CSVs
       - /var/run/docker.sock:/var/run/docker.sock # allows docker exec into nftables-firewall
     networks:
       - ecommerce-net

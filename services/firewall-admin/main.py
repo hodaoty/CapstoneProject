@@ -399,6 +399,45 @@ def send_telegram_message(text: str, ip_to_block: str | None = None) -> None:
         print(f"[TELEGRAM] ERROR: {exc}")
 
 
+def _send_tg_with_keyboard(text: str, inline_keyboard: list) -> None:
+    """Send a Telegram message with a fully custom inline keyboard."""
+    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+        print("[TELEGRAM] WARN: credentials not set.")
+        return
+    payload = {
+        "chat_id":      TELEGRAM_CHAT_ID,
+        "text":         text,
+        "parse_mode":   "HTML",
+        "reply_markup": {"inline_keyboard": inline_keyboard},
+    }
+    data = json.dumps(payload).encode("utf-8")
+    req  = urllib.request.Request(
+        f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
+        data=data, headers={"Content-Type": "application/json"}, method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            print(f"[TELEGRAM] Sent OK (status {resp.status})")
+    except Exception as exc:
+        print(f"[TELEGRAM] ERROR: {exc}")
+
+
+def _send_tg_followup(chat_id, text: str) -> None:
+    """Send a follow-up plain message to a specific chat (used after webhook actions)."""
+    if not TELEGRAM_BOT_TOKEN:
+        return
+    payload = {"chat_id": chat_id, "text": text, "parse_mode": "HTML"}
+    data = json.dumps(payload).encode("utf-8")
+    req  = urllib.request.Request(
+        f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
+        data=data, headers={"Content-Type": "application/json"}, method="POST",
+    )
+    try:
+        urllib.request.urlopen(req, timeout=10)
+    except Exception as exc:
+        print(f"[TELEGRAM] followup error: {exc}")
+
+
 # ─── Suspicious pattern detection ─────────────────────────────────────────────
 
 _PATTERNS: list[tuple[re.Pattern, str]] = [
@@ -763,6 +802,73 @@ async def firewall_logs_daily(date: str = ""):
             entries.append(entry)
     return {"date": date, "entries": entries}
 
+# ─── AI notification endpoints (called by realtime-defender) ─────────────────
+
+@app.post("/api/v1/notify")
+async def v1_notify(request: Request):
+    """Called by realtime-defender for MEDIUM-confidence threats (not yet blocked).
+    Sends Telegram alert with 'Block IP Now' and 'Mark as Safe' buttons.
+    """
+    try:
+        body = await request.json()
+    except Exception:
+        return JSONResponse({"ok": False, "error": "Invalid JSON body"}, status_code=400)
+
+    ip           = body.get("ip", "unknown")
+    attack_type  = body.get("attack_type", "")
+    score        = float(body.get("score", 0))
+    endpoint     = body.get("endpoint", "")
+    method       = body.get("method", "")
+    trend        = body.get("trend", "")
+
+    text = (
+        f"<b>⚠️ CANH BAO TRUNG BINH - Chua bi chan</b>\n\n"
+        f"IP: <code>{ip}</code>\n"
+        + (f"Loai tan cong: <b>{attack_type}</b>\n" if attack_type else "")
+        + (f"Do tin cay: {score:.1f}%\n" if score else "")
+        + (f"Endpoint: <code>{method} {endpoint}</code>\n" if endpoint else "")
+        + (f"Xu huong: {trend}\n" if trend else "")
+    )
+    _send_tg_with_keyboard(text, [[
+        {"text": "🚫 Block IP Now",   "callback_data": f"block:{ip}"},
+        {"text": "✅ Mark as Safe",   "callback_data": f"safe:{ip}"},
+    ]])
+    return {"ok": True}
+
+
+@app.post("/api/v1/notify-high-blocked")
+async def v1_notify_high_blocked(request: Request):
+    """Called by realtime-defender after AUTO-BLOCKING a HIGH-confidence threat.
+    Sends Telegram alert with 'Unblock IP' and 'Confirm Attack' buttons.
+    """
+    try:
+        body = await request.json()
+    except Exception:
+        return JSONResponse({"ok": False, "error": "Invalid JSON body"}, status_code=400)
+
+    ip           = body.get("ip", "unknown")
+    attack_type  = body.get("attack_type", "")
+    score        = float(body.get("score", 0))
+    endpoint     = body.get("endpoint", "")
+    method       = body.get("method", "")
+    trend        = body.get("trend", "")
+
+    text = (
+        f"<b>🔴 DA TU DONG CHAN IP (HIGH)</b>\n\n"
+        f"IP: <code>{ip}</code>\n"
+        + (f"Loai tan cong: <b>{attack_type}</b>\n" if attack_type else "")
+        + (f"Do tin cay: {score:.1f}%\n" if score else "")
+        + (f"Endpoint: <code>{method} {endpoint}</code>\n" if endpoint else "")
+        + (f"Xu huong: {trend}\n" if trend else "")
+        + "IP da bi chan tu dong. Ban co muon mo chan khong?"
+    )
+    _send_tg_with_keyboard(text, [[
+        {"text": "🔓 Unblock IP",       "callback_data": f"unblock:{ip}"},
+        {"text": "✅ Confirm Attack",   "callback_data": f"confirm:{ip}"},
+    ]])
+    return {"ok": True}
+
+
 # ─── Telegram webhook (handles inline button callbacks) ───────────────────────
 
 @app.post("/telegram/webhook")
@@ -783,12 +889,53 @@ async def telegram_webhook(request: Request):
             ipaddress.ip_address(ip_target)
             nft_exec(["nft", "add", "element", "inet", "filter",
                       "permanent_ban", f"{{ {ip_target} }}"])
-            result_text = f"Da block IP {ip_target} thanh cong qua Telegram."
+            append_to_daily_csv({"ip": ip_target}, 1)
+            result_text = f"✅ Da block IP {ip_target}. Label 1 da luu vao CSV hom nay."
         except Exception as exc:
-            result_text = f"Loi khi block IP {ip_target}: {exc}"
-
+            result_text = f"❌ Loi khi block IP {ip_target}: {exc}"
         _answer_callback(cb_id, result_text)
         _edit_message_reply_markup(chat_id, message_id)
+        _send_tg_followup(chat_id, result_text)
+
+    elif data.startswith("unblock:"):
+        ip_target = data.split(":", 1)[1].strip()
+        try:
+            ipaddress.ip_address(ip_target)
+            nft_exec(["nft", "delete", "element", "inet", "filter",
+                      "ddos_blacklist", f"{{ {ip_target} }}"])
+            nft_exec(["nft", "delete", "element", "inet", "filter",
+                      "permanent_ban", f"{{ {ip_target} }}"])
+            append_to_daily_csv({"ip": ip_target}, 0)
+            result_text = f"🔓 IP {ip_target} da duoc mo chan. Label 0 da luu vao CSV hom nay."
+        except Exception as exc:
+            result_text = f"❌ Loi khi unblock IP {ip_target}: {exc}"
+        _answer_callback(cb_id, result_text)
+        _edit_message_reply_markup(chat_id, message_id)
+        _send_tg_followup(chat_id, result_text)
+
+    elif data.startswith("confirm:"):
+        ip_target = data.split(":", 1)[1].strip()
+        try:
+            ipaddress.ip_address(ip_target)
+            append_to_daily_csv({"ip": ip_target}, 1)
+            result_text = f"✅ Tan cong da xac nhan. IP {ip_target} van bi chan. Label 1 da luu vao CSV hom nay."
+        except Exception as exc:
+            result_text = f"❌ Loi khi confirm IP {ip_target}: {exc}"
+        _answer_callback(cb_id, result_text)
+        _edit_message_reply_markup(chat_id, message_id)
+        _send_tg_followup(chat_id, result_text)
+
+    elif data.startswith("safe:"):
+        ip_target = data.split(":", 1)[1].strip()
+        try:
+            ipaddress.ip_address(ip_target)
+            append_to_daily_csv({"ip": ip_target}, 0)
+            result_text = f"✅ IP {ip_target} da duoc danh dau an toan. Label 0 da luu vao CSV hom nay."
+        except Exception as exc:
+            result_text = f"❌ Loi khi danh dau safe IP {ip_target}: {exc}"
+        _answer_callback(cb_id, result_text)
+        _edit_message_reply_markup(chat_id, message_id)
+        _send_tg_followup(chat_id, result_text)
 
     return {"ok": True}
 
