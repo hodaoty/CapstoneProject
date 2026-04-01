@@ -7,7 +7,7 @@ import secrets
 import ipaddress
 import csv
 import smtplib
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from pathlib import Path
@@ -28,6 +28,7 @@ ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin123")
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
 TELEGRAM_CHAT_ID   = os.getenv("TELEGRAM_CHAT_ID", "")
 FIREWALL_ADMIN_URL = os.getenv("FIREWALL_ADMIN_URL", "http://localhost:9000")
+KIBANA_URL         = os.getenv("KIBANA_URL", "http://localhost:5601")
 
 ACCESS_LOG   = Path("/app/logs/access_json.log")
 FIREWALL_LOG = Path("/app/logs/firewall/firewall.log")
@@ -87,6 +88,32 @@ def append_to_daily_csv(entry: dict, label: int) -> None:
             writer.writerow(row)
     except Exception as exc:
         print(f"[CSV] ERROR writing daily log: {exc}")
+
+
+def update_csv_label(ip: str, new_label: int) -> bool:
+    """Find ALL rows in today's CSV where remote_ip == ip and update their label.
+    Returns True if at least one row was updated, False if no matching row found."""
+    path = _get_daily_csv_path()
+    if not path.exists():
+        return False
+    try:
+        with open(path, "r", newline="", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            rows = list(reader)
+        updated = False
+        for row in rows:
+            if row.get("remote_ip") == ip:
+                row["label"] = str(new_label)
+                updated = True
+        if updated:
+            with open(path, "w", newline="", encoding="utf-8") as f:
+                writer = csv.DictWriter(f, fieldnames=_CSV_COLUMNS)
+                writer.writeheader()
+                writer.writerows(rows)
+        return updated
+    except Exception as exc:
+        print(f"[CSV] ERROR updating label for {ip}: {exc}")
+        return False
 
 # ─── App & session store ──────────────────────────────────────────────────────
 
@@ -802,6 +829,27 @@ async def firewall_logs_daily(date: str = ""):
             entries.append(entry)
     return {"date": date, "entries": entries}
 
+# ─── Daily labeled logs endpoint ──────────────────────────────────────────────
+
+@app.get("/api/daily-labeled-logs")
+async def daily_labeled_logs(date: str = ""):
+    if not date:
+        date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    try:
+        datetime.strptime(date, "%Y-%m-%d")
+    except ValueError:
+        return JSONResponse({"ok": False, "error": "Invalid date format, use YYYY-MM-DD"}, status_code=400)
+    csv_file = DAILY_CSV_DIR / f"{date}.csv"
+    if not csv_file.exists():
+        return {"date": date, "rows": [], "count": 0}
+    try:
+        with open(csv_file, "r", newline="", encoding="utf-8") as f:
+            rows = list(csv.DictReader(f))
+        return {"date": date, "rows": rows, "count": len(rows)}
+    except Exception as exc:
+        return JSONResponse({"ok": False, "error": str(exc)}, status_code=500)
+
+
 # ─── AI notification endpoints (called by realtime-defender) ─────────────────
 
 @app.post("/api/v1/notify")
@@ -862,9 +910,15 @@ async def v1_notify_high_blocked(request: Request):
         + (f"Xu huong: {trend}\n" if trend else "")
         + "IP da bi chan tu dong. Ban co muon mo chan khong?"
     )
+    from_time = (datetime.now(timezone.utc) - timedelta(seconds=30)).strftime('%Y-%m-%dT%H:%M:%S.000Z')
+    to_time   = (datetime.now(timezone.utc) + timedelta(seconds=30)).strftime('%Y-%m-%dT%H:%M:%S.000Z')
+    kibana_url = (
+        f"{KIBANA_URL}/app/discover#/?_g=(time:(from:'{from_time}',to:'{to_time}'))"
+        f"&_a=(query:(language:kuery,query:'remote_ip:\"{ip}\"'))"
+    )
     _send_tg_with_keyboard(text, [[
-        {"text": "🔓 Unblock IP",       "callback_data": f"unblock:{ip}"},
-        {"text": "✅ Confirm Attack",   "callback_data": f"confirm:{ip}"},
+        {"text": "🔍 Xem tren Kibana", "url": kibana_url},
+        {"text": "🔓 Go block",        "callback_data": f"unblock:{ip}"},
     ]])
     return {"ok": True}
 
@@ -905,8 +959,10 @@ async def telegram_webhook(request: Request):
                       "ddos_blacklist", f"{{ {ip_target} }}"])
             nft_exec(["nft", "delete", "element", "inet", "filter",
                       "permanent_ban", f"{{ {ip_target} }}"])
-            append_to_daily_csv({"ip": ip_target}, 0)
-            result_text = f"🔓 IP {ip_target} da duoc mo chan. Label 0 da luu vao CSV hom nay."
+            updated = update_csv_label(ip_target, 0)
+            if not updated:
+                append_to_daily_csv({"ip": ip_target}, 0)
+            result_text = f"🔓 IP {ip_target} da duoc mo chan. Label 0 da cap nhat vao CSV hom nay."
         except Exception as exc:
             result_text = f"❌ Loi khi unblock IP {ip_target}: {exc}"
         _answer_callback(cb_id, result_text)

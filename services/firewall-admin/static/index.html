@@ -693,6 +693,38 @@
           </table>
         </div>
         <div id="fl-count" style="font-size:0.72rem;color:var(--text-dim);margin-top:8px;"></div>
+
+        <!-- ── Daily Labeled Logs ────────────────────────────────────── -->
+        <div style="padding:24px 0 0 0;">
+          <h3 style="margin:0 0 12px;font-size:1rem;color:var(--text);">Daily Labeled Logs</h3>
+          <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
+            <input type="date" class="ctrl-input" id="dll-date" style="width:150px;">
+            <button class="btn btn-ghost btn-sm" id="dll-load">Load</button>
+          </div>
+          <div id="dll-summary" style="display:flex;gap:18px;margin-bottom:12px;font-size:0.82rem;color:var(--text-dim);flex-wrap:wrap;">
+            <span>Total: <strong id="dll-total">—</strong></span>
+            <span>Attack: <strong id="dll-attack" style="color:#e74c3c;">—</strong></span>
+            <span>Safe: <strong id="dll-safe" style="color:#27ae60;">—</strong></span>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="data-table" id="dll-table" style="font-size:0.8rem;">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Remote IP</th>
+                  <th>Method</th>
+                  <th>Path</th>
+                  <th>Status</th>
+                  <th>WAF Action</th>
+                  <th>Label</th>
+                </tr>
+              </thead>
+              <tbody id="dll-tbody">
+                <tr><td colspan="7" style="text-align:center;padding:24px;color:var(--text-dim);">Select a date and click Load</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div><!-- /page-firewall-logs -->
 
@@ -851,6 +883,7 @@ function navTo(page) {
   }
   if (page === 'firewall-logs') {
     loadFL();
+    loadDLL();
     const flSec = +document.getElementById('fl-autorefresh').value;
     if (flSec > 0 && !flTimer) startFLAutoRefresh(flSec);
   }
@@ -1115,6 +1148,55 @@ document.getElementById('fl-autorefresh').addEventListener('change', e => {
   startFLAutoRefresh(+e.target.value);
   if (+e.target.value > 0) loadFL();
 });
+
+// ════════════════════════════════════════════════════════════════════════════
+// DAILY LABELED LOGS
+// ════════════════════════════════════════════════════════════════════════════
+
+(function() {
+  const todayISO = new Date().toISOString().slice(0,10);
+  document.getElementById('dll-date').value = todayISO;
+})();
+
+async function loadDLL() {
+  const date = document.getElementById('dll-date').value;
+  const tbody = document.getElementById('dll-tbody');
+  tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:24px;"><span class="spinner"></span></td></tr>';
+  try {
+    const r = await fetch(`/api/daily-labeled-logs?date=${encodeURIComponent(date)}`);
+    if (!r.ok) { tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:24px;color:#e74c3c;">HTTP ${r.status}</td></tr>`; return; }
+    const d = await r.json();
+    const rows = d.rows || [];
+    const attackCount = rows.filter(r => String(r.label) === '1').length;
+    const safeCount   = rows.filter(r => String(r.label) === '0').length;
+    document.getElementById('dll-total').textContent  = rows.length;
+    document.getElementById('dll-attack').textContent = attackCount;
+    document.getElementById('dll-safe').textContent   = safeCount;
+    if (!rows.length) {
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--text-dim);">No data for this date</td></tr>';
+      return;
+    }
+    tbody.innerHTML = rows.map(row => {
+      const labelBadge = String(row.label) === '1'
+        ? '<span style="background:#e74c3c;color:#fff;padding:2px 8px;border-radius:10px;font-size:0.75rem;">ATTACK</span>'
+        : '<span style="background:#27ae60;color:#fff;padding:2px 8px;border-radius:10px;font-size:0.75rem;">SAFE</span>';
+      return `<tr>
+        <td style="white-space:nowrap;">${esc(row.timestamp||'')}</td>
+        <td>${esc(row.remote_ip||'')}</td>
+        <td>${esc(row.method||'')}</td>
+        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${esc(row.path||'')}">${esc(row.path||'')}</td>
+        <td>${esc(row.status||'')}</td>
+        <td>${esc(row.waf_action||'')}</td>
+        <td>${labelBadge}</td>
+      </tr>`;
+    }).join('');
+  } catch(err) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:24px;color:#e74c3c;">Failed: ${esc(err.message)}</td></tr>`;
+  }
+}
+
+document.getElementById('dll-load').addEventListener('click', loadDLL);
+document.getElementById('dll-date').addEventListener('change', loadDLL);
 
 // ════════════════════════════════════════════════════════════════════════════
 // BLACKLIST

@@ -35,6 +35,7 @@ services:
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
       - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
       - FIREWALL_ADMIN_URL=${FIREWALL_ADMIN_URL:-http://localhost:9000}
+      - KIBANA_URL=${KIBANA_URL:-http://localhost:5601}
     ports:
       - "9000:9000"
     volumes:
