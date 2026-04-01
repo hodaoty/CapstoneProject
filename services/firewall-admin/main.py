@@ -5,8 +5,9 @@ import re
 import json
 import secrets
 import ipaddress
+import csv
 import smtplib
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from pathlib import Path
@@ -31,6 +32,61 @@ FIREWALL_ADMIN_URL = os.getenv("FIREWALL_ADMIN_URL", "http://localhost:9000")
 ACCESS_LOG   = Path("/app/logs/access_json.log")
 FIREWALL_LOG = Path("/app/logs/firewall/firewall.log")
 TRAFFIC_CSV  = Path("/app/logs/firewall/traffic.csv")
+
+DAILY_CSV_DIR = Path("/app/logs/daily")
+
+# Columns match the LightGBM training data format (dataset_cleaned_for_lightgbm.csv)
+# plus a 'label' column appended at the end.
+_CSV_COLUMNS = [
+    "timestamp", "auth_token_hash", "method", "path", "path_normalized",
+    "remote_ip", "request_id", "response_size", "response_time_ms",
+    "sampling_flag", "status", "upstream", "user_agent", "user_id_hash",
+    "user_role", "waf_action", "waf_rule_id", "label",
+]
+
+
+def _get_daily_csv_path() -> Path:
+    DAILY_CSV_DIR.mkdir(parents=True, exist_ok=True)
+    return DAILY_CSV_DIR / f"{date.today().isoformat()}.csv"
+
+
+def _build_csv_row(entry: dict, label: int) -> dict:
+    """Map a block/unblock request body to a training-format CSV row."""
+    return {
+        "timestamp":        datetime.now(timezone.utc).isoformat(),
+        "auth_token_hash":  "",
+        "method":           entry.get("method", ""),
+        "path":             entry.get("endpoint", ""),
+        "path_normalized":  entry.get("endpoint", ""),
+        "remote_ip":        entry.get("ip", ""),
+        "request_id":       "",
+        "response_size":    entry.get("response_size", 0),
+        "response_time_ms": 0,
+        "sampling_flag":    0,
+        "status":           entry.get("status_code", ""),
+        "upstream":         "",
+        "user_agent":       "",
+        "user_id_hash":     "",
+        "user_role":        "",
+        "waf_action":       entry.get("attack_type", ""),
+        "waf_rule_id":      "",
+        "label":            label,
+    }
+
+
+def append_to_daily_csv(entry: dict, label: int) -> None:
+    """Append one row to today's daily CSV. Creates the file with headers if needed."""
+    path = _get_daily_csv_path()
+    row = _build_csv_row(entry, label)
+    write_header = not path.exists()
+    try:
+        with open(path, "a", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=_CSV_COLUMNS)
+            if write_header:
+                writer.writeheader()
+            writer.writerow(row)
+    except Exception as exc:
+        print(f"[CSV] ERROR writing daily log: {exc}")
 
 # ─── App & session store ──────────────────────────────────────────────────────
 
@@ -611,6 +667,7 @@ async def v1_block_ip(request: Request):
         + f"Thoi gian: {ts}"
     )
     send_telegram_message(tg_text, ip_to_block=ip)
+    append_to_daily_csv(body, 1)
     return {"ok": True, "ip": ip, "action": "blocked", "timestamp": ts}
 
 
@@ -642,6 +699,7 @@ async def v1_unblock_ip(request: Request):
         f"<b>\u2705 IP da duoc MO CHAN</b>\n\nIP: <code>{ip}</code>\nThoi gian: {ts}",
         ip_to_block=None,
     )
+    append_to_daily_csv(body, 0)
     return {"ok": True, "ip": ip, "action": "unblocked", "timestamp": ts}
 
 
