@@ -18,7 +18,7 @@ import socket
 import urllib.parse
 import urllib.request
 from fastapi import FastAPI, Request, HTTPException, Form
-from fastapi.responses import JSONResponse, FileResponse
+from fastapi.responses import JSONResponse, FileResponse, Response
 from fastapi.staticfiles import StaticFiles
 
 # ─── Config ───────────────────────────────────────────────────────────────────
@@ -36,6 +36,43 @@ FIREWALL_LOG = Path("/app/logs/firewall/firewall.log")
 TRAFFIC_CSV  = Path("/app/logs/firewall/traffic.csv")
 
 DAILY_CSV_DIR = Path("/app/logs/daily")
+
+LABELS_DIR = Path("/app/logs/daily/labels")
+
+
+def _get_labels_path(date_str: str = "") -> Path:
+    LABELS_DIR.mkdir(parents=True, exist_ok=True)
+    if not date_str:
+        date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    return LABELS_DIR / f"{date_str}.json"
+
+
+def save_label(request_id: str, label: int) -> None:
+    if not request_id:
+        return
+    path = _get_labels_path()
+    try:
+        data = {}
+        if path.exists():
+            with open(path, "r") as f:
+                data = json.load(f)
+        data[request_id] = label
+        with open(path, "w") as f:
+            json.dump(data, f)
+    except Exception as e:
+        print(f"[LABELS] ERROR: {e}")
+
+
+def get_labels(date_str: str = "") -> dict:
+    path = _get_labels_path(date_str)
+    if not path.exists():
+        return {}
+    try:
+        with open(path, "r") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
 
 # Columns match the LightGBM training data format (dataset_cleaned_for_lightgbm.csv)
 # plus a 'label' column appended at the end.
@@ -868,6 +905,87 @@ async def download_daily_csv(date: str = ""):
     )
 
 
+@app.get("/api/export-labeled-csv")
+async def export_labeled_csv(request: Request, date: str = ""):
+    if not date:
+        date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
+    labels = get_labels(date)
+
+    try:
+        from elasticsearch import Elasticsearch
+        es = Elasticsearch(
+            os.getenv("ES_URL", "http://elasticsearch:9200"),
+            request_timeout=10
+        )
+        index = f"mlops-api-logs-{date.replace('-', '.')}"
+        response = es.search(
+            index=index,
+            body={
+                "query": {"match_all": {}},
+                "size": 10000,
+                "sort": [{"@timestamp": {"order": "asc"}}]
+            }
+        )
+        hits = response["hits"]["hits"]
+    except Exception as e:
+        return JSONResponse({"ok": False, "error": str(e)}, status_code=500)
+
+    if not hits:
+        return JSONResponse(
+            {"ok": False, "error": f"No logs found for {date}"},
+            status_code=404
+        )
+
+    import io
+    output = io.StringIO()
+
+    es_fields = [
+        "timestamp", "remote_ip", "method", "path", "path_normalized",
+        "status", "response_time_ms", "response_size", "upstream",
+        "user_agent", "auth_token_hash", "user_id_hash", "user_role",
+        "sampling_flag", "waf_action", "waf_rule_id", "label"
+    ]
+
+    writer = csv.DictWriter(output, fieldnames=es_fields, extrasaction="ignore")
+    writer.writeheader()
+
+    for hit in hits:
+        src = hit["_source"]
+        request_id = src.get("request_id", "")
+        label = labels.get(request_id, 0)
+
+        row = {
+            "timestamp":        src.get("@timestamp", ""),
+            "remote_ip":        src.get("remote_ip", ""),
+            "method":           src.get("method", ""),
+            "path":             src.get("path", ""),
+            "path_normalized":  src.get("path_normalized", ""),
+            "status":           src.get("status", ""),
+            "response_time_ms": src.get("response_time_ms", ""),
+            "response_size":    src.get("response_size", ""),
+            "upstream":         src.get("upstream", ""),
+            "user_agent":       src.get("user_agent", ""),
+            "auth_token_hash":  src.get("auth_token_hash", ""),
+            "user_id_hash":     src.get("user_id_hash", ""),
+            "user_role":        src.get("user_role", ""),
+            "sampling_flag":    src.get("sampling_flag", ""),
+            "waf_action":       src.get("waf_action", ""),
+            "waf_rule_id":      src.get("waf_rule_id", ""),
+            "label":            label,
+        }
+        writer.writerow(row)
+
+    output.seek(0)
+    return Response(
+        content=output.getvalue(),
+        media_type="text/csv",
+        headers={
+            "Content-Disposition": f"attachment; filename=labeled-logs-{date}.csv"
+        }
+    )
+
+
 # ─── AI notification endpoints (called by realtime-defender) ─────────────────
 
 @app.post("/api/v1/notify")
@@ -956,6 +1074,7 @@ async def v1_notify_high_blocked(request: Request):
         "status_code": status_code,
         "attack_type": attack_type,
     }, label=1)
+    save_label(body.get("request_id", ""), 1)
     html_body = build_email_html(
         action="BLOCKED",
         ip=ip,
@@ -999,6 +1118,7 @@ async def telegram_webhook(request: Request):
             nft_exec(["nft", "add", "element", "inet", "filter",
                       "permanent_ban", f"{{ {ip_target} }}"])
             append_to_daily_csv({"ip": ip_target}, 1)
+            save_label(update.get("request_id", ""), 1)
             result_text = f"✅ IP {ip_target} has been blocked. Label 1 saved to today's CSV."
         except Exception as exc:
             result_text = f"❌ Error blocking IP {ip_target}: {exc}"
@@ -1048,6 +1168,7 @@ async def telegram_webhook(request: Request):
         try:
             ipaddress.ip_address(ip_target)
             append_to_daily_csv({"ip": ip_target}, 0)
+            save_label(update.get("request_id", ""), 0)
             result_text = f"✅ IP {ip_target} marked as safe. Label 0 saved to today's CSV."
         except Exception as exc:
             result_text = f"❌ Error marking IP {ip_target} as safe: {exc}"
