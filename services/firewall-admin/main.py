@@ -74,6 +74,47 @@ def get_labels(date_str: str = "") -> dict:
         return {}
 
 
+def update_labels_for_ip(ip: str, new_label: int, date_str: str = "") -> int:
+    """Find all request_ids for given IP in ES and update their label."""
+    try:
+        from elasticsearch import Elasticsearch
+        es = Elasticsearch(
+            os.getenv("ES_URL", "http://elasticsearch:9200"),
+            request_timeout=10
+        )
+        if not date_str:
+            date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        index = f"mlops-api-logs-{date_str.replace('-', '.')}"
+        response = es.search(
+            index=index,
+            body={
+                "query": {"term": {"remote_ip": ip}},
+                "size": 1000,
+                "_source": ["request_id"]
+            }
+        )
+        hits = response["hits"]["hits"]
+        if not hits:
+            return 0
+
+        labels = get_labels(date_str)
+        count = 0
+        for hit in hits:
+            req_id = hit["_source"].get("request_id", "")
+            if req_id and req_id in labels:
+                labels[req_id] = new_label
+                count += 1
+
+        if count > 0:
+            path = _get_labels_path(date_str)
+            with open(path, "w") as f:
+                json.dump(labels, f)
+        return count
+    except Exception as e:
+        print(f"[LABELS] ERROR updating labels for IP {ip}: {e}")
+        return 0
+
+
 # Columns match the LightGBM training data format (dataset_cleaned_for_lightgbm.csv)
 # plus a 'label' column appended at the end.
 _CSV_COLUMNS = [
@@ -1184,6 +1225,8 @@ async def telegram_webhook(request: Request):
             updated = update_csv_label(ip_target, 0)
             if not updated:
                 append_to_daily_csv({"ip": ip_target}, 0)
+            updated_labels = update_labels_for_ip(ip_target, 0)
+            print(f"[LABELS] Updated {updated_labels} labels to 0 for IP {ip_target}")
             html_body = build_email_html(
                 action="UNBLOCKED",
                 ip=ip_target,
