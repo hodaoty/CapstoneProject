@@ -32,6 +32,7 @@ services:
       - SMTP_PORT=${SMTP_PORT:-587}
       - SMTP_USER=${SMTP_USER}
       - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - NOTIFY_TO=${NOTIFY_TO:-}
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
       - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
       - FIREWALL_ADMIN_URL=${FIREWALL_ADMIN_URL:-http://localhost:9000}
@@ -344,6 +345,7 @@ services:
       - ./infra/logstash/pipeline:/usr/share/logstash/pipeline
       - ./logs_data/api-gateway/:/var/log/nginx
       #- ./logs_data/nftables-logs/:/var/log/firewall
+      - logstash_data:/usr/share/logstash/data
     ports:
       - "5000:5000" #input
       - "9600:9600" #monitoring
@@ -399,6 +401,7 @@ volumes:
   mysql_data:
   redis_data:
   es_data:
+  logstash_data:
 
 networks:
   ecommerce-net:
