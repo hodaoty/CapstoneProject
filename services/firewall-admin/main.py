@@ -877,15 +877,53 @@ async def daily_labeled_logs(date: str = ""):
         datetime.strptime(date, "%Y-%m-%d")
     except ValueError:
         return JSONResponse({"ok": False, "error": "Invalid date format, use YYYY-MM-DD"}, status_code=400)
-    csv_file = DAILY_CSV_DIR / f"{date}.csv"
-    if not csv_file.exists():
-        return {"date": date, "rows": [], "count": 0}
+
+    labels = get_labels(date)
+
     try:
-        with open(csv_file, "r", newline="", encoding="utf-8") as f:
-            rows = list(csv.DictReader(f))
-        return {"date": date, "rows": rows, "count": len(rows)}
-    except Exception as exc:
-        return JSONResponse({"ok": False, "error": str(exc)}, status_code=500)
+        from elasticsearch import Elasticsearch
+        es = Elasticsearch(
+            os.getenv("ES_URL", "http://elasticsearch:9200"),
+            request_timeout=10
+        )
+        index = f"mlops-api-logs-{date.replace('-', '.')}"
+        response = es.search(
+            index=index,
+            body={
+                "query": {"match_all": {}},
+                "size": 10000,
+                "sort": [{"@timestamp": {"order": "asc"}}]
+            }
+        )
+        hits = response["hits"]["hits"]
+    except Exception:
+        return {"date": date, "rows": [], "count": 0}
+
+    rows = []
+    for hit in hits:
+        src = hit["_source"]
+        request_id = src.get("request_id", "")
+        label = labels.get(request_id, 0)
+
+        raw_ts = src.get("@timestamp", "")
+        try:
+            dt = datetime.strptime(raw_ts, "%Y-%m-%dT%H:%M:%S.%fZ")
+            dt = dt.replace(tzinfo=timezone.utc)
+            formatted_ts = dt.strftime("%Y-%m-%d %H:%M:%S+00:00")
+        except Exception:
+            formatted_ts = raw_ts
+
+        rows.append({
+            "timestamp":  formatted_ts,
+            "remote_ip":  src.get("remote_ip", ""),
+            "method":     src.get("method", ""),
+            "path":       src.get("path", ""),
+            "status":     src.get("status", ""),
+            "waf_action": src.get("waf_action", ""),
+            "label":      label,
+        })
+
+    return {"date": date, "rows": rows, "count": len(rows)}
 
 
 @app.get("/api/daily-labeled-logs/download")
