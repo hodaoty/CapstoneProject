@@ -699,7 +699,6 @@
           <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
             <input type="date" class="ctrl-input" id="dll-date" style="width:150px;">
             <button class="btn btn-ghost btn-sm" id="dll-load">Load</button>
-            <button class="btn btn-ghost btn-sm" id="dll-download">Download CSV</button>
             <button class="btn btn-ghost btn-sm" id="dll-export">Export from Kibana</button>
           </div>
           <div id="dll-summary" style="display:flex;gap:18px;margin-bottom:12px;font-size:0.82rem;color:var(--text-dim);flex-wrap:wrap;">
@@ -1198,11 +1197,6 @@ async function loadDLL() {
 
 document.getElementById('dll-load').addEventListener('click', loadDLL);
 document.getElementById('dll-date').addEventListener('change', loadDLL);
-document.getElementById('dll-download').addEventListener('click', function() {
-  const date = document.getElementById('dll-date').value;
-  if (!date) { alert('Please select a date first'); return; }
-  window.location.href = `/api/daily-labeled-logs/download?date=${encodeURIComponent(date)}`;
-});
 document.getElementById('dll-export').addEventListener('click', function() {
   const date = document.getElementById('dll-date').value;
   if (!date) { alert('Please select a date first'); return; }
