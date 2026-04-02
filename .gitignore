@@ -29,3 +29,6 @@ venv/
 .idea/
 *.swp
 *.swo
+logs_data/
+ml_model/API-Threat-Detection-Model/
+logs_data/
