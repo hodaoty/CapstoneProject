@@ -937,17 +937,22 @@ async def export_labeled_csv(request: Request, date: str = ""):
             status_code=404
         )
 
+    def _fmt(val):
+        if val is None or str(val).strip() == "":
+            return "(empty)"
+        return val
+
     import io
     output = io.StringIO()
 
     es_fields = [
-        "timestamp", "remote_ip", "method", "path", "path_normalized",
-        "status", "response_time_ms", "response_size", "upstream",
-        "user_agent", "auth_token_hash", "user_id_hash", "user_role",
-        "sampling_flag", "waf_action", "waf_rule_id", "label"
+        "timestamp", "auth_token_hash", "method", "path", "path_normalized",
+        "remote_ip", "request_id", "response_size", "response_time_ms",
+        "sampling_flag", "status", "upstream", "user_agent", "user_id_hash",
+        "user_role", "waf_action", "waf_rule_id", "label"
     ]
 
-    writer = csv.DictWriter(output, fieldnames=es_fields, extrasaction="ignore")
+    writer = csv.DictWriter(output, fieldnames=es_fields, extrasaction="ignore", lineterminator='\n')
     writer.writeheader()
 
     for hit in hits:
@@ -956,22 +961,23 @@ async def export_labeled_csv(request: Request, date: str = ""):
         label = labels.get(request_id, 0)
 
         row = {
-            "timestamp":        src.get("@timestamp", ""),
-            "remote_ip":        src.get("remote_ip", ""),
-            "method":           src.get("method", ""),
-            "path":             src.get("path", ""),
-            "path_normalized":  src.get("path_normalized", ""),
-            "status":           src.get("status", ""),
-            "response_time_ms": src.get("response_time_ms", ""),
-            "response_size":    src.get("response_size", ""),
-            "upstream":         src.get("upstream", ""),
-            "user_agent":       src.get("user_agent", ""),
-            "auth_token_hash":  src.get("auth_token_hash", ""),
-            "user_id_hash":     src.get("user_id_hash", ""),
-            "user_role":        src.get("user_role", ""),
-            "sampling_flag":    src.get("sampling_flag", ""),
-            "waf_action":       src.get("waf_action", ""),
-            "waf_rule_id":      src.get("waf_rule_id", ""),
+            "timestamp":        _fmt(src.get("@timestamp")),
+            "auth_token_hash":  _fmt(src.get("auth_token_hash")),
+            "method":           _fmt(src.get("method")),
+            "path":             _fmt(src.get("path")),
+            "path_normalized":  _fmt(src.get("path_normalized")),
+            "remote_ip":        _fmt(src.get("remote_ip")),
+            "request_id":       _fmt(src.get("request_id")),
+            "response_size":    _fmt(src.get("response_size")),
+            "response_time_ms": _fmt(src.get("response_time_ms")),
+            "sampling_flag":    _fmt(src.get("sampling_flag")),
+            "status":           _fmt(src.get("status")),
+            "upstream":         _fmt(src.get("upstream")),
+            "user_agent":       _fmt(src.get("user_agent")),
+            "user_id_hash":     _fmt(src.get("user_id_hash")),
+            "user_role":        _fmt(src.get("user_role")),
+            "waf_action":       _fmt(src.get("waf_action")),
+            "waf_rule_id":      _fmt(src.get("waf_rule_id")),
             "label":            label,
         }
         writer.writerow(row)
