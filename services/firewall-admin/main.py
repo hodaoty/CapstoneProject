@@ -871,16 +871,16 @@ async def v1_notify(request: Request):
     trend        = body.get("trend", "")
 
     text = (
-        f"<b>⚠️ MEDIUM THREAT - Not Yet Blocked</b>\n\n"
-        f"IP: <code>{ip}</code>\n"
-        + (f"Attack Type: <b>{attack_type}</b>\n" if attack_type else "")
-        + (f"Confidence: {score:.1f}%\n" if score else "")
-        + (f"Endpoint: <code>{method} {endpoint}</code>\n" if endpoint else "")
-        + (f"Trend: {trend}\n" if trend else "")
+        f"MEDIUM THREAT DETECTED\n\n"
+        f"IP: {ip}\n"
+        f"Attack Type: {attack_type}\n"
+        f"Confidence: {score}%\n"
+        f"Endpoint: {method} {endpoint}\n\n"
+        f"No action taken yet. Please review."
     )
     _send_tg_with_keyboard(text, [[
-        {"text": "🚫 Block IP Now",   "callback_data": f"block:{ip}"},
-        {"text": "✅ Mark as Safe",   "callback_data": f"safe:{ip}"},
+        {"text": "Block IP", "callback_data": f"block:{ip}"},
+        {"text": "Ignore",   "callback_data": f"safe:{ip}"},
     ]])
     return {"ok": True}
 
