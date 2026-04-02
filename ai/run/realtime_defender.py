@@ -155,7 +155,7 @@ def send_medium_review_alert(ip: str, score: float, path: str = "", method: str 
 
 
 # ADDED: HIGH đã block xong thì gọi firewall-admin để gửi mail + telegram
-def notify_high_blocked(ip: str, score: float, path: str = "", method: str = "GET"):
+def notify_high_blocked(ip: str, score: float, path: str = "", method: str = "GET", req_id: str = ""):
     payload = {
         "ip": ip,
         "reason": "AI detected HIGH threat and auto-blocked into ddos_blacklist",
@@ -165,7 +165,8 @@ def notify_high_blocked(ip: str, score: float, path: str = "", method: str = "GE
         "method": method,
         "status_code": "",
         "request_count": 1,
-        "trend": "Auto-block by realtime defender"
+        "trend": "Auto-block by realtime defender",
+        "request_id": req_id
     }
 
     try:
@@ -227,7 +228,7 @@ def execute_block_ip(ip: str) -> bool:
 
 #     return level
 
-def handle_threat(ip: str, score: float, path: str, method: str = "GET"):
+def handle_threat(ip: str, score: float, path: str, method: str = "GET", req_id: str = ""):
     """
     Xử lý hành động cuối cùng theo level:
     - LOW: không làm gì
@@ -243,7 +244,7 @@ def handle_threat(ip: str, score: float, path: str, method: str = "GET"):
         blocked = execute_block_ip(ip)
 
         if blocked:
-            notify_high_blocked(ip, score, path, method)
+            notify_high_blocked(ip, score, path, method, req_id)
         else:
             print(Fore.YELLOW + f"[WARN] Block thất bại, không gửi notify HIGH cho IP {ip}")
 
@@ -263,7 +264,8 @@ def handle_threat(ip: str, score: float, path: str, method: str = "GET"):
                 "attack_type": "MEDIUM",
                 "status_code": "",
                 "request_count": 1,
-                "trend": ""
+                "trend": "",
+                "request_id": req_id
             }
             r = requests.post(
                 f"{FIREWALL_ADMIN_API_URL}/api/v1/notify",
@@ -433,7 +435,7 @@ def run_realtime_defender():
                 # - MEDIUM -> cảnh báo admin
                 # - HIGH   -> block IP + cảnh báo admin
                 # level = handle_threat(ip, score, path)
-                level = handle_threat(ip, score, path, method)
+                level = handle_threat(ip, score, path, method, req_id)
 
                 # Chỉ đếm các request có mức đe dọa đáng chú ý
                 if level in ["MEDIUM", "HIGH"]:
