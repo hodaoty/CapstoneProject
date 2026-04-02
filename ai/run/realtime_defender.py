@@ -276,7 +276,25 @@ def handle_threat(ip: str, score: float, path: str, method: str = "GET"):
             send_medium_review_alert(ip, score, path, method)
 
     else:
-        print(Fore.GREEN + f"[LOW - {score:.4f}] Bình thường | IP: {ip}")
+        print(Fore.GREEN + f"[LOW - {score:.4f}] Normal | IP: {ip}")
+        try:
+            payload = {
+                "ip": ip,
+                "score": round(score * 100, 2),
+                "endpoint": path,
+                "method": method,
+                "attack_type": "Benign",
+                "status_code": "",
+                "request_count": 1,
+                "trend": ""
+            }
+            requests.post(
+                f"{FIREWALL_ADMIN_API_URL}/api/v1/notify-low",
+                json=payload,
+                timeout=3
+            )
+        except Exception:
+            pass
 
     return level
 

@@ -885,6 +885,26 @@ async def v1_notify(request: Request):
     return {"ok": True}
 
 
+@app.post("/api/v1/notify-low")
+async def v1_notify_low(request: Request):
+    body = await request.json()
+    ip           = body.get("ip", "")
+    endpoint     = body.get("endpoint", "")
+    method       = body.get("method", "GET")
+    score        = body.get("score", 0.0)
+
+    append_to_daily_csv({
+        "ip": ip,
+        "endpoint": endpoint,
+        "method": method,
+        "status_code": body.get("status_code", ""),
+        "attack_type": "Benign",
+        "score": score,
+    }, label=0)
+
+    return {"ok": True}
+
+
 @app.post("/api/v1/notify-high-blocked")
 async def v1_notify_high_blocked(request: Request):
     """Called by realtime-defender after AUTO-BLOCKING a HIGH-confidence threat.
