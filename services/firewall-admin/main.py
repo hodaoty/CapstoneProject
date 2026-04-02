@@ -919,6 +919,21 @@ async def v1_notify_high_blocked(request: Request):
         "status_code": status_code,
         "attack_type": attack_type,
     }, label=1)
+    send_firewall_email(
+        f"[HIGH THREAT] IP {ip} auto-blocked",
+        f"""
+      <h2>High Threat Detected - Auto Block</h2>
+      <table>
+        <tr><td><b>IP</b></td><td>{ip}</td></tr>
+        <tr><td><b>Attack Type</b></td><td>{attack_type}</td></tr>
+        <tr><td><b>Confidence</b></td><td>{score}%</td></tr>
+        <tr><td><b>Endpoint</b></td><td>{method} {endpoint}</td></tr>
+        <tr><td><b>Time</b></td><td>{datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}</td></tr>
+        <tr><td><b>Action</b></td><td>Auto-blocked into ddos_blacklist (1 hour timeout)</td></tr>
+      </table>
+      <p>Check Firewall Admin dashboard for details or to unblock.</p>
+      """
+    )
     from_time = (datetime.now(timezone.utc) - timedelta(seconds=30)).strftime('%Y-%m-%dT%H:%M:%S.000Z')
     to_time   = (datetime.now(timezone.utc) + timedelta(seconds=30)).strftime('%Y-%m-%dT%H:%M:%S.000Z')
     rison_g = urllib.parse.quote(f"(time:(from:'{from_time}',to:'{to_time}'))", safe="")
