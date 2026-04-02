@@ -254,7 +254,26 @@ def handle_threat(ip: str, score: float, path: str, method: str = "GET"):
         # send_admin_alert(ip, score, "MEDIUM", path)
 
         # ADDED: MEDIUM chỉ gửi Telegram + link qua web admin
-        send_medium_review_alert(ip, score, path, method)
+        try:
+            payload = {
+                "ip": ip,
+                "score": round(score * 100, 2),
+                "endpoint": path,
+                "method": method,
+                "attack_type": "MEDIUM",
+                "status_code": "",
+                "request_count": 1,
+                "trend": ""
+            }
+            r = requests.post(
+                f"{FIREWALL_ADMIN_API_URL}/api/v1/notify",
+                json=payload,
+                timeout=8
+            )
+            print(Fore.CYAN + f"   [NOTIFY-MEDIUM] status={r.status_code}")
+        except Exception as e:
+            print(Fore.YELLOW + f"[NOTIFY MEDIUM ERROR] {e}")
+            send_medium_review_alert(ip, score, path, method)
 
     else:
         print(Fore.GREEN + f"[LOW - {score:.4f}] Bình thường | IP: {ip}")
