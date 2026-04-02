@@ -403,11 +403,11 @@ def send_telegram_message(text: str, ip_to_block: str | None = None) -> None:
         payload["reply_markup"] = {
             "inline_keyboard": [[
                 {
-                    "text":          "🚫 Block IP ngay",
+                    "text":          "🚫 Block IP Now",
                     "callback_data": f"block:{ip_to_block}",
                 },
                 {
-                    "text": "👁 Bo qua / Xem chi tiet",
+                    "text": "👁 Skip / View Details",
                     "url":  review_url,
                 },
             ]]
@@ -645,14 +645,14 @@ async def block_ip(request: Request):
     )
     send_firewall_email(f"[FIREWALL] IP {ip} da bi BLOCK", html_body)
     tg_text = (
-        f"<b>\u26a0\ufe0f CANH BAO: IP bi BLOCK</b>\n\n"
+        f"<b>\u26a0\ufe0f WARNING: IP BLOCKED</b>\n\n"
         f"IP: <code>{ip}</code>\n"
-        f"Ly do: {reason}\n"
-        + (f"Loai tan cong: <b>{body.get('attack_type')}</b>\n" if body.get("attack_type") else "")
-        + (f"Do tin cay: {float(body.get('score', 0)):.1f}%\n" if body.get("score") else "")
+        f"Reason: {reason}\n"
+        + (f"Attack Type: <b>{body.get('attack_type')}</b>\n" if body.get("attack_type") else "")
+        + (f"Confidence: {float(body.get('score', 0)):.1f}%\n" if body.get("score") else "")
         + (f"Endpoint: <code>{body.get('method', '')} {body.get('endpoint', '')}</code>\n" if body.get("endpoint") else "")
-        + (f"Xu huong: {body.get('trend')}\n" if body.get("trend") else "")
-        + f"Thoi gian: {ts}"
+        + (f"Trend: {body.get('trend')}\n" if body.get("trend") else "")
+        + f"Time: {ts}"
     )
     send_telegram_message(tg_text, ip_to_block=ip)
     return {"ok": True, "message": f"{ip} added to permanent_ban", "timestamp": ts}
@@ -682,7 +682,7 @@ async def unblock_ip(request: Request):
     html_body = build_email_html(action="UNBLOCKED", ip=ip, reason="Admin unblock", ts=ts)
     send_firewall_email(f"[FIREWALL] IP {ip} da duoc UNBLOCK", html_body)
     send_telegram_message(
-        f"<b>\u2705 IP da duoc MO CHAN</b>\n\nIP: <code>{ip}</code>\nThoi gian: {ts}",
+        f"<b>\u2705 IP UNBLOCKED</b>\n\nIP: <code>{ip}</code>\nTime: {ts}",
         ip_to_block=None,
     )
     return {"ok": True, "message": f"{ip} removed from blacklist", "timestamp": ts}
@@ -724,14 +724,14 @@ async def v1_block_ip(request: Request):
     )
     send_firewall_email(f"[FIREWALL] IP {ip} da bi BLOCK", html_body)
     tg_text = (
-        f"<b>\u26a0\ufe0f CANH BAO: IP bi BLOCK</b>\n\n"
+        f"<b>\u26a0\ufe0f WARNING: IP BLOCKED</b>\n\n"
         f"IP: <code>{ip}</code>\n"
-        f"Ly do: {reason}\n"
-        + (f"Loai tan cong: <b>{body.get('attack_type')}</b>\n" if body.get("attack_type") else "")
-        + (f"Do tin cay: {float(body.get('score', 0)):.1f}%\n" if body.get("score") else "")
+        f"Reason: {reason}\n"
+        + (f"Attack Type: <b>{body.get('attack_type')}</b>\n" if body.get("attack_type") else "")
+        + (f"Confidence: {float(body.get('score', 0)):.1f}%\n" if body.get("score") else "")
         + (f"Endpoint: <code>{body.get('method', '')} {body.get('endpoint', '')}</code>\n" if body.get("endpoint") else "")
-        + (f"Xu huong: {body.get('trend')}\n" if body.get("trend") else "")
-        + f"Thoi gian: {ts}"
+        + (f"Trend: {body.get('trend')}\n" if body.get("trend") else "")
+        + f"Time: {ts}"
     )
     send_telegram_message(tg_text, ip_to_block=ip)
     append_to_daily_csv(body, 1)
@@ -763,7 +763,7 @@ async def v1_unblock_ip(request: Request):
     html_body = build_email_html(action="UNBLOCKED", ip=ip, reason="ML auto-unblock", ts=ts)
     send_firewall_email(f"[FIREWALL] IP {ip} da duoc UNBLOCK", html_body)
     send_telegram_message(
-        f"<b>\u2705 IP da duoc MO CHAN</b>\n\nIP: <code>{ip}</code>\nThoi gian: {ts}",
+        f"<b>\u2705 IP UNBLOCKED</b>\n\nIP: <code>{ip}</code>\nTime: {ts}",
         ip_to_block=None,
     )
     append_to_daily_csv(body, 0)
@@ -871,12 +871,12 @@ async def v1_notify(request: Request):
     trend        = body.get("trend", "")
 
     text = (
-        f"<b>⚠️ CANH BAO TRUNG BINH - Chua bi chan</b>\n\n"
+        f"<b>⚠️ MEDIUM THREAT - Not Yet Blocked</b>\n\n"
         f"IP: <code>{ip}</code>\n"
-        + (f"Loai tan cong: <b>{attack_type}</b>\n" if attack_type else "")
-        + (f"Do tin cay: {score:.1f}%\n" if score else "")
+        + (f"Attack Type: <b>{attack_type}</b>\n" if attack_type else "")
+        + (f"Confidence: {score:.1f}%\n" if score else "")
         + (f"Endpoint: <code>{method} {endpoint}</code>\n" if endpoint else "")
-        + (f"Xu huong: {trend}\n" if trend else "")
+        + (f"Trend: {trend}\n" if trend else "")
     )
     _send_tg_with_keyboard(text, [[
         {"text": "🚫 Block IP Now",   "callback_data": f"block:{ip}"},
@@ -904,13 +904,13 @@ async def v1_notify_high_blocked(request: Request):
     status_code  = body.get("status_code", "")
 
     text = (
-        f"<b>🔴 DA TU DONG CHAN IP (HIGH)</b>\n\n"
+        f"<b>🔴 AUTO BLOCKED IP (HIGH)</b>\n\n"
         f"IP: <code>{ip}</code>\n"
-        + (f"Loai tan cong: <b>{attack_type}</b>\n" if attack_type else "")
-        + (f"Do tin cay: {score:.1f}%\n" if score else "")
+        + (f"Attack Type: <b>{attack_type}</b>\n" if attack_type else "")
+        + (f"Confidence: {score:.1f}%\n" if score else "")
         + (f"Endpoint: <code>{method} {endpoint}</code>\n" if endpoint else "")
-        + (f"Xu huong: {trend}\n" if trend else "")
-        + "IP da bi chan tu dong. Ban co muon mo chan khong?"
+        + (f"Trend: {trend}\n" if trend else "")
+        + "IP has been auto-blocked. Do you want to unblock?"
     )
     append_to_daily_csv({
         "ip": ip,
@@ -940,8 +940,8 @@ async def v1_notify_high_blocked(request: Request):
     rison_a = urllib.parse.quote(f"(query:(language:kuery,query:'remote_ip:\"{ip}\"'))", safe="")
     kibana_url = f"{KIBANA_URL}/app/discover#/?_g={rison_g}&_a={rison_a}"
     _send_tg_with_keyboard(text, [[
-        {"text": "🔍 Xem tren Kibana", "url": kibana_url},
-        {"text": "🔓 Go block",        "callback_data": f"unblock:{ip}"},
+        {"text": "🔍 View in Kibana", "url": kibana_url},
+        {"text": "🔓 Unblock IP",     "callback_data": f"unblock:{ip}"},
     ]])
     return {"ok": True}
 
@@ -967,9 +967,9 @@ async def telegram_webhook(request: Request):
             nft_exec(["nft", "add", "element", "inet", "filter",
                       "permanent_ban", f"{{ {ip_target} }}"])
             append_to_daily_csv({"ip": ip_target}, 1)
-            result_text = f"✅ Da block IP {ip_target}. Label 1 da luu vao CSV hom nay."
+            result_text = f"✅ IP {ip_target} has been blocked. Label 1 saved to today's CSV."
         except Exception as exc:
-            result_text = f"❌ Loi khi block IP {ip_target}: {exc}"
+            result_text = f"❌ Error blocking IP {ip_target}: {exc}"
         _answer_callback(cb_id, result_text)
         _edit_message_reply_markup(chat_id, message_id)
         _send_tg_followup(chat_id, result_text)
@@ -985,9 +985,23 @@ async def telegram_webhook(request: Request):
             updated = update_csv_label(ip_target, 0)
             if not updated:
                 append_to_daily_csv({"ip": ip_target}, 0)
-            result_text = f"🔓 IP {ip_target} da duoc mo chan. Label 0 da cap nhat vao CSV hom nay."
+            send_firewall_email(
+                f"[UNBLOCK] IP {ip_target} has been unblocked",
+                f"""
+      <h2>IP Unblock Confirmation</h2>
+      <table>
+        <tr><td><b>IP</b></td><td>{ip_target}</td></tr>
+        <tr><td><b>Action</b></td><td>Unblocked from ddos_blacklist and permanent_ban</td></tr>
+        <tr><td><b>Label</b></td><td>Updated to 0 (Safe) in today CSV</td></tr>
+        <tr><td><b>Time</b></td><td>{datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}</td></tr>
+        <tr><td><b>Triggered by</b></td><td>Admin via Telegram button</td></tr>
+      </table>
+      <p>This IP has been removed from all block lists.</p>
+      """
+            )
+            result_text = f"🔓 IP {ip_target} has been unblocked. Label 0 updated in today's CSV."
         except Exception as exc:
-            result_text = f"❌ Loi khi unblock IP {ip_target}: {exc}"
+            result_text = f"❌ Error unblocking IP {ip_target}: {exc}"
         _answer_callback(cb_id, result_text)
         _edit_message_reply_markup(chat_id, message_id)
         _send_tg_followup(chat_id, result_text)
@@ -997,9 +1011,9 @@ async def telegram_webhook(request: Request):
         try:
             ipaddress.ip_address(ip_target)
             append_to_daily_csv({"ip": ip_target}, 1)
-            result_text = f"✅ Tan cong da xac nhan. IP {ip_target} van bi chan. Label 1 da luu vao CSV hom nay."
+            result_text = f"✅ Attack confirmed. IP {ip_target} remains blocked. Label 1 saved to today's CSV."
         except Exception as exc:
-            result_text = f"❌ Loi khi confirm IP {ip_target}: {exc}"
+            result_text = f"❌ Error confirming IP {ip_target}: {exc}"
         _answer_callback(cb_id, result_text)
         _edit_message_reply_markup(chat_id, message_id)
         _send_tg_followup(chat_id, result_text)
@@ -1009,9 +1023,9 @@ async def telegram_webhook(request: Request):
         try:
             ipaddress.ip_address(ip_target)
             append_to_daily_csv({"ip": ip_target}, 0)
-            result_text = f"✅ IP {ip_target} da duoc danh dau an toan. Label 0 da luu vao CSV hom nay."
+            result_text = f"✅ IP {ip_target} marked as safe. Label 0 saved to today's CSV."
         except Exception as exc:
-            result_text = f"❌ Loi khi danh dau safe IP {ip_target}: {exc}"
+            result_text = f"❌ Error marking IP {ip_target} as safe: {exc}"
         _answer_callback(cb_id, result_text)
         _edit_message_reply_markup(chat_id, message_id)
         _send_tg_followup(chat_id, result_text)
