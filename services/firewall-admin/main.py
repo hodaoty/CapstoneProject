@@ -851,6 +851,23 @@ async def daily_labeled_logs(date: str = ""):
         return JSONResponse({"ok": False, "error": str(exc)}, status_code=500)
 
 
+@app.get("/api/daily-labeled-logs/download")
+async def download_daily_csv(date: str = ""):
+    if not date:
+        date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    csv_file = DAILY_CSV_DIR / f"{date}.csv"
+    if not csv_file.exists():
+        return JSONResponse(
+            {"ok": False, "error": f"No CSV file for {date}"},
+            status_code=404
+        )
+    return FileResponse(
+        path=str(csv_file),
+        filename=f"labeled-logs-{date}.csv",
+        media_type="text/csv"
+    )
+
+
 # ─── AI notification endpoints (called by realtime-defender) ─────────────────
 
 @app.post("/api/v1/notify")
