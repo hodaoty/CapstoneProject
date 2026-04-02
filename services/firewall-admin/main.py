@@ -1042,24 +1042,29 @@ async def export_labeled_csv(request: Request, date: str = ""):
         except Exception:
             formatted_ts = raw_ts
 
+        def _z(val):
+            if val is None or str(val).strip() == "":
+                return "0"
+            return val
+
         row = {
             "@timestamp":       formatted_ts,
-            "auth_token_hash":  src.get("auth_token_hash", ""),
+            "auth_token_hash":  _z(src.get("auth_token_hash")),
             "method":           src.get("method", ""),
             "path":             src.get("path", ""),
             "path_normalized":  src.get("path_normalized", ""),
             "remote_ip":        src.get("remote_ip", ""),
             "request_id":       src.get("request_id", ""),
-            "response_size":    src.get("response_size", ""),
-            "response_time_ms": src.get("response_time_ms", ""),
-            "sampling_flag":    src.get("sampling_flag", ""),
-            "status":           src.get("status", ""),
-            "upstream":         src.get("upstream", ""),
-            "user_agent":       src.get("user_agent", ""),
-            "user_id_hash":     src.get("user_id_hash", ""),
-            "user_role":        src.get("user_role", ""),
-            "waf_action":       src.get("waf_action", ""),
-            "waf_rule_id":      src.get("waf_rule_id", ""),
+            "response_size":    _z(src.get("response_size")),
+            "response_time_ms": _z(src.get("response_time_ms")),
+            "sampling_flag":    _z(src.get("sampling_flag")),
+            "status":           _z(src.get("status")),
+            "upstream":         _z(src.get("upstream")),
+            "user_agent":       _z(src.get("user_agent")),
+            "user_id_hash":     _z(src.get("user_id_hash")),
+            "user_role":        _z(src.get("user_role")),
+            "waf_action":       _z(src.get("waf_action")),
+            "waf_rule_id":      _z(src.get("waf_rule_id")),
             "label":            label,
         }
         writer.writerow(row)
