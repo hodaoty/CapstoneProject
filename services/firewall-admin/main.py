@@ -237,21 +237,21 @@ def build_email_html(
     trend: str         = "",
 ) -> str:
     color = "#c0392b" if action == "BLOCKED" else "#27ae60"
-    label = "CANH BAO TAN CONG - IP DA BI CHAN" if action == "BLOCKED" else "THONG BAO - IP DA DUOC MO CHAN"
+    label = "THREAT ALERT - IP HAS BEEN BLOCKED" if action == "BLOCKED" else "NOTIFICATION - IP HAS BEEN UNBLOCKED"
 
     attack_section = ""
     if attack_type:
         score_bar  = int(min(score, 100))
-        trend_text = trend if trend else "Chua xac dinh"
+        trend_text = trend if trend else "Unknown"
         attack_section = f"""
         <tr><td colspan="2" style="padding:12px 16px 4px;font-weight:bold;color:#555;
-            border-top:1px solid #eee;">THONG TIN TAN CONG</td></tr>
+            border-top:1px solid #eee;">ATTACK INFORMATION</td></tr>
         <tr>
-          <td style="padding:4px 16px;color:#888;width:40%">Loai tan cong</td>
+          <td style="padding:4px 16px;color:#888;width:40%">Attack Type</td>
           <td style="padding:4px 16px;font-weight:bold;color:{color}">{attack_type}</td>
         </tr>
         <tr>
-          <td style="padding:4px 16px;color:#888">Do tin cay (LightGBM)</td>
+          <td style="padding:4px 16px;color:#888">Confidence (LightGBM)</td>
           <td style="padding:4px 16px">
             <div style="background:#eee;border-radius:4px;height:10px;width:200px">
               <div style="background:{color};width:{score_bar}%;height:10px;border-radius:4px"></div>
@@ -260,19 +260,19 @@ def build_email_html(
           </td>
         </tr>
         <tr>
-          <td style="padding:4px 16px;color:#888">Endpoint bi tan cong</td>
+          <td style="padding:4px 16px;color:#888">Targeted Endpoint</td>
           <td style="padding:4px 16px;font-family:monospace">{method} {endpoint}</td>
         </tr>
         <tr>
-          <td style="padding:4px 16px;color:#888">Ma phan hoi</td>
+          <td style="padding:4px 16px;color:#888">Status Code</td>
           <td style="padding:4px 16px">{status_code if status_code else "N/A"}</td>
         </tr>
         <tr>
-          <td style="padding:4px 16px;color:#888">So request phat hien</td>
+          <td style="padding:4px 16px;color:#888">Request Count</td>
           <td style="padding:4px 16px">{request_count if request_count else "N/A"}</td>
         </tr>
         <tr>
-          <td style="padding:4px 16px 12px;color:#888">Xu huong tan cong</td>
+          <td style="padding:4px 16px 12px;color:#888">Attack Trend</td>
           <td style="padding:4px 16px 12px">{trend_text}</td>
         </tr>
         """
@@ -287,39 +287,39 @@ def build_email_html(
                     box-shadow:0 2px 8px rgba(0,0,0,.1)">
         <tr><td style="background:{color};padding:20px 24px">
           <p style="margin:0;color:#fff;font-size:11px;text-transform:uppercase;
-                    letter-spacing:1px">He thong phat hien tan cong API</p>
+                    letter-spacing:1px">API Threat Detection System</p>
           <h1 style="margin:4px 0 0;color:#fff;font-size:20px">{label}</h1>
         </td></tr>
         <tr><td>
           <table width="100%" cellpadding="0" cellspacing="0">
             <tr><td colspan="2" style="padding:16px 16px 4px;font-weight:bold;
-                color:#555">THONG TIN CO BAN</td></tr>
+                color:#555">BASIC INFORMATION</td></tr>
             <tr style="background:#fafafa">
-              <td style="padding:8px 16px;color:#888;width:40%">Dia chi IP</td>
+              <td style="padding:8px 16px;color:#888;width:40%">IP Address</td>
               <td style="padding:8px 16px;font-weight:bold;
                   font-size:18px;color:{color}">{ip}</td>
             </tr>
             <tr>
-              <td style="padding:8px 16px;color:#888">Hanh dong</td>
+              <td style="padding:8px 16px;color:#888">Action</td>
               <td style="padding:8px 16px">
                 <span style="background:{color};color:#fff;padding:2px 10px;
                       border-radius:12px;font-size:13px">{action}</span>
               </td>
             </tr>
             <tr style="background:#fafafa">
-              <td style="padding:8px 16px;color:#888">Ly do</td>
+              <td style="padding:8px 16px;color:#888">Reason</td>
               <td style="padding:8px 16px">{reason}</td>
             </tr>
             <tr>
-              <td style="padding:8px 16px;color:#888">Thoi gian (UTC)</td>
+              <td style="padding:8px 16px;color:#888">Time (UTC)</td>
               <td style="padding:8px 16px">{ts}</td>
             </tr>
             {attack_section}
             <tr><td colspan="2" style="padding:16px;background:#f9f9f9;
                 border-top:1px solid #eee">
               <p style="margin:0;font-size:12px;color:#aaa">
-                Email nay duoc gui tu Firewall Admin Dashboard.<br>
-                Kiem tra chi tiet tai: <a href="{FIREWALL_ADMIN_URL}"
+                This email was sent by Firewall Admin Dashboard.<br>
+                View details at: <a href="{FIREWALL_ADMIN_URL}"
                 style="color:{color}">{FIREWALL_ADMIN_URL}</a>
               </p>
             </td></tr>
@@ -389,7 +389,7 @@ def send_telegram_message(text: str, ip_to_block: str | None = None) -> None:
     Uses urllib stdlib only — no external dependencies required.
     """
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
-        print("[TELEGRAM] WARN: TELEGRAM_BOT_TOKEN hoac TELEGRAM_CHAT_ID chua duoc set.")
+        print("[TELEGRAM] WARN: TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID not set.")
         return
 
     payload: dict = {
@@ -643,7 +643,7 @@ async def block_ip(request: Request):
         request_count = int(body.get("request_count", 0)),
         trend         = body.get("trend", ""),
     )
-    send_firewall_email(f"[FIREWALL] IP {ip} da bi BLOCK", html_body)
+    send_firewall_email(f"[FIREWALL] IP {ip} has been BLOCKED", html_body)
     tg_text = (
         f"<b>\u26a0\ufe0f WARNING: IP BLOCKED</b>\n\n"
         f"IP: <code>{ip}</code>\n"
@@ -680,7 +680,7 @@ async def unblock_ip(request: Request):
 
     ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
     html_body = build_email_html(action="UNBLOCKED", ip=ip, reason="Admin unblock", ts=ts)
-    send_firewall_email(f"[FIREWALL] IP {ip} da duoc UNBLOCK", html_body)
+    send_firewall_email(f"[FIREWALL] IP {ip} has been UNBLOCKED", html_body)
     send_telegram_message(
         f"<b>\u2705 IP UNBLOCKED</b>\n\nIP: <code>{ip}</code>\nTime: {ts}",
         ip_to_block=None,
@@ -722,7 +722,7 @@ async def v1_block_ip(request: Request):
         request_count = int(body.get("request_count", 0)),
         trend         = body.get("trend", ""),
     )
-    send_firewall_email(f"[FIREWALL] IP {ip} da bi BLOCK", html_body)
+    send_firewall_email(f"[FIREWALL] IP {ip} has been BLOCKED", html_body)
     tg_text = (
         f"<b>\u26a0\ufe0f WARNING: IP BLOCKED</b>\n\n"
         f"IP: <code>{ip}</code>\n"
@@ -761,7 +761,7 @@ async def v1_unblock_ip(request: Request):
 
     ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
     html_body = build_email_html(action="UNBLOCKED", ip=ip, reason="ML auto-unblock", ts=ts)
-    send_firewall_email(f"[FIREWALL] IP {ip} da duoc UNBLOCK", html_body)
+    send_firewall_email(f"[FIREWALL] IP {ip} has been UNBLOCKED", html_body)
     send_telegram_message(
         f"<b>\u2705 IP UNBLOCKED</b>\n\nIP: <code>{ip}</code>\nTime: {ts}",
         ip_to_block=None,
