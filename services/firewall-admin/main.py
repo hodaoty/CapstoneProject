@@ -919,21 +919,16 @@ async def v1_notify_high_blocked(request: Request):
         "status_code": status_code,
         "attack_type": attack_type,
     }, label=1)
-    send_firewall_email(
-        f"[HIGH THREAT] IP {ip} auto-blocked",
-        f"""
-      <h2>High Threat Detected - Auto Block</h2>
-      <table>
-        <tr><td><b>IP</b></td><td>{ip}</td></tr>
-        <tr><td><b>Attack Type</b></td><td>{attack_type}</td></tr>
-        <tr><td><b>Confidence</b></td><td>{score}%</td></tr>
-        <tr><td><b>Endpoint</b></td><td>{method} {endpoint}</td></tr>
-        <tr><td><b>Time</b></td><td>{datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}</td></tr>
-        <tr><td><b>Action</b></td><td>Auto-blocked into ddos_blacklist (1 hour timeout)</td></tr>
-      </table>
-      <p>Check Firewall Admin dashboard for details or to unblock.</p>
-      """
+    html_body = build_email_html(
+        action="BLOCKED",
+        ip=ip,
+        reason=f"AI detected HIGH threat - auto-blocked",
+        ts=datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC'),
+        attack_type=attack_type,
+        score=score,
+        endpoint=f"{method} {endpoint}",
     )
+    send_firewall_email(f"[HIGH THREAT] IP {ip} auto-blocked", html_body)
     from_time = (datetime.now(timezone.utc) - timedelta(seconds=30)).strftime('%Y-%m-%dT%H:%M:%S.000Z')
     to_time   = (datetime.now(timezone.utc) + timedelta(seconds=30)).strftime('%Y-%m-%dT%H:%M:%S.000Z')
     rison_g = urllib.parse.quote(f"(time:(from:'{from_time}',to:'{to_time}'))", safe="")
@@ -985,20 +980,13 @@ async def telegram_webhook(request: Request):
             updated = update_csv_label(ip_target, 0)
             if not updated:
                 append_to_daily_csv({"ip": ip_target}, 0)
-            send_firewall_email(
-                f"[UNBLOCK] IP {ip_target} has been unblocked",
-                f"""
-      <h2>IP Unblock Confirmation</h2>
-      <table>
-        <tr><td><b>IP</b></td><td>{ip_target}</td></tr>
-        <tr><td><b>Action</b></td><td>Unblocked from ddos_blacklist and permanent_ban</td></tr>
-        <tr><td><b>Label</b></td><td>Updated to 0 (Safe) in today CSV</td></tr>
-        <tr><td><b>Time</b></td><td>{datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}</td></tr>
-        <tr><td><b>Triggered by</b></td><td>Admin via Telegram button</td></tr>
-      </table>
-      <p>This IP has been removed from all block lists.</p>
-      """
+            html_body = build_email_html(
+                action="UNBLOCKED",
+                ip=ip_target,
+                reason="Admin unblock via Telegram button",
+                ts=datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC'),
             )
+            send_firewall_email(f"[UNBLOCK] IP {ip_target} has been unblocked", html_body)
             result_text = f"🔓 IP {ip_target} has been unblocked. Label 0 updated in today's CSV."
         except Exception as exc:
             result_text = f"❌ Error unblocking IP {ip_target}: {exc}"
