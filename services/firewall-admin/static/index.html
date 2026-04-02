@@ -1152,10 +1152,10 @@ document.getElementById('fl-autorefresh').addEventListener('change', e => {
 // DAILY LABELED LOGS
 // ════════════════════════════════════════════════════════════════════════════
 
-(function() {
+document.addEventListener('DOMContentLoaded', function() {
   const todayISO = new Date().toISOString().slice(0,10);
   document.getElementById('dll-date').value = todayISO;
-})();
+});
 
 async function loadDLL() {
   const date = document.getElementById('dll-date').value;
