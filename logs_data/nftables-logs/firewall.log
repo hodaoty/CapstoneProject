@@ -324,3 +324,80 @@
 [2026-03-24 21:09:38] [INFO] Monitor started (PID: 15)
 [2026-03-24 21:09:38] [INFO] ========== Firewall monitor v2 STARTED ==========
 [2026-03-24 21:09:38] [INFO] Now tracking real IPs for normal traffic via conntrack
+[2026-04-03 09:35:13] [INFO] Firewall initializing...
+[2026-04-03 09:35:13] [INFO] nftables rules loaded
+[2026-04-03 09:35:13] [INFO] Monitor started (PID: 15)
+[2026-04-03 09:35:13] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-04-03 09:35:13] [INFO] Now tracking real IPs for normal traffic via conntrack
+[2026-04-03 22:05:14] [INFO] Firewall initializing...
+[2026-04-03 22:05:14] [INFO] nftables rules loaded
+[2026-04-03 22:05:14] [INFO] Monitor started (PID: 15)
+[2026-04-03 22:05:15] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-04-03 22:05:15] [INFO] Now tracking real IPs for normal traffic via conntrack
+[2026-04-04 09:34:02] [INFO] Firewall initializing...
+[2026-04-04 09:34:02] [INFO] nftables rules loaded
+[2026-04-04 09:34:02] [INFO] Monitor started (PID: 15)
+[2026-04-04 09:34:02] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-04-04 09:34:02] [INFO] Now tracking real IPs for normal traffic via conntrack
+[2026-04-04 09:58:04] [INFO] Firewall initializing...
+[2026-04-04 09:58:04] [INFO] nftables rules loaded
+[2026-04-04 09:58:04] [INFO] Monitor started (PID: 15)
+[2026-04-04 09:58:05] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-04-04 09:58:05] [INFO] Now tracking real IPs for normal traffic via conntrack
+[2026-04-05 20:43:01] [INFO] Firewall initializing...
+[2026-04-05 20:43:01] [INFO] nftables rules loaded
+[2026-04-05 20:43:01] [INFO] Monitor started (PID: 14)
+[2026-04-05 20:43:01] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-04-05 20:43:01] [INFO] Now tracking real IPs for normal traffic via conntrack
+[2026-04-05 21:16:53] [INFO] Firewall initializing...
+[2026-04-05 21:16:53] [INFO] nftables rules loaded
+[2026-04-05 21:16:53] [INFO] Monitor started (PID: 15)
+[2026-04-05 21:16:54] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-04-05 21:16:54] [INFO] Now tracking real IPs for normal traffic via conntrack
+[2026-04-05 21:22:33] [INFO] Firewall initializing...
+[2026-04-05 21:22:33] [INFO] nftables rules loaded
+[2026-04-05 21:22:33] [INFO] Monitor started (PID: 15)
+[2026-04-05 21:22:33] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-04-05 21:22:33] [INFO] Now tracking real IPs for normal traffic via conntrack
+[2026-04-05 21:43:28] [INFO] Firewall initializing...
+[2026-04-05 21:43:28] [INFO] nftables rules loaded
+[2026-04-05 21:43:28] [INFO] Monitor started (PID: 16)
+[2026-04-05 21:43:28] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-04-05 21:43:28] [INFO] Now tracking real IPs for normal traffic via conntrack
+[2026-04-05 21:51:33] [BANNED]  IP 172.20.0.10 AUTO-BANNED for 1 HOUR
+[2026-04-05 21:52:10] [INFO] ✓ IP 172.20.0.10 UNBANNED
+[2026-04-05 21:54:51] [BANNED]  IP 172.0.20.1 AUTO-BANNED for 1 HOUR
+[2026-04-05 21:56:11] [BANNED]  IP 172.20.0.1 AUTO-BANNED for 1 HOUR
+[2026-04-05 21:56:11] [BLOCKED]  IP 172.0.20.1 - 5 packet(s) BLOCKED
+[2026-04-05 21:56:11] [BLOCKED]  IP 172.20.0.1 - 5 packet(s) BLOCKED
+[2026-04-05 21:56:12] [BLOCKED]  IP 172.0.20.1 - 3 packet(s) BLOCKED
+[2026-04-05 21:56:12] [BLOCKED]  IP 172.20.0.1 - 3 packet(s) BLOCKED
+[2026-04-05 21:56:13] [BLOCKED]  IP 172.0.20.1 - 2 packet(s) BLOCKED
+[2026-04-05 21:56:13] [BLOCKED]  IP 172.20.0.1 - 2 packet(s) BLOCKED
+[2026-04-05 21:56:15] [BLOCKED]  IP 172.0.20.1 - 3 packet(s) BLOCKED
+[2026-04-05 21:56:15] [BLOCKED]  IP 172.20.0.1 - 3 packet(s) BLOCKED
+[2026-04-05 21:56:16] [BLOCKED]  IP 172.0.20.1 - 1 packet(s) BLOCKED
+[2026-04-05 21:56:16] [BLOCKED]  IP 172.20.0.1 - 1 packet(s) BLOCKED
+[2026-04-05 21:56:17] [BLOCKED]  IP 172.0.20.1 - 1 packet(s) BLOCKED
+[2026-04-05 21:56:17] [BLOCKED]  IP 172.20.0.1 - 1 packet(s) BLOCKED
+[2026-04-05 21:56:18] [BLOCKED]  IP 172.0.20.1 - 4 packet(s) BLOCKED
+[2026-04-05 21:56:18] [BLOCKED]  IP 172.20.0.1 - 4 packet(s) BLOCKED
+[2026-04-05 21:56:19] [BLOCKED]  IP 172.0.20.1 - 1 packet(s) BLOCKED
+[2026-04-05 21:56:20] [BLOCKED]  IP 172.20.0.1 - 1 packet(s) BLOCKED
+[2026-04-05 21:56:21] [BLOCKED]  IP 172.0.20.1 - 2 packet(s) BLOCKED
+[2026-04-05 21:56:21] [BLOCKED]  IP 172.20.0.1 - 2 packet(s) BLOCKED
+[2026-04-05 21:56:22] [BLOCKED]  IP 172.0.20.1 - 3 packet(s) BLOCKED
+[2026-04-05 21:56:22] [BLOCKED]  IP 172.20.0.1 - 3 packet(s) BLOCKED
+[2026-04-05 21:56:23] [BLOCKED]  IP 172.0.20.1 - 1 packet(s) BLOCKED
+[2026-04-05 21:56:24] [BLOCKED]  IP 172.20.0.1 - 1 packet(s) BLOCKED
+[2026-04-05 21:56:25] [BLOCKED]  IP 172.0.20.1 - 3 packet(s) BLOCKED
+[2026-04-05 21:56:25] [BLOCKED]  IP 172.20.0.1 - 3 packet(s) BLOCKED
+[2026-04-05 21:56:26] [BLOCKED]  IP 172.0.20.1 - 1 packet(s) BLOCKED
+[2026-04-05 21:56:26] [BLOCKED]  IP 172.20.0.1 - 1 packet(s) BLOCKED
+[2026-04-05 21:56:27] [BLOCKED]  IP 172.0.20.1 - 1 packet(s) BLOCKED
+[2026-04-05 21:56:28] [BLOCKED]  IP 172.20.0.1 - 1 packet(s) BLOCKED
+[2026-04-05 21:56:32] [INFO] ✓ IP 172.0.20.1 UNBANNED
+[2026-04-05 21:56:34] [BLOCKED]  IP 172.20.0.1 - 2 packet(s) BLOCKED
+[2026-04-05 21:56:38] [BLOCKED]  IP 172.20.0.1 - 1 packet(s) BLOCKED
+[2026-04-05 21:56:39] [BLOCKED]  IP 172.20.0.1 - 1 packet(s) BLOCKED
+[2026-04-05 21:56:45] [INFO] ✓ IP 172.20.0.1 UNBANNED

@@ -51,7 +51,9 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.8rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: white;
       margin-bottom: 14px;
     }
     .login-box h1 { font-size: 1.35rem; font-weight: 600; margin-bottom: 6px; }
@@ -150,7 +152,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
+      color: white;
+      font-weight: bold;
       flex-shrink: 0;
     }
     .sidebar-nav { flex: 1; padding: 10px 0; }
@@ -172,7 +176,6 @@
       background: rgba(88,166,255,0.1);
       border-left-color: var(--accent);
     }
-    .nav-icon  { font-size: 0.95rem; width: 18px; text-align: center; flex-shrink: 0; }
     .nav-badge {
       margin-left: auto;
       background: var(--danger);
@@ -208,75 +211,12 @@
     .main-header h2 { font-size: 0.95rem; font-weight: 600; }
     .header-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 
-    .refresh-indicator {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 0.72rem;
-      color: var(--text-dim);
-    }
-    .rdot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--text-dim);
-      transition: background 0.2s;
-    }
-    .rdot.live { background: var(--success); animation: pulse 1.2s ease-in-out infinite; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
     /* ── Page body ───────────────────────────────────────────────────── */
     .page-body {
       flex: 1;
       overflow-y: auto;
       padding: 20px;
     }
-
-    /* ── Stats row ───────────────────────────────────────────────────── */
-    .stats-row {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-    .stat-box {
-      flex: 1;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 14px 16px;
-      text-align: center;
-    }
-    .stat-value { font-size: 1.55rem; font-weight: 700; line-height: 1; }
-    .stat-label { font-size: 0.72rem; color: var(--text-dim); margin-top: 5px; text-transform: uppercase; letter-spacing: 0.04em; }
-    .stat-danger  .stat-value { color: var(--danger);  }
-    .stat-success .stat-value { color: var(--success); }
-    .stat-warning .stat-value { color: var(--warning); }
-    .stat-info    .stat-value { color: var(--accent);  }
-
-    /* ── Filter bar ──────────────────────────────────────────────────── */
-    .filter-bar {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
-    }
-    .filter-bar input,
-    .filter-bar select,
-    .ctrl-input,
-    .ctrl-select {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      color: var(--text);
-      padding: 6px 11px;
-      font-size: 0.85rem;
-      outline: none;
-    }
-    .filter-bar input:focus,
-    .filter-bar select:focus,
-    .ctrl-input:focus,
-    .ctrl-select:focus { border-color: var(--accent); }
-    .filter-bar input { flex: 1; min-width: 180px; }
 
     /* ── Error banner ────────────────────────────────────────────────── */
     .error-banner {
@@ -288,94 +228,6 @@
       font-size: 0.85rem;
       margin-bottom: 12px;
     }
-
-    /* ── Table ───────────────────────────────────────────────────────── */
-    .table-wrap {
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      overflow-x: auto;
-    }
-    table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
-    thead th {
-      background: var(--card-bg);
-      padding: 9px 12px;
-      text-align: left;
-      font-weight: 600;
-      color: var(--text-dim);
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      border-bottom: 1px solid var(--border);
-      white-space: nowrap;
-    }
-    tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; }
-    tbody tr:last-child { border-bottom: none; }
-    tbody tr:hover { background: rgba(255,255,255,0.03); }
-    tbody tr.row-suspicious { background: rgba(248,81,73,0.07); }
-    tbody tr.row-suspicious:hover { background: rgba(248,81,73,0.13); }
-    td {
-      padding: 8px 12px;
-      color: var(--text);
-      vertical-align: top;
-      max-width: 260px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    td.td-expand { cursor: default; }
-    td.td-expand:hover { white-space: normal; word-break: break-all; }
-
-    /* ── Method / Status badges ──────────────────────────────────────── */
-    .method { font-weight: 700; font-size: 0.72rem; }
-    .m-GET    { color: #3fb950; }
-    .m-POST   { color: #58a6ff; }
-    .m-PUT    { color: #d29922; }
-    .m-DELETE { color: #f85149; }
-    .m-PATCH  { color: #bc8cff; }
-
-    .status { font-weight: 600; }
-    .s-2 { color: #3fb950; }
-    .s-3 { color: #58a6ff; }
-    .s-4 { color: #d29922; }
-    .s-5 { color: #f85149; }
-
-    /* ── Threat badges ───────────────────────────────────────────────── */
-    .badge {
-      display: inline-block;
-      padding: 1px 6px;
-      border-radius: 4px;
-      font-size: 0.68rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      margin-right: 3px;
-    }
-    .b-SQLi          { background: rgba(248,81,73,0.2);   color: #f85149; }
-    .b-XSS           { background: rgba(210,153,34,0.2);  color: #d29922; }
-    .b-PathTraversal { background: rgba(188,140,255,0.2); color: #bc8cff; }
-    .b-FileAccess    { background: rgba(210,153,34,0.2);  color: #d29922; }
-    .b-CmdInjection  { background: rgba(248,81,73,0.2);   color: #f85149; }
-    .b-Obfuscation   { background: rgba(63,185,80,0.2);   color: #3fb950; }
-
-    /* ── Log viewer ──────────────────────────────────────────────────── */
-    .log-viewer {
-      background: #090d12;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      height: calc(100vh - 170px);
-      overflow-y: auto;
-      padding: 12px 14px;
-      font-family: 'Courier New', Consolas, monospace;
-      font-size: 0.77rem;
-      line-height: 1.75;
-    }
-    .log-line { white-space: pre-wrap; word-break: break-all; }
-    .ll-BANNED       { color: #f85149; }
-    .ll-BLOCKED      { color: #c73c2e; }
-    .ll-RATE-LIMITED { color: #d29922; }
-    .ll-ACCEPT       { color: #3fb950; }
-    .ll-INFO         { color: #6e7681; }
-    .ll-default      { color: #8b949e; }
 
     /* ── Blacklist ────────────────────────────────────────────────────── */
     .block-form {
@@ -427,8 +279,7 @@
       font-size: 0.85rem;
     }
     .ip-item:last-child { margin-bottom: 0; }
-    .ip-dot { color: var(--danger); margin-right: 8px; font-size: 0.6rem; }
-    .ip-addr { flex: 1; }
+    .ip-addr { flex: 1; padding-left: 8px; border-left: 3px solid var(--danger); }
     .empty-state { text-align: center; color: var(--text-dim); font-size: 0.85rem; padding: 20px; }
 
     /* ── Toasts ──────────────────────────────────────────────────────── */
@@ -476,16 +327,12 @@
 </head>
 <body>
 
-<!-- ── Toasts ─────────────────────────────────────────────────────────── -->
 <div id="toast-container"></div>
 
-<!-- ══════════════════════════════════════════════════════════════════════
-     LOGIN SCREEN
-═══════════════════════════════════════════════════════════════════════ -->
 <div id="login-screen">
   <div class="login-box">
     <div style="text-align:center;">
-      <div class="login-logo">🛡</div>
+      <div class="login-logo">FW</div>
       <h1>Firewall Admin</h1>
       <p>Sign in to manage your firewall</p>
     </div>
@@ -506,171 +353,46 @@
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════════════════
-     DASHBOARD
-═══════════════════════════════════════════════════════════════════════ -->
 <div id="dashboard" class="hidden">
 
-  <!-- Sidebar -->
   <aside id="sidebar">
     <div class="sidebar-header">
       <div class="sidebar-logo">
-        <div class="sidebar-logo-icon">🛡</div>
+        <div class="sidebar-logo-icon">FW</div>
         <span>Firewall Admin</span>
       </div>
     </div>
 
     <nav class="sidebar-nav">
-      <div class="nav-item active" data-page="access-logs">
-        <span class="nav-icon">📋</span>
-        <span>Access Logs</span>
-        <span class="nav-badge hidden" id="badge-suspicious"></span>
-      </div>
-      <div class="nav-item" data-page="firewall-logs">
-        <span class="nav-icon">🔥</span>
-        <span>Firewall Logs</span>
-      </div>
-      <div class="nav-item" data-page="blacklist">
-        <span class="nav-icon">🚫</span>
-        <span>Blacklist</span>
+      <div class="nav-item active" data-page="blacklist">
+        <span>Blacklist Management</span>
         <span class="nav-badge hidden" id="badge-blacklist"></span>
       </div>
     </nav>
 
     <div class="sidebar-footer">
-      <button class="btn btn-ghost btn-full" id="logout-btn">⎋ Logout</button>
+      <button class="btn btn-ghost btn-full" id="logout-btn">Logout</button>
     </div>
   </aside>
 
-  <!-- Main content -->
   <div id="main">
 
-    <!-- ── Access Logs ─────────────────────────────────────────────── -->
-    <div id="page-access-logs" class="page-container">
-      <div class="main-header">
-        <h2>Access Logs</h2>
-        <div class="header-actions">
-          <span class="refresh-indicator">
-            <span class="rdot" id="al-rdot"></span>
-            <span id="al-rlabel">Manual</span>
-          </span>
-          <select class="ctrl-select" id="al-autorefresh">
-            <option value="0">Auto-refresh: Off</option>
-            <option value="10" selected>Every 10 s</option>
-            <option value="30">Every 30 s</option>
-            <option value="60">Every 60 s</option>
-          </select>
-          <button class="btn btn-ghost btn-sm" id="al-refresh">↻ Refresh</button>
-        </div>
-      </div>
-
-      <div class="page-body">
-        <div class="stats-row">
-          <div class="stat-box stat-info">
-            <div class="stat-value" id="al-total">—</div>
-            <div class="stat-label">Total Requests</div>
-          </div>
-          <div class="stat-box stat-danger">
-            <div class="stat-value" id="al-susp">—</div>
-            <div class="stat-label">Suspicious</div>
-          </div>
-          <div class="stat-box stat-success">
-            <div class="stat-value" id="al-clean">—</div>
-            <div class="stat-label">Clean</div>
-          </div>
-          <div class="stat-box stat-warning">
-            <div class="stat-value" id="al-4xx">—</div>
-            <div class="stat-label">4xx Errors</div>
-          </div>
-        </div>
-
-        <div class="filter-bar">
-          <input type="text" id="al-search" placeholder="Search IP, URL, body…">
-          <select id="al-status-f">
-            <option value="">All Status</option>
-            <option value="2">2xx Success</option>
-            <option value="3">3xx Redirect</option>
-            <option value="4">4xx Client Error</option>
-            <option value="5">5xx Server Error</option>
-          </select>
-          <select id="al-threat-f">
-            <option value="">All Requests</option>
-            <option value="s">Suspicious Only</option>
-            <option value="c">Clean Only</option>
-          </select>
-        </div>
-
-        <div id="al-error" class="error-banner hidden"></div>
-
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Timestamp</th>
-                <th>IP</th>
-                <th>Method</th>
-                <th>URL</th>
-                <th>Status</th>
-                <th>Threats</th>
-                <th>Body</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody id="al-tbody">
-              <tr><td colspan="8" style="text-align:center;padding:36px;"><span class="spinner"></span></td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div id="al-count" style="font-size:0.72rem;color:var(--text-dim);margin-top:8px;"></div>
-      </div>
-    </div><!-- /page-access-logs -->
-
-    <!-- ── Firewall Logs ────────────────────────────────────────────── -->
-    <div id="page-firewall-logs" class="page-container hidden">
-      <div class="main-header">
-        <h2>Firewall Logs</h2>
-        <div class="header-actions">
-          <span class="refresh-indicator">
-            <span class="rdot" id="fl-rdot"></span>
-            <span id="fl-rlabel">Manual</span>
-          </span>
-          <select class="ctrl-select" id="fl-autorefresh">
-            <option value="0">Auto-refresh: Off</option>
-            <option value="5">Every 5 s</option>
-            <option value="10" selected>Every 10 s</option>
-            <option value="30">Every 30 s</option>
-          </select>
-          <input class="ctrl-input" type="text" id="fl-search" placeholder="Filter…" style="width:180px;">
-          <button class="btn btn-ghost btn-sm" id="fl-refresh">↻ Refresh</button>
-        </div>
-      </div>
-
-      <div class="page-body" style="padding-bottom:0;">
-        <div id="fl-error" class="error-banner hidden"></div>
-        <div class="log-viewer" id="fl-viewer">
-          <div style="text-align:center;padding:40px;"><span class="spinner"></span></div>
-        </div>
-      </div>
-    </div><!-- /page-firewall-logs -->
-
-    <!-- ── Blacklist ────────────────────────────────────────────────── -->
-    <div id="page-blacklist" class="page-container hidden">
+    <div id="page-blacklist" class="page-container">
       <div class="main-header">
         <h2>Blacklist Management</h2>
         <div class="header-actions">
-          <button class="btn btn-ghost btn-sm" id="bl-refresh">↻ Refresh</button>
+          <button class="btn btn-ghost btn-sm" id="bl-refresh">Refresh Data</button>
         </div>
       </div>
 
       <div class="page-body">
-        <!-- Block form -->
         <div class="card" style="margin-bottom:18px;">
           <div class="card-header">
-            <h3>🔒 Block IP Address</h3>
+            <h3>Block IP Address</h3>
           </div>
           <div class="card-body">
             <div class="block-form">
-              <input type="text" id="block-input" placeholder="Enter IPv4 address  (e.g. 1.2.3.4)"
+              <input type="text" id="block-input" placeholder="Enter IPv4 address (e.g. 1.2.3.4)"
                      spellcheck="false" autocomplete="off">
               <button class="btn btn-danger" id="block-btn">Block IP</button>
             </div>
@@ -680,11 +402,10 @@
         <div id="bl-error" class="error-banner hidden"></div>
 
         <div class="bl-grid">
-          <!-- Permanent ban -->
           <div class="card">
             <div class="card-header">
-              <h3>🔴 Permanent Ban</h3>
-              <span>Manual — no expiry</span>
+              <h3>Permanent Ban</h3>
+              <span>Manual - no expiry</span>
             </div>
             <div class="card-body">
               <ul class="ip-list" id="perm-list">
@@ -692,11 +413,10 @@
               </ul>
             </div>
           </div>
-          <!-- DDoS auto-ban -->
           <div class="card">
             <div class="card-header">
-              <h3>🟠 DDoS Auto-ban</h3>
-              <span>Automatic — 1 h expiry</span>
+              <h3>Auto-ban by Model AI</h3>
+              <span>Automatic - 1 h expiry</span>
             </div>
             <div class="card-body">
               <ul class="ip-list" id="ddos-list">
@@ -706,15 +426,7 @@
           </div>
         </div>
       </div>
-    </div><!-- /page-blacklist -->
-
-  </div><!-- /#main -->
-</div><!-- /#dashboard -->
-
-<!-- ═══════════════════════════════════════════════════════════════════════
-     JAVASCRIPT
-════════════════════════════════════════════════════════════════════════ -->
-<script>
+    </div></div></div><script>
 'use strict';
 
 // ── Utilities ──────────────────────────────────────────────────────────────
@@ -759,8 +471,8 @@ async function checkAuth() {
   try {
     const r = await fetch('/api/me');
     const d = await r.json();
-    if (d.authenticated) { showDashboard(); navTo('access-logs'); }
-    else                  { showLogin(); }
+    if (d.authenticated) { showDashboard(); loadBL(); }
+    else                 { showLogin(); }
   } catch { showLogin(); }
 }
 
@@ -769,13 +481,13 @@ document.getElementById('login-form').addEventListener('submit', async e => {
   const btn = document.getElementById('login-btn');
   const errEl = document.getElementById('login-error');
   btn.disabled = true;
-  btn.textContent = 'Signing in…';
+  btn.textContent = 'Signing in...';
   errEl.style.display = 'none';
 
   try {
     const r = await fetch('/api/login', { method: 'POST', body: new FormData(e.target) });
     const d = await r.json();
-    if (d.ok) { showDashboard(); navTo('access-logs'); }
+    if (d.ok) { showDashboard(); loadBL(); }
     else      { errEl.style.display = 'block'; }
   } catch { errEl.style.display = 'block'; }
 
@@ -786,260 +498,6 @@ document.getElementById('login-form').addEventListener('submit', async e => {
 document.getElementById('logout-btn').addEventListener('click', async () => {
   await fetch('/api/logout', { method: 'POST' });
   showLogin();
-});
-
-// ── Navigation ─────────────────────────────────────────────────────────────
-
-document.querySelectorAll('.nav-item').forEach(item => {
-  item.addEventListener('click', () => navTo(item.dataset.page));
-});
-
-function navTo(page) {
-  document.querySelectorAll('.nav-item').forEach(n =>
-    n.classList.toggle('active', n.dataset.page === page)
-  );
-  document.querySelectorAll('.page-container').forEach(p =>
-    p.classList.toggle('hidden', p.id !== `page-${page}`)
-  );
-  if (page === 'access-logs') {
-    loadAL();
-    const alSec = +document.getElementById('al-autorefresh').value;
-    if (alSec > 0 && !alTimer) startALAutoRefresh(alSec);
-  }
-  if (page === 'firewall-logs') {
-    loadFL();
-    const flSec = +document.getElementById('fl-autorefresh').value;
-    if (flSec > 0 && !flTimer) startFLAutoRefresh(flSec);
-  }
-  if (page === 'blacklist') loadBL();
-}
-
-// ════════════════════════════════════════════════════════════════════════════
-// ACCESS LOGS
-// ════════════════════════════════════════════════════════════════════════════
-
-let alData = [];
-let alTimer = null;
-let alAutoSec = 10;
-let alCountdown = 0;
-
-function methodClass(m) {
-  const map = { GET:'m-GET', POST:'m-POST', PUT:'m-PUT', DELETE:'m-DELETE', PATCH:'m-PATCH' };
-  return 'method ' + (map[String(m).toUpperCase()] || '');
-}
-function statusClass(s) {
-  const d = parseInt(s);
-  if (d >= 200 && d < 300) return 'status s-2';
-  if (d >= 300 && d < 400) return 'status s-3';
-  if (d >= 400 && d < 500) return 'status s-4';
-  if (d >= 500)             return 'status s-5';
-  return 'status';
-}
-function badges(threats) {
-  return (threats || []).map(t => `<span class="badge b-${esc(t)}">${esc(t)}</span>`).join('');
-}
-
-function renderAL(rows) {
-  const tbody = document.getElementById('al-tbody');
-  if (!rows.length) {
-    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:36px;color:var(--text-dim);">No entries found</td></tr>';
-    document.getElementById('al-count').textContent = '';
-    return;
-  }
-  tbody.innerHTML = rows.map(e => {
-    const ts        = esc(e.timestamp || '');
-    const realIp    = e.ip || e.remote_ip || '—';
-    const remoteIp  = e.remote_ip || '';
-    const xff       = e.x_forwarded_for || '';
-    const method    = esc(e.method  || '—');
-    const url       = esc(e.url     || e.raw || '—');
-    const status    = esc(e.status  || '—');
-    const body      = String(e.body || '');
-    const bodyShort = esc(body.length > 90 ? body.slice(0, 90) + '…' : body);
-
-    // Show proxy info when xff is present and the resolved real IP differs from remote_ip
-    const showProxy = xff && realIp !== '—' && remoteIp && realIp !== remoteIp;
-    const ipHtml = showProxy
-      ? `<strong style="color:var(--accent);">${esc(realIp)}</strong><br>
-         <span style="color:var(--text-dim);font-size:0.72rem;">via ${esc(remoteIp)}</span>`
-      : `<strong style="color:var(--accent);">${esc(realIp)}</strong>`;
-
-    return `<tr class="${e.suspicious ? 'row-suspicious' : ''}">
-      <td style="white-space:nowrap;color:var(--text-dim);font-size:0.75rem;">${ts}</td>
-      <td style="font-family:monospace;font-size:0.8rem;">${ipHtml}</td>
-      <td><span class="${methodClass(method)}">${method}</span></td>
-      <td class="td-expand" title="${url}">${url}</td>
-      <td><span class="${statusClass(status)}">${status}</span></td>
-      <td style="min-width:120px;">${badges(e.threats)}</td>
-      <td class="td-expand" title="${esc(body)}" style="font-family:monospace;font-size:0.75rem;">${bodyShort}</td>
-      <td><button class="btn btn-danger btn-sm" onclick="doBlockFromLog('${esc(realIp)}')">Block</button></td>
-    </tr>`;
-  }).join('');
-  document.getElementById('al-count').textContent = `Showing ${rows.length} entries`;
-}
-
-function filterAL() {
-  const search = document.getElementById('al-search').value.toLowerCase();
-  const sf     = document.getElementById('al-status-f').value;
-  const tf     = document.getElementById('al-threat-f').value;
-
-  let rows = alData;
-  if (search) rows = rows.filter(e =>
-    [e.url, e.ip, e.remote_ip, e.x_forwarded_for, e.body, e.method, e.status].join(' ').toLowerCase().includes(search)
-  );
-  if (sf)     rows = rows.filter(e => String(e.status || '').startsWith(sf));
-  if (tf === 's') rows = rows.filter(e => e.suspicious);
-  if (tf === 'c') rows = rows.filter(e => !e.suspicious);
-  renderAL(rows);
-}
-
-async function loadAL() {
-  hideErr('al-error');
-  try {
-    const r = await api('/api/access-logs?limit=2000');
-    if (!r.ok) { showErr('al-error', `HTTP ${r.status}: ${await r.text()}`); return; }
-    const d = await r.json();
-    alData = d.logs;
-
-    const total = alData.length;
-    const susp  = alData.filter(e => e.suspicious).length;
-    const e4xx  = alData.filter(e => String(e.status || '').startsWith('4')).length;
-
-    document.getElementById('al-total').textContent = total;
-    document.getElementById('al-susp').textContent  = susp;
-    document.getElementById('al-clean').textContent = total - susp;
-    document.getElementById('al-4xx').textContent   = e4xx;
-
-    const badge = document.getElementById('badge-suspicious');
-    if (susp > 0) { badge.textContent = susp; badge.classList.remove('hidden'); }
-    else            { badge.classList.add('hidden'); }
-
-    filterAL();
-  } catch(err) {
-    if (err.message !== 'session-expired') showErr('al-error', 'Failed to load: ' + err.message);
-  }
-}
-
-['al-search','al-status-f','al-threat-f'].forEach(id =>
-  document.getElementById(id).addEventListener('input', filterAL)
-);
-
-function startALAutoRefresh(sec) {
-  clearInterval(alTimer);
-  alTimer = null;
-  alAutoSec = sec;
-  const dot = document.getElementById('al-rdot');
-  const lbl = document.getElementById('al-rlabel');
-  if (sec > 0) {
-    alCountdown = sec;
-    dot.classList.add('live');
-    lbl.textContent = `Refresh in ${alCountdown}s`;
-    alTimer = setInterval(() => {
-      alCountdown--;
-      if (alCountdown <= 0) {
-        alCountdown = alAutoSec;
-        loadAL();
-      }
-      document.getElementById('al-rlabel').textContent = `Refresh in ${alCountdown}s`;
-    }, 1000);
-  } else {
-    dot.classList.remove('live');
-    lbl.textContent = 'Manual';
-  }
-}
-
-document.getElementById('al-refresh').addEventListener('click', () => {
-  if (alAutoSec > 0) {
-    alCountdown = alAutoSec;
-    document.getElementById('al-rlabel').textContent = `Refresh in ${alCountdown}s`;
-  }
-  loadAL();
-});
-document.getElementById('al-autorefresh').addEventListener('change', e => {
-  startALAutoRefresh(+e.target.value);
-  if (+e.target.value > 0) loadAL();
-});
-
-// ════════════════════════════════════════════════════════════════════════════
-// FIREWALL LOGS
-// ════════════════════════════════════════════════════════════════════════════
-
-let flData = [];
-let flTimer = null;
-let flAutoSec = 10;
-let flCountdown = 0;
-
-function logClass(line) {
-  if (/\[BANNED\]|BANNED/.test(line))           return 'll-BANNED';
-  if (/\[BLOCKED\]|BLOCKED/.test(line))         return 'll-BLOCKED';
-  if (/\[RATE-LIMITED\]|RATE-LIMITED/.test(line))return 'll-RATE-LIMITED';
-  if (/\[ACCEPT\]|ACCEPTED/.test(line))          return 'll-ACCEPT';
-  if (/\[INFO\]/.test(line))                     return 'll-INFO';
-  return 'll-default';
-}
-
-function renderFL() {
-  const viewer = document.getElementById('fl-viewer');
-  const search = document.getElementById('fl-search').value.toLowerCase();
-  const rows   = search ? flData.filter(l => l.toLowerCase().includes(search)) : flData;
-
-  if (!rows.length) {
-    viewer.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-dim);">No logs found</div>';
-    return;
-  }
-  viewer.innerHTML = rows.map(line =>
-    `<div class="log-line ${logClass(line)}">${esc(line)}</div>`
-  ).join('');
-}
-
-async function loadFL() {
-  hideErr('fl-error');
-  try {
-    const r = await api('/api/firewall-logs?limit=2000');
-    if (!r.ok) { showErr('fl-error', `HTTP ${r.status}`); return; }
-    const d = await r.json();
-    flData = d.logs;
-    renderFL();
-  } catch(err) {
-    if (err.message !== 'session-expired') showErr('fl-error', 'Failed: ' + err.message);
-  }
-}
-
-function startFLAutoRefresh(sec) {
-  clearInterval(flTimer);
-  flTimer = null;
-  flAutoSec = sec;
-  const dot = document.getElementById('fl-rdot');
-  const lbl = document.getElementById('fl-rlabel');
-  if (sec > 0) {
-    flCountdown = sec;
-    dot.classList.add('live');
-    lbl.textContent = `Refresh in ${flCountdown}s`;
-    flTimer = setInterval(() => {
-      flCountdown--;
-      if (flCountdown <= 0) {
-        flCountdown = flAutoSec;
-        loadFL();
-      }
-      document.getElementById('fl-rlabel').textContent = `Refresh in ${flCountdown}s`;
-    }, 1000);
-  } else {
-    dot.classList.remove('live');
-    lbl.textContent = 'Manual';
-  }
-}
-
-document.getElementById('fl-refresh').addEventListener('click', () => {
-  if (flAutoSec > 0) {
-    flCountdown = flAutoSec;
-    document.getElementById('fl-rlabel').textContent = `Refresh in ${flCountdown}s`;
-  }
-  loadFL();
-});
-document.getElementById('fl-search').addEventListener('input', renderFL);
-document.getElementById('fl-autorefresh').addEventListener('change', e => {
-  startFLAutoRefresh(+e.target.value);
-  if (+e.target.value > 0) loadFL();
 });
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -1066,7 +524,7 @@ async function loadBL() {
     const total = (d.permanent_ban.length + d.ddos_blacklist.length);
     const badge = document.getElementById('badge-blacklist');
     if (total > 0) { badge.textContent = total; badge.classList.remove('hidden'); }
-    else             { badge.classList.add('hidden'); }
+    else           { badge.classList.add('hidden'); }
 
   } catch(err) {
     if (err.message !== 'session-expired') showErr('bl-error', 'Failed: ' + err.message);
@@ -1081,7 +539,6 @@ function renderIPList(listId, ips, canUnblock) {
   }
   ul.innerHTML = ips.map(ip => `
     <li class="ip-item">
-      <span class="ip-dot">●</span>
       <span class="ip-addr">${esc(ip)}</span>
       ${canUnblock
         ? `<button class="btn btn-success btn-sm" onclick="doUnblock('${esc(ip)}')">Unblock</button>`
@@ -1094,18 +551,8 @@ async function doUnblock(ip) {
   try {
     const r = await api('/api/unblock', { method: 'POST', body: JSON.stringify({ ip }) });
     const d = await r.json();
-    if (r.ok) { toast(`✓ ${ip} unblocked`, 'success'); loadBL(); }
-    else       { toast(`Error: ${d.detail || 'failed'}`, 'error'); }
-  } catch { toast('Network error', 'error'); }
-}
-
-async function doBlockFromLog(ip) {
-  if (!ip || ip === '—') { toast('No valid IP to block', 'error'); return; }
-  try {
-    const r = await api('/api/block', { method: 'POST', body: JSON.stringify({ ip }) });
-    const d = await r.json();
-    if (r.ok) { toast(`✓ ${ip} blocked`, 'success'); }
-    else       { toast(`Error: ${d.detail || 'failed'}`, 'error'); }
+    if (r.ok) { toast(`Success: ${ip} unblocked`, 'success'); loadBL(); }
+    else      { toast(`Error: ${d.detail || 'failed'}`, 'error'); }
   } catch { toast('Network error', 'error'); }
 }
 
@@ -1114,13 +561,13 @@ document.getElementById('block-btn').addEventListener('click', async () => {
   if (!ip) return;
   const btn = document.getElementById('block-btn');
   btn.disabled = true;
-  btn.textContent = 'Blocking…';
+  btn.textContent = 'Blocking...';
 
   try {
     const r = await api('/api/block', { method: 'POST', body: JSON.stringify({ ip }) });
     const d = await r.json();
     if (r.ok) {
-      toast(`✓ ${ip} blocked`, 'success');
+      toast(`Success: ${ip} blocked`, 'success');
       document.getElementById('block-input').value = '';
       loadBL();
     } else {
