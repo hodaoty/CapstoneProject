@@ -15,12 +15,13 @@ from fastapi.responses import JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 
 # ==============================================================================
-# CONFIG
+# CONFIGURATION
 # ==============================================================================
 
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin123")
 
+# Fixed authentication token using SHA-256 hash
 AUTH_TOKEN = hashlib.sha256(f"{ADMIN_USERNAME}:{ADMIN_PASSWORD}_secure_firewall".encode()).hexdigest()
 
 ACCESS_LOG   = Path("/app/logs/access_json.log")
@@ -28,6 +29,9 @@ FIREWALL_LOG = Path("/app/logs/firewall/firewall.log")
 TRAFFIC_CSV  = Path("/app/logs/firewall/traffic.csv")
 
 app = FastAPI(title="Firewall Admin Dashboard", docs_url=None, redoc_url=None)
+
+# Global dictionary to store metadata of auto-banned IPs (ip -> request_id)
+autoban_meta: dict[str, str] = {}
 
 # ==============================================================================
 # DOCKER HELPER - PURE PYTHON UNIX SOCKET
@@ -37,6 +41,7 @@ DOCKER_SOCKET = "/var/run/docker.sock"
 CONTAINER     = "nftables-firewall"
 
 class _UnixConn(http.client.HTTPConnection):
+    """HTTPConnection that connects over a Unix domain socket."""
     def __init__(self, socket_path: str):
         super().__init__("localhost")
         self._socket_path = socket_path
@@ -65,6 +70,7 @@ def _docker_get(path: str) -> tuple[int, dict]:
     return resp.status, json.loads(resp.read())
 
 def _parse_multiplexed(raw: bytes) -> tuple[str, str]:
+    """Parse Docker's multiplexed stdout/stderr stream."""
     stdout_parts: list[str] = []
     stderr_parts: list[str] = []
     i = 0
@@ -80,6 +86,7 @@ def _parse_multiplexed(raw: bytes) -> tuple[str, str]:
     return "".join(stdout_parts), "".join(stderr_parts)
 
 def nft_exec(cmd: list[str]) -> tuple[str, str, int]:
+    """Execute command in nftables-firewall container."""
     try:
         status, data = _docker_post(
             f"/containers/{CONTAINER}/exec",
@@ -112,6 +119,10 @@ def nft_exec(cmd: list[str]) -> tuple[str, str, int]:
         return "", "Docker daemon not reachable", 1
     except Exception as e:
         return "", f"Docker API error: {e}", 1
+
+# ==============================================================================
+# AUTHENTICATION HELPERS
+# ==============================================================================
 
 def get_token(request: Request) -> Optional[str]:
     return request.cookies.get("session")
@@ -154,9 +165,21 @@ async def blacklist(request: Request):
     def parse_ips(out):
         return list(dict.fromkeys(_IP_RE.findall(out)))
         
+    perm_ips = parse_ips(perm_out)
+    ddos_ips = parse_ips(ddos_out)
+    
+    # Clean up dictionary if IP has expired or been unblocked
+    for ip in list(autoban_meta.keys()):
+        if ip not in ddos_ips:
+            del autoban_meta[ip]
+            
+    # Convert to objects containing request_id
+    perm_list = [{"ip": ip, "request_id": ""} for ip in perm_ips]
+    ddos_list = [{"ip": ip, "request_id": autoban_meta.get(ip, "Unknown")} for ip in ddos_ips]
+        
     return {
-        "permanent_ban":  parse_ips(perm_out),
-        "ddos_blacklist": parse_ips(ddos_out),
+        "permanent_ban": perm_list,
+        "ddos_blacklist": ddos_list,
         "errors": errors,
     }
 
@@ -177,25 +200,29 @@ async def block_ip(request: Request):
         raise HTTPException(500, stderr.strip())
     return {"ok": True, "message": f"{ip} added to permanent_ban"}
 
-# --- API MỚI CHO AI TỰ ĐỘNG CHẶN ---
 @app.post("/api/autoban")
 async def autoban_ip(request: Request):
     require_auth(request)
     body = await request.json()
     ip = body.get("ip", "").strip()
+    req_id = body.get("request_id", "").strip()
+    
     try:
         ipaddress.ip_address(ip)
     except ValueError:
         raise HTTPException(400, f"Invalid IP address: {ip!r}")
 
-    # Đưa IP vào danh sách ddos_blacklist thay vì permanent_ban
     _, stderr, rc = nft_exec(
         ["nft", "add", "element", "inet", "filter", "ddos_blacklist", f"{{ {ip} }}"]
     )
     if rc != 0 and stderr:
         raise HTTPException(500, stderr.strip())
+        
+    # Store request_id in metadata dictionary
+    if req_id:
+        autoban_meta[ip] = req_id
+        
     return {"ok": True, "message": f"{ip} auto-banned by AI"}
-# ----------------------------------
 
 @app.post("/api/unblock")
 async def unblock_ip(request: Request):
@@ -215,7 +242,16 @@ async def unblock_ip(request: Request):
     )
     if rc1 != 0 and rc2 != 0:
         raise HTTPException(500, f"{ip} not found in any blacklist")
+        
+    # Remove from metadata dictionary if present
+    if ip in autoban_meta:
+        del autoban_meta[ip]
+        
     return {"ok": True, "message": f"{ip} removed from blacklist"}
+
+# ==============================================================================
+# STATIC FILES & SPA
+# ==============================================================================
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 

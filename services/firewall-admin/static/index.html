@@ -327,8 +327,12 @@
 </head>
 <body>
 
+<!-- ── Toasts ─────────────────────────────────────────────────────────── -->
 <div id="toast-container"></div>
 
+<!-- ══════════════════════════════════════════════════════════════════════
+     LOGIN SCREEN
+═══════════════════════════════════════════════════════════════════════ -->
 <div id="login-screen">
   <div class="login-box">
     <div style="text-align:center;">
@@ -353,8 +357,12 @@
   </div>
 </div>
 
+<!-- ══════════════════════════════════════════════════════════════════════
+     DASHBOARD
+═══════════════════════════════════════════════════════════════════════ -->
 <div id="dashboard" class="hidden">
 
+  <!-- Sidebar -->
   <aside id="sidebar">
     <div class="sidebar-header">
       <div class="sidebar-logo">
@@ -375,8 +383,10 @@
     </div>
   </aside>
 
+  <!-- Main content -->
   <div id="main">
 
+    <!-- ── Blacklist ────────────────────────────────────────────────── -->
     <div id="page-blacklist" class="page-container">
       <div class="main-header">
         <h2>Blacklist Management</h2>
@@ -386,6 +396,7 @@
       </div>
 
       <div class="page-body">
+        <!-- Block form -->
         <div class="card" style="margin-bottom:18px;">
           <div class="card-header">
             <h3>Block IP Address</h3>
@@ -402,6 +413,7 @@
         <div id="bl-error" class="error-banner hidden"></div>
 
         <div class="bl-grid">
+          <!-- Permanent ban -->
           <div class="card">
             <div class="card-header">
               <h3>Permanent Ban</h3>
@@ -413,6 +425,7 @@
               </ul>
             </div>
           </div>
+          <!-- Model AI Auto-ban -->
           <div class="card">
             <div class="card-header">
               <h3>Auto-ban by Model AI</h3>
@@ -426,7 +439,15 @@
           </div>
         </div>
       </div>
-    </div></div></div><script>
+    </div><!-- /page-blacklist -->
+
+  </div><!-- /#main -->
+</div><!-- /#dashboard -->
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════════════════════════════ -->
+<script>
 'use strict';
 
 // ── Utilities ──────────────────────────────────────────────────────────────
@@ -531,17 +552,20 @@ async function loadBL() {
   }
 }
 
-function renderIPList(listId, ips, canUnblock) {
+function renderIPList(listId, items, canUnblock) {
   const ul = document.getElementById(listId);
-  if (!ips.length) {
+  if (!items.length) {
     ul.innerHTML = '<li class="empty-state">No IPs in this list</li>';
     return;
   }
-  ul.innerHTML = ips.map(ip => `
+  ul.innerHTML = items.map(item => `
     <li class="ip-item">
-      <span class="ip-addr">${esc(ip)}</span>
+      <div style="flex: 1; padding-left: 8px; border-left: 3px solid var(--danger);">
+        <div class="ip-addr" style="padding-left: 0; border-left: none;">${esc(item.ip)}</div>
+        ${item.request_id ? `<div style="font-size: 0.72rem; color: var(--text-dim); margin-top: 3px; font-family: monospace;">Req ID: ${esc(item.request_id)}</div>` : ''}
+      </div>
       ${canUnblock
-        ? `<button class="btn btn-success btn-sm" onclick="doUnblock('${esc(ip)}')">Unblock</button>`
+        ? `<button class="btn btn-success btn-sm" onclick="doUnblock('${esc(item.ip)}')">Unblock</button>`
         : ''}
     </li>
   `).join('');
