@@ -1,0 +1,32 @@
+# metricbeat.yml
+metricbeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
+  reload.enabled: false
+
+# Bật module giám sát Docker
+metricbeat.modules:
+- module: docker
+  metricsets:
+    - "container"
+    - "cpu"
+    - "diskio"
+    - "healthcheck"
+    - "info"
+    - "memory"
+    - "network"
+  hosts: ["unix:///var/run/docker.sock"]
+  period: 10s
+  enabled: true
+
+# Cấu hình kết nối tới Kibana (để đẩy Dashboard có sẵn lên)
+setup.kibana:
+  host: "http://kibana:5601" # Thay đổi nếu tên service kibana của bạn khác
+
+# Cấu hình kết nối tới Elasticsearch (để lưu dữ liệu Metrics)
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"] # Thay đổi nếu tên service ES của bạn khác
+  # username: "elastic" # Bỏ comment nếu ES của bạn có cài mật khẩu
+  # password: "changeme" 
+
+# Setup Dashboard tự động
+setup.dashboards.enabled: true
