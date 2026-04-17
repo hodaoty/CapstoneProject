@@ -494,3 +494,193 @@
 [2026-04-12 13:08:03] [INFO] Monitor started (PID: 15)
 [2026-04-12 13:08:03] [INFO] ========== Firewall monitor v2 STARTED ==========
 [2026-04-12 13:08:03] [INFO] Now tracking real IPs for normal traffic via conntrack
+[2026-04-17 21:44:41] [INFO] Firewall initializing...
+[2026-04-17 21:44:41] [INFO] nftables rules loaded
+[2026-04-17 21:44:41] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:44:41] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-04-17 21:44:42] [INFO] Firewall initializing...
+[2026-04-17 21:44:42] [INFO] nftables rules loaded
+[2026-04-17 21:44:42] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:44:43] [INFO] Firewall initializing...
+[2026-04-17 21:44:43] [INFO] nftables rules loaded
+[2026-04-17 21:44:43] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:44:45] [INFO] Firewall initializing...
+[2026-04-17 21:44:45] [INFO] nftables rules loaded
+[2026-04-17 21:44:45] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:44:47] [INFO] Firewall initializing...
+[2026-04-17 21:44:47] [INFO] nftables rules loaded
+[2026-04-17 21:44:47] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:44:49] [INFO] Firewall initializing...
+[2026-04-17 21:44:49] [INFO] nftables rules loaded
+[2026-04-17 21:44:49] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:44:53] [INFO] Firewall initializing...
+[2026-04-17 21:44:53] [INFO] nftables rules loaded
+[2026-04-17 21:44:53] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:44:53] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-04-17 21:45:00] [INFO] Firewall initializing...
+[2026-04-17 21:45:00] [INFO] nftables rules loaded
+[2026-04-17 21:45:00] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:45:13] [INFO] Firewall initializing...
+[2026-04-17 21:45:13] [INFO] nftables rules loaded
+[2026-04-17 21:45:13] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:45:57] [INFO] Firewall initializing...
+[2026-04-17 21:45:57] [INFO] nftables rules loaded
+[2026-04-17 21:45:57] [INFO] Monitor started (PID: 14)
+[2026-04-17 21:46:01] [INFO] Firewall initializing...
+[2026-04-17 21:46:01] [INFO] nftables rules loaded
+[2026-04-17 21:46:01] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:46:02] [INFO] Firewall initializing...
+[2026-04-17 21:46:03] [INFO] nftables rules loaded
+[2026-04-17 21:46:03] [INFO] Monitor started (PID: 14)
+[2026-04-17 21:46:04] [INFO] Firewall initializing...
+[2026-04-17 21:46:04] [INFO] nftables rules loaded
+[2026-04-17 21:46:04] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:46:05] [INFO] Firewall initializing...
+[2026-04-17 21:46:05] [INFO] nftables rules loaded
+[2026-04-17 21:46:05] [INFO] Monitor started (PID: 16)
+[2026-04-17 21:46:07] [INFO] Firewall initializing...
+[2026-04-17 21:46:07] [INFO] nftables rules loaded
+[2026-04-17 21:46:07] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:46:11] [INFO] Firewall initializing...
+[2026-04-17 21:46:12] [INFO] nftables rules loaded
+[2026-04-17 21:46:12] [INFO] Monitor started (PID: 14)
+[2026-04-17 21:46:12] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-04-17 21:46:20] [INFO] Firewall initializing...
+[2026-04-17 21:46:20] [INFO] nftables rules loaded
+[2026-04-17 21:46:20] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:46:33] [INFO] Firewall initializing...
+[2026-04-17 21:46:33] [INFO] nftables rules loaded
+[2026-04-17 21:46:33] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:47:00] [INFO] Firewall initializing...
+[2026-04-17 21:47:00] [INFO] nftables rules loaded
+[2026-04-17 21:47:00] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:47:52] [INFO] Firewall initializing...
+[2026-04-17 21:47:52] [INFO] nftables rules loaded
+[2026-04-17 21:47:52] [INFO] Monitor started (PID: 14)
+[2026-04-17 21:47:52] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-04-17 21:51:03] [INFO] Firewall initializing...
+[2026-04-17 21:51:03] [INFO] nftables rules loaded
+[2026-04-17 21:51:03] [INFO] Monitor started (PID: 16)
+[2026-04-17 21:51:03] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-04-17 21:51:04] [INFO] Firewall initializing...
+[2026-04-17 21:51:04] [INFO] nftables rules loaded
+[2026-04-17 21:51:04] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:51:04] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-04-17 21:51:04] [INFO] Firewall initializing...
+[2026-04-17 21:51:04] [INFO] nftables rules loaded
+[2026-04-17 21:51:04] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:51:05] [INFO] Firewall initializing...
+[2026-04-17 21:51:05] [INFO] nftables rules loaded
+[2026-04-17 21:51:05] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:51:06] [INFO] Firewall initializing...
+[2026-04-17 21:51:06] [INFO] nftables rules loaded
+[2026-04-17 21:51:06] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:51:08] [INFO] Firewall initializing...
+[2026-04-17 21:51:08] [INFO] nftables rules loaded
+[2026-04-17 21:51:08] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:51:11] [INFO] Firewall initializing...
+[2026-04-17 21:51:11] [INFO] nftables rules loaded
+[2026-04-17 21:51:11] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:51:11] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-04-17 21:51:18] [INFO] Firewall initializing...
+[2026-04-17 21:51:18] [INFO] nftables rules loaded
+[2026-04-17 21:51:18] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:51:31] [INFO] Firewall initializing...
+[2026-04-17 21:51:31] [INFO] nftables rules loaded
+[2026-04-17 21:51:31] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:51:31] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-04-17 21:51:57] [INFO] Firewall initializing...
+[2026-04-17 21:51:57] [INFO] nftables rules loaded
+[2026-04-17 21:51:57] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:51:57] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-04-17 21:51:57] [INFO] Now tracking real IPs for normal traffic via conntrack
+[2026-04-17 21:52:50] [INFO] Firewall initializing...
+[2026-04-17 21:52:50] [INFO] nftables rules loaded
+[2026-04-17 21:52:50] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:52:50] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-04-17 21:52:50] [INFO] Now tracking real IPs for normal traffic via conntrack
+[2026-04-17 21:53:53] [INFO] Firewall initializing...
+[2026-04-17 21:53:53] [INFO] nftables rules loaded
+[2026-04-17 21:53:53] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:53:54] [INFO] Firewall initializing...
+[2026-04-17 21:53:54] [INFO] nftables rules loaded
+[2026-04-17 21:53:54] [INFO] Monitor started (PID: 16)
+[2026-04-17 21:53:55] [INFO] Firewall initializing...
+[2026-04-17 21:53:55] [INFO] nftables rules loaded
+[2026-04-17 21:53:55] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:53:56] [INFO] Firewall initializing...
+[2026-04-17 21:53:56] [INFO] nftables rules loaded
+[2026-04-17 21:53:56] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:53:58] [INFO] Firewall initializing...
+[2026-04-17 21:53:58] [INFO] nftables rules loaded
+[2026-04-17 21:53:58] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:54:01] [INFO] Firewall initializing...
+[2026-04-17 21:54:01] [INFO] nftables rules loaded
+[2026-04-17 21:54:01] [INFO] Monitor started (PID: 14)
+[2026-04-17 21:54:07] [INFO] Firewall initializing...
+[2026-04-17 21:54:07] [INFO] nftables rules loaded
+[2026-04-17 21:54:07] [INFO] Monitor started (PID: 14)
+[2026-04-17 21:54:07] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-04-17 21:54:07] [INFO] Now tracking real IPs for normal traffic via conntrack
+[2026-04-17 21:54:15] [INFO] Firewall initializing...
+[2026-04-17 21:54:16] [INFO] nftables rules loaded
+[2026-04-17 21:54:16] [INFO] Monitor started (PID: 14)
+[2026-04-17 21:54:29] [INFO] Firewall initializing...
+[2026-04-17 21:54:29] [INFO] nftables rules loaded
+[2026-04-17 21:54:29] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:54:29] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-04-17 21:54:56] [INFO] Firewall initializing...
+[2026-04-17 21:54:56] [INFO] nftables rules loaded
+[2026-04-17 21:54:56] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:55:48] [INFO] Firewall initializing...
+[2026-04-17 21:55:48] [INFO] nftables rules loaded
+[2026-04-17 21:55:48] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:56:49] [INFO] Firewall initializing...
+[2026-04-17 21:56:49] [INFO] nftables rules loaded
+[2026-04-17 21:56:49] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:56:49] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-04-17 21:57:50] [INFO] Firewall initializing...
+[2026-04-17 21:57:50] [INFO] nftables rules loaded
+[2026-04-17 21:57:50] [INFO] Monitor started (PID: 15)
+[2026-04-17 21:57:50] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-04-17 21:57:50] [INFO] Now tracking real IPs for normal traffic via conntrack
+[2026-04-17 22:08:08] [INFO] Firewall initializing...
+[2026-04-17 22:08:08] [INFO] nftables rules loaded
+[2026-04-17 22:08:08] [INFO] Monitor started (PID: 15)
+[2026-04-17 22:08:09] [INFO] Firewall initializing...
+[2026-04-17 22:08:09] [INFO] nftables rules loaded
+[2026-04-17 22:08:09] [INFO] Monitor started (PID: 15)
+[2026-04-17 22:08:09] [INFO] Firewall initializing...
+[2026-04-17 22:08:09] [INFO] nftables rules loaded
+[2026-04-17 22:08:09] [INFO] Monitor started (PID: 15)
+[2026-04-17 22:08:10] [INFO] Firewall initializing...
+[2026-04-17 22:08:10] [INFO] nftables rules loaded
+[2026-04-17 22:08:10] [INFO] Monitor started (PID: 14)
+[2026-04-17 22:08:10] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-04-17 22:08:10] [INFO] Now tracking real IPs for normal traffic via conntrack
+[2026-04-17 22:08:12] [INFO] Firewall initializing...
+[2026-04-17 22:08:12] [INFO] nftables rules loaded
+[2026-04-17 22:08:12] [INFO] Monitor started (PID: 15)
+[2026-04-17 22:08:14] [INFO] Firewall initializing...
+[2026-04-17 22:08:14] [INFO] nftables rules loaded
+[2026-04-17 22:08:14] [INFO] Monitor started (PID: 15)
+[2026-04-17 22:08:17] [INFO] Firewall initializing...
+[2026-04-17 22:08:17] [INFO] nftables rules loaded
+[2026-04-17 22:08:17] [INFO] Monitor started (PID: 15)
+[2026-04-17 22:08:17] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-04-17 22:08:24] [INFO] Firewall initializing...
+[2026-04-17 22:08:24] [INFO] nftables rules loaded
+[2026-04-17 22:08:25] [INFO] Monitor started (PID: 15)
+[2026-04-17 22:08:39] [INFO] Firewall initializing...
+[2026-04-17 22:08:39] [INFO] nftables rules loaded
+[2026-04-17 22:08:39] [INFO] Monitor started (PID: 15)
+[2026-04-17 22:10:58] [INFO] Firewall initializing...
+[2026-04-17 22:10:58] [INFO] nftables rules loaded
+[2026-04-17 22:10:58] [INFO] Monitor started (PID: 15)
+[2026-04-17 22:10:58] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-04-17 22:10:58] [INFO] Now tracking real IPs for normal traffic via conntrack
+[2026-04-17 22:21:41] [INFO] Firewall initializing...
+[2026-04-17 22:21:42] [INFO] nftables rules loaded
+[2026-04-17 22:21:42] [INFO] Monitor started (PID: 15)
+[2026-04-17 22:21:42] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-04-17 22:21:42] [INFO] Now tracking real IPs for normal traffic via conntrack

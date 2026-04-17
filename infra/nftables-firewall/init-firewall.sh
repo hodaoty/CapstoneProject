@@ -67,5 +67,7 @@ else
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] [INFO] Monitor started (PID: $MONITOR_PID)" >> "$LOG_FILE"
     
     # Keep container running
-    wait $TCPDUMP_PID
+    #wait $TCPDUMP_PID
+    echo "[*] Keeping container alive and tailing logs..."
+    tail -f "$LOG_FILE" "$TCPDUMP_LOG"
 fi
