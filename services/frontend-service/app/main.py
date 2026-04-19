@@ -1,5 +1,4 @@
 import os, time, asyncio
-
 import httpx
 from jose import jwt
 from nicegui import app, ui
@@ -393,9 +392,16 @@ async def products_page():
                     with ui.card().classes(
                         "flex flex-col justify-between hover:shadow-xl transition-shadow duration-300 border border-gray-100 h-full bg-white overflow-hidden"
                     ):
-                        ui.image(
-                            f'https://placehold.co/300x200/222/fff?text={p["name"][:3]}'
-                        ).classes("h-48 w-full object-cover")
+                        # --- THÊM MỚI TỪ ĐÂY ---
+                        # 1. Lấy đường dẫn ảnh từ database, nếu không có thì dùng ảnh mặc định
+                        image_path = p.get('image_url') or '/images/default.jpg'
+                        
+                        # 2. Nối thêm URL của API Gateway (Cổng 8888) để trình duyệt có thể tải được
+                        full_image_url = f"http://localhost:8888/api/products{image_path}"
+                        
+                        # 3. Hiển thị ảnh bằng component của NiceGUI
+                        ui.image(full_image_url).classes('h-48 w-full object-cover')
+                        # --- KẾT THÚC THÊM MỚI ---
                         with ui.column().classes("p-4 flex-grow w-full"):
                             category = p.get("category", "General")
                             ui.label(category).classes(
