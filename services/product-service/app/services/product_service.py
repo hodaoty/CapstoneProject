@@ -27,6 +27,7 @@ def create_product(db: Session, product: schemas.ProductCreate):
         description=product.description,
         price=product.price,
         category=product.category,
+        image_url=product.image_url
     )
     db.add(db_product)
     db.commit()

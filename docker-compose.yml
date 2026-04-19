@@ -140,6 +140,8 @@ services:
         condition: service_healthy
     expose: 
       - "8002"
+    volumes:
+      - ./services/product-service/uploads:/code/uploads
     healthcheck:
       test: ["CMD-SHELL", "wget -q --spider http://localhost:8002/ || exit 1"]
       interval: 10s

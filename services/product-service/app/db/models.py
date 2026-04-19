@@ -9,6 +9,7 @@ class Product(Base):
     name = Column(String(100), unique=True, nullable=False, index=True)
     description = Column(Text, nullable=True)
     price = Column(Numeric(10, 2), nullable=False)  # Sua price
+    image_url = Column(String(255), nullable=True, default="/images/default.jpg")
     # Xoa stock vi inventory-service dam nhan trach nhiem do
     category = Column(String(50), nullable=True)
     created_at = Column(DateTime, server_default=func.now())

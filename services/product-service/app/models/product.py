@@ -1,6 +1,5 @@
 from decimal import Decimal  # Sửa: Dùng Decimal
 from typing import Optional
-
 from pydantic import BaseModel
 
 
@@ -10,7 +9,7 @@ class ProductBase(BaseModel):
     description: Optional[str] = None
     price: Decimal
     category: Optional[str] = None
-
+    image_url: Optional[str] = "/images/default.jpg"
 
 # Schema khi tạo mới (sẽ nhận từ API)
 class ProductCreate(ProductBase):
@@ -23,7 +22,7 @@ class ProductUpdate(BaseModel):
     description: Optional[str] = None
     price: Optional[Decimal] = None
     category: Optional[str] = None
-
+    image_url: Optional[str] = "/images/default.jpg"
 
 # Schema khi đọc (sẽ trả về cho API)
 class ProductRead(ProductBase):
