@@ -6,6 +6,9 @@ from nicegui import app, ui
 # --- 1. CẤU HÌNH & API ---
 API_BASE_URL = os.environ.get("FIREWALL_URL", "http://firewall:8888")
 
+BROWSER_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+}
 
 def get_user_role(token):
     try:
@@ -29,6 +32,7 @@ async def login_api(username, password):
             response = await client.post(
                 f"{API_BASE_URL}/api/auth/login",
                 data={"username": username, "password": password},
+                headers=BROWSER_HEADERS,
                 timeout=5.0,
             )
             if response.status_code == 200:
@@ -45,6 +49,7 @@ async def register_api(email, password):
             response = await client.post(
                 f"{API_BASE_URL}/api/users/",
                 json={"email": email, "password": password, "role": "USER"},
+                headers=BROWSER_HEADERS,
                 timeout=5.0,
             )
             if response.status_code == 200:
@@ -59,7 +64,7 @@ async def register_api(email, password):
 
 async def get_users_api(token):
     try:
-        headers = {"Authorization": f"Bearer {token}"}
+        headers = {"Authorization": f"Bearer {token}", **BROWSER_HEADERS}
         async with httpx.AsyncClient() as client:
             response = await client.get(
                 f"{API_BASE_URL}/api/users/", headers=headers, timeout=5.0
@@ -74,7 +79,7 @@ async def get_users_api(token):
 async def get_products_api():
     try:
         async with httpx.AsyncClient() as client:
-            response = await client.get(f"{API_BASE_URL}/api/products/", timeout=5.0)
+            response = await client.get(f"{API_BASE_URL}/api/products/", headers=BROWSER_HEADERS, timeout=5.0)
             if response.status_code == 200:
                 return response.json()
             return []
@@ -85,7 +90,7 @@ async def get_products_api():
 
 async def create_product_api(token, data):
     try:
-        headers = {"Authorization": f"Bearer {token}"}
+        headers = {"Authorization": f"Bearer {token}", **BROWSER_HEADERS}
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 f"{API_BASE_URL}/api/products/", json=data, headers=headers, timeout=5.0
@@ -98,7 +103,7 @@ async def create_product_api(token, data):
 
 async def delete_product_api(token, product_id):
     try:
-        headers = {"Authorization": f"Bearer {token}"}
+        headers = {"Authorization": f"Bearer {token}", **BROWSER_HEADERS}
         async with httpx.AsyncClient() as client:
             response = await client.delete(
                 f"{API_BASE_URL}/api/products/{product_id}",
@@ -113,7 +118,7 @@ async def delete_product_api(token, product_id):
 
 async def add_to_cart_api(token, user_email, product_id, quantity=1):
     try:
-        headers = {"Authorization": f"Bearer {token}"}
+        headers = {"Authorization": f"Bearer {token}", **BROWSER_HEADERS}
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 f"{API_BASE_URL}/api/cart/",
@@ -129,7 +134,7 @@ async def add_to_cart_api(token, user_email, product_id, quantity=1):
 
 async def get_cart_api(token, user_email):
     try:
-        headers = {"Authorization": f"Bearer {token}"}
+        headers = {"Authorization": f"Bearer {token}", **BROWSER_HEADERS}
         async with httpx.AsyncClient() as client:
             response = await client.get(
                 f"{API_BASE_URL}/api/cart/", headers=headers, timeout=5.0
@@ -144,7 +149,7 @@ async def get_cart_api(token, user_email):
 
 async def remove_from_cart_api(token, user_email, product_id):
     try:
-        headers = {"Authorization": f"Bearer {token}"}
+        headers = {"Authorization": f"Bearer {token}", **BROWSER_HEADERS}
         async with httpx.AsyncClient() as client:
             response = await client.delete(
                 f"{API_BASE_URL}/api/cart/item/{product_id}",
@@ -161,7 +166,7 @@ async def get_product_detail_api(product_id):
     try:
         async with httpx.AsyncClient() as client:
             response = await client.get(
-                f"{API_BASE_URL}/api/products/{product_id}", timeout=5.0
+                f"{API_BASE_URL}/api/products/{product_id}", headers=BROWSER_HEADERS, timeout=5.0
             )
             if response.status_code == 200:
                 return response.json()
@@ -172,7 +177,7 @@ async def get_product_detail_api(product_id):
 
 async def create_order_api(token, shipping_address):
     try:
-        headers = {"Authorization": f"Bearer {token}"}
+        headers = {"Authorization": f"Bearer {token}", **BROWSER_HEADERS}
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 f"{API_BASE_URL}/api/orders/",
@@ -191,7 +196,7 @@ async def create_order_api(token, shipping_address):
     
 async def get_my_orders_api(token):
     try:
-        headers = {"Authorization": f"Bearer {token}"}
+        headers = {"Authorization": f"Bearer {token}", **BROWSER_HEADERS}
         async with httpx.AsyncClient() as client:
             response = await client.get(
                 f"{API_BASE_URL}/api/orders/my-orders", headers=headers, timeout=10.0
@@ -209,7 +214,7 @@ async def get_inventory_api(product_id):
     try:
         async with httpx.AsyncClient() as client:
             response = await client.get(
-                f"{API_BASE_URL}/api/inventory/{product_id}", timeout=5.0
+                f"{API_BASE_URL}/api/inventory/{product_id}", headers=BROWSER_HEADERS, timeout=5.0
             )
             if response.status_code == 200:
                 return response.json().get("quantity", 0)
@@ -221,7 +226,7 @@ async def get_inventory_api(product_id):
 async def update_inventory_api(token, product_id, change_quantity):
     """Cập nhật số lượng tồn kho (chỉ dành cho Staff/Admin)"""
     try:
-        headers = {"Authorization": f"Bearer {token}"}
+        headers = {"Authorization": f"Bearer {token}", **BROWSER_HEADERS}
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 f"{API_BASE_URL}/api/inventory/update",
@@ -253,7 +258,7 @@ async def search_products_api(
         }
         async with httpx.AsyncClient() as client:
             response = await client.get(
-                f"{API_BASE_URL}/api/products/search", params=params, timeout=10.0
+                f"{API_BASE_URL}/api/products/search", params=params, headers=BROWSER_HEADERS, timeout=10.0
             )
             if response.status_code == 200:
                 return response.json()
