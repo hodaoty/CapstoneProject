@@ -1,6 +1,5 @@
 # File: services/order-service/app/services/order_service.py
 from decimal import Decimal
-
 import httpx
 from app.core.config import settings
 from app.db import models
@@ -219,3 +218,18 @@ async def create_new_order(
         db.commit()
         db.refresh(db_order)
         return db_order
+
+def get_orders_by_user(db: Session, user_id: str):
+    """
+    Lấy danh sách tất cả đơn hàng của một người dùng, sắp xếp mới nhất lên đầu.
+    """
+    return db.query(models.Order).filter(
+        models.Order.user_id == user_id
+    ).order_by(models.Order.created_at.desc()).all()
+
+
+def get_order_by_id(db: Session, order_id: int):
+    """
+    Lấy chi tiết 1 đơn hàng cụ thể (để sau này phục vụ tính năng xem chi tiết).
+    """
+    return db.query(models.Order).filter(models.Order.id == order_id).first()

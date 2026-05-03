@@ -188,9 +188,22 @@ async def create_order_api(token, shipping_address):
     except Exception as e:
         print(f"Create Order Error: {e}")
         return False, str(e)
+    
+async def get_my_orders_api(token):
+    try:
+        headers = {"Authorization": f"Bearer {token}"}
+        async with httpx.AsyncClient() as client:
+            response = await client.get(
+                f"{API_BASE_URL}/api/orders/my-orders", headers=headers, timeout=10.0
+            )
+            if response.status_code == 200:
+                return response.json()
+            return []
+    except Exception as e:
+        print(f"Get My Orders Error: {e}")
+        return []
 
-
-# --- [MỚI] API INVENTORY ---
+# --- API INVENTORY ---
 async def get_inventory_api(product_id):
     """Lấy số lượng tồn kho của 1 sản phẩm"""
     try:
@@ -1075,12 +1088,79 @@ def profile_page():
             ui.label(f"Xin chào, {role}").classes("text-2xl font-bold text-slate-700")
             ui.label("Thành viên thân thiết").classes("text-gray-500 mb-6")
             ui.button(
+                "Xem Lịch sử mua hàng",
+                on_click=lambda: ui.navigate.to("/my-orders")
+            ).classes("w-full mb-4 bg-blue-600 text-white font-bold py-2")
+
+            ui.button(
                 "Đăng xuất",
                 on_click=lambda: (
                     app.storage.user.update({"token": None}),
                     ui.navigate.to("/"),
                 ),
             ).classes("bg-red-500 w-full")
+
+@ui.page('/my-orders')
+async def my_orders_page():
+    layout_header()
+    token = app.storage.user.get('token')
+    if not token:
+        ui.navigate.to('/login')
+        return
+
+    with ui.column().classes('w-full min-h-screen bg-gray-50 items-center pb-20'):
+        with ui.column().classes('w-full max-w-4xl p-4 mt-8'):
+            with ui.row().classes('w-full items-center justify-between mb-8'):
+                ui.label('📦 LỊCH SỬ MUA HÀNG').classes('text-3xl font-black text-slate-800 tracking-tight')
+                ui.button('Quay lại', icon="arrow_back", on_click=lambda: ui.navigate.to('/profile')).props("flat").classes('text-gray-600')
+
+            orders = await get_my_orders_api(token)
+
+            if not orders:
+                with ui.column().classes("w-full items-center p-16 bg-white rounded-lg border border-gray-200 shadow-sm"):
+                    ui.icon("receipt_long", size="80px").classes("text-gray-300 mb-6")
+                    ui.label('Bạn chưa có đơn hàng nào').classes('text-2xl font-bold text-gray-500 mb-2')
+                    ui.label('Hãy khám phá các sản phẩm tuyệt vời của chúng tôi!').classes('text-gray-400 mb-6')
+                    ui.button('MUA SẮM NGAY', on_click=lambda: ui.navigate.to('/products')).classes('bg-blue-600 text-white px-8 py-2 rounded-full font-bold shadow-md')
+                return
+
+            for order in orders:
+                with ui.card().classes('w-full p-0 mb-6 border border-gray-200 shadow-sm rounded-xl overflow-hidden hover:shadow-md transition-shadow'):
+                    # Header của Bill
+                    with ui.row().classes('w-full justify-between items-center bg-slate-100 p-5 border-b border-gray-200'):
+                        with ui.column().classes('gap-1'):
+                            ui.label(f"Đơn hàng #{order['id']}").classes('font-black text-lg text-slate-800 tracking-wide')
+                            date_str = order['created_at'].split('T')[0]
+                            ui.label(f"Ngày đặt: {date_str}").classes('text-gray-500 text-sm font-medium')
+                        
+                        status = order['status']
+                        color = 'text-green-700 bg-green-200' if status == 'COMPLETED' else 'text-orange-700 bg-orange-200'
+                        if status == 'PENDING': color = 'text-blue-700 bg-blue-200'
+                        elif status in ['PAYMENT_FAILED', 'INVENTORY_FAILED']: color = 'text-red-700 bg-red-200'
+                        ui.label(status).classes(f'font-bold px-4 py-1.5 rounded-full text-xs tracking-wider {color}')
+
+                    # Body của Bill (Địa chỉ & Item)
+                    with ui.column().classes('w-full p-6'):
+                        with ui.row().classes('w-full mb-6 items-start gap-2'):
+                            ui.icon('local_shipping', size='22px').classes('text-slate-400 mt-1')
+                            with ui.column().classes('gap-0'):
+                                ui.label('Giao hàng đến:').classes('font-bold text-sm text-slate-700')
+                                ui.label(order.get('shipping_address', 'N/A')).classes('text-slate-600')
+                        
+                        ui.label('Danh sách sản phẩm').classes('font-bold text-xs uppercase tracking-widest text-slate-400 mb-3')
+                        
+                        for item in order.get('items', []):
+                            with ui.row().classes('w-full justify-between items-center text-sm py-3 px-4 bg-gray-50 rounded-lg mb-2 border border-gray-100'):
+                                with ui.row().classes('items-center gap-3'):
+                                    ui.icon('inventory_2', size='20px').classes('text-slate-400')
+                                    ui.label(f"Sản phẩm ID: {item['product_id']}").classes('font-bold text-slate-700')
+                                    ui.label(f"x{item['quantity']}").classes('text-slate-500 text-xs font-bold bg-white px-2 py-0.5 rounded shadow-sm')
+                                ui.label(f"${float(item['price_at_purchase']):,.2f}").classes('font-bold text-slate-800')
+
+                    # Footer của Bill (Tổng tiền)
+                    with ui.row().classes('w-full justify-between items-center p-5 bg-slate-50 border-t border-gray-200'):
+                        ui.label('Thành tiền').classes('text-slate-500 font-bold uppercase tracking-wider text-sm')
+                        ui.label(f"${float(order['total_price']):,.2f}").classes('font-black text-2xl text-red-600')
 
 
 # --- TRANG TÌM KIẾM SẢN PHẨM ---

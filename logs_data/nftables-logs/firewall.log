@@ -728,3 +728,13 @@
 [2026-05-03 19:28:23] [INFO] Monitor started (PID: 15)
 [2026-05-03 19:28:23] [INFO] ========== Firewall monitor v2 STARTED ==========
 [2026-05-03 19:28:23] [INFO] Now tracking real IPs for normal traffic via conntrack
+[2026-05-03 19:52:54] [INFO] Firewall initializing...
+[2026-05-03 19:52:54] [INFO] nftables rules loaded
+[2026-05-03 19:52:54] [INFO] Monitor started (PID: 15)
+[2026-05-03 19:52:54] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-05-03 19:52:54] [INFO] Now tracking real IPs for normal traffic via conntrack
+[2026-05-03 20:06:47] [INFO] Firewall initializing...
+[2026-05-03 20:06:47] [INFO] nftables rules loaded
+[2026-05-03 20:06:47] [INFO] Monitor started (PID: 15)
+[2026-05-03 20:06:47] [INFO] ========== Firewall monitor v2 STARTED ==========
+[2026-05-03 20:06:47] [INFO] Now tracking real IPs for normal traffic via conntrack
